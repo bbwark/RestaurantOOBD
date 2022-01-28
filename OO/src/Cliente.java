@@ -5,8 +5,6 @@ public class Cliente extends Tavolata {
 	private String NumeroIDCard;
 	private String NumeroTelefono;
 
-	public  int testversioning;
-
 	
 	public String getNomeCliente() {
 		return NomeCliente;
