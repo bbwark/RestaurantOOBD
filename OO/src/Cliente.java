@@ -4,7 +4,6 @@ public class Cliente extends Tavolata {
 	private String CognomeCliente;
 	private String NumeroIDCard;
 	private String NumeroTelefono;
-
 	
 	public String getNomeCliente() {
 		return NomeCliente;
