@@ -6,7 +6,6 @@ public class Cliente extends Tavolata {
 	private String NumeroTelefono;
 
 
-	
 	public String getNomeCliente() {
 		return NomeCliente;
 	}
