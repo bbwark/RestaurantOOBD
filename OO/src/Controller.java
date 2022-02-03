@@ -3,6 +3,7 @@ public class Controller {
 
         new GUI.frameRistorante.frameRistorante();
         new GUI.frameSala.frameSala();
+        new GUI.frameTavolo.frameTavolo();
 
     }
 }
