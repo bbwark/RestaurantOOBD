@@ -1,3 +1,5 @@
+package Model.DTO;
+
 import java.util.Date;
 
 public class Tavolata extends Tavolo {

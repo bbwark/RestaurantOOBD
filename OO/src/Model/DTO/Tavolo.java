@@ -1,3 +1,5 @@
+package Model.DTO;
+
 public class Tavolo extends Sala {
 	
 	private int ID_Tavolo;

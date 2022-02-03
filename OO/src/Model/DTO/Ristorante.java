@@ -1,3 +1,5 @@
+package Model.DTO;
+
 public class Ristorante {
 	
 	private String NomeRistorante;

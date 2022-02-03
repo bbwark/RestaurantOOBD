@@ -1,3 +1,5 @@
+package Model.DTO;
+
 import java.sql.*;
 class Connessione {
             public static void main(String args[]) throws Exception {
@@ -7,7 +9,7 @@ class Connessione {
 
                             String url = "jdbc:postgresql://localhost:5432/OOBD";
                             Connection conn = DriverManager.getConnection(url, "postgres", "cavallo");
-                            System.out.println("Connessione OK \n");
+                            System.out.println("Model.DTO.Connessione OK \n");
                             conn.close();
                 }
 
@@ -16,7 +18,7 @@ class Connessione {
                     System.out.println(e);
                 }
                 catch (SQLException e){
-                    System.out.println("Connessione Fallita \n");
+                    System.out.println("Model.DTO.Connessione Fallita \n");
                     System.out.println(e);
                 }
             }

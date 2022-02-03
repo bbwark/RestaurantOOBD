@@ -1,3 +1,5 @@
+package Model.DTO;
+
 public class Sala extends Ristorante {
 	
 	private String NomeSala;

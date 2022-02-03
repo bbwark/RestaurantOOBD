@@ -1,3 +1,5 @@
+package Model.DTO;
+
 public class Cliente extends Tavolata {
 	
 	private String NomeCliente;
