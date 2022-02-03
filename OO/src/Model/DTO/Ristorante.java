@@ -1,24 +1,25 @@
 package Model.DTO;
 
+import java.util.ArrayList;
+
 public class Ristorante {
-	
-	private String NomeRistorante;
-	private int ID_Ristorante;
+
+	private String nome;
+	private ArrayList<Sala> Sale;
 
 	public String getNome() {
-		return NomeRistorante;
+		return nome;
 	}
 
 	public void setNome(String nome) {
-		NomeRistorante = nome;
+		this.nome = nome;
 	}
 
-	public int getID() {
-		return ID_Ristorante;
+	public ArrayList<Sala> getSale() {
+		return Sale;
 	}
 
-	public void setID(int iD) {
-		ID_Ristorante = iD;
+	public void setSale(ArrayList<Sala> sale) {
+		Sale = sale;
 	}
-	
 }

@@ -1,42 +1,39 @@
 package Model.DTO;
 
-public class Cliente extends Tavolata {
-	
-	private String NomeCliente;
-	private String CognomeCliente;
-	private String NumeroIDCard;
-	private String NumeroTelefono;
+public class Cliente extends Persona {
 
+	private String numeroIDCard;
+	private String numeroTelefono;
+	private Tavolata tavolata;
 
-	public String getNomeCliente() {
-		return NomeCliente;
+	public Cliente(String nome, String cognome, String numeroIDCard, String numeroTelefono, Tavolata tavolata) {
+		super(nome, cognome);
+		this.numeroIDCard = numeroIDCard;
+		this.numeroTelefono = numeroTelefono;
+		this.tavolata = tavolata;
 	}
-	
-	public void setNomeCliente(String nomeCliente) {
-		NomeCliente = nomeCliente;
+
+	public Tavolata getTavolata() {
+		return tavolata;
 	}
-	
-	public String getCognomeCliente() {
-		return CognomeCliente;
+
+	public void setTavolata(Tavolata tavolata) {
+		this.tavolata = tavolata;
 	}
-	
-	public void setCognomeCliente(String cognomeCliente) {
-		CognomeCliente = cognomeCliente;
-	}
-	
+
 	public String getNumeroIDCard() {
-		return NumeroIDCard;
+		return numeroIDCard;
 	}
-	
+
 	public void setNumeroIDCard(String numeroIDCard) {
-		NumeroIDCard = numeroIDCard;
+		this.numeroIDCard = numeroIDCard;
 	}
-	
+
 	public String getNumeroTelefono() {
-		return NumeroTelefono;
+		return numeroTelefono;
 	}
-	
+
 	public void setNumeroTelefono(String numeroTelefono) {
-		NumeroTelefono = numeroTelefono;
+		this.numeroTelefono = numeroTelefono;
 	}
 }

@@ -1,19 +1,38 @@
 package Model.DTO;
 
-public class Tavolo extends Sala {
-	
-	private int ID_Tavolo;
+import java.util.ArrayList;
+
+public class Tavolo{
+
 	private int MaxAvventori;
-	private String TavoliAdiacenti;
-	
-	public int getID_Tavolo() {
-		return ID_Tavolo;
+	private ArrayList<Tavolo> TavoliAdiacenti;
+	private Sala sala;
+	private ArrayList<Tavolata> Tavolate;
+
+	public ArrayList<Tavolo> getTavoliAdiacenti() {
+		return TavoliAdiacenti;
 	}
-	
-	public void setID_Tavolo(int iD_Tavolo) {
-		ID_Tavolo = iD_Tavolo;
+
+	public void setTavoliAdiacenti(ArrayList<Tavolo> tavoliAdiacenti) {
+		TavoliAdiacenti = tavoliAdiacenti;
 	}
-	
+
+	public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
+	public ArrayList<Tavolata> getTavolate() {
+		return Tavolate;
+	}
+
+	public void setTavolate(ArrayList<Tavolata> tavolate) {
+		Tavolate = tavolate;
+	}
+
 	public int getMaxAvventori() {
 		return MaxAvventori;
 	}
@@ -21,16 +40,4 @@ public class Tavolo extends Sala {
 	public void setMaxAvventori(int maxAvventori) {
 		MaxAvventori = maxAvventori;
 	}
-	
-	public String getTavoliAdiacenti() {
-		return TavoliAdiacenti;
-	}
-	
-	public void setTavoliAdiacenti(String tavoliAdiacenti) {
-		TavoliAdiacenti = tavoliAdiacenti;
-	}
-	
-	
-	
-	
 }
