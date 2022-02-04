@@ -1,16 +1,27 @@
 package Model.DTO;
 
-public class Cliente extends Persona {
+public class Cliente {
 
+	private String nome;
+	private String cognome;
 	private String numeroIDCard;
 	private String numeroTelefono;
 	private Tavolata tavolata;
 
-	public Cliente(String nome, String cognome, String numeroIDCard, String numeroTelefono, Tavolata tavolata) {
-		super(nome, cognome);
-		this.numeroIDCard = numeroIDCard;
-		this.numeroTelefono = numeroTelefono;
-		this.tavolata = tavolata;
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
 	}
 
 	public Tavolata getTavolata() {
