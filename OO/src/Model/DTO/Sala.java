@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Sala {
 	
-	private String NomeSala;
+	private String nome;
 	private int numeroTavoli;
 	private Ristorante ristorante;
 	private ArrayList<Tavolo> Tavoli;
@@ -25,12 +25,12 @@ public class Sala {
 		Tavoli = tavoli;
 	}
 
-	public String getNomeSala() {
-		return NomeSala;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeSala(String nomeSala) {
-		NomeSala = nomeSala;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public int getNumeroTavoli() {

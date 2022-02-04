@@ -8,14 +8,14 @@ public class frameRistorante extends JFrame {
     private mainPanelRistorante mainPanelRistorante;
 
     public frameRistorante() {
-        setSize(new Dimension(760, 540));
+        setSize(new Dimension(780, 540));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         setLayout(new BorderLayout());
 
-        mainPanelRistorante = new mainPanelRistorante();
-        add(mainPanelRistorante, BorderLayout.CENTER);
+        /*mainPanelRistorante = new mainPanelRistorante();
+        add(mainPanelRistorante, BorderLayout.CENTER);*/
 
         setVisible(true);
     }

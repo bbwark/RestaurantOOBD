@@ -8,14 +8,14 @@ public class frameSala extends JFrame {
     private mainPanelSala mainPanelSala;
 
     public frameSala() {
-        setSize(new Dimension(640, 540));
+        setSize(new Dimension(780, 540));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         setLayout(new BorderLayout());
 
-        mainPanelSala = new mainPanelSala();
-        add(mainPanelSala, BorderLayout.CENTER);
+        /*mainPanelSala = new mainPanelSala();
+        add(mainPanelSala, BorderLayout.CENTER);*/
 
         setVisible(true);
     }
