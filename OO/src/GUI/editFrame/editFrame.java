@@ -6,13 +6,13 @@ import javax.swing.*;
 
 public class editFrame extends JFrame{
 
-    private GUI.mainFrame.mainFrameContentPane mainFrameContentPane;
+    private editFrameContentPane editFrameContentPane;
 
     public editFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mainFrameContentPane = new mainFrameContentPane();
-        setContentPane(mainFrameContentPane);
+        editFrameContentPane = new editFrameContentPane();
+        setContentPane(editFrameContentPane);
 
         pack();
         setLocationByPlatform(true);

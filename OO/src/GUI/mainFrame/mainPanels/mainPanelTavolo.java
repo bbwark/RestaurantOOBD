@@ -1,4 +1,4 @@
-package GUI.panels;
+package GUI.mainFrame.mainPanels;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class panelTavolo extends JPanel {
+public class mainPanelTavolo extends JPanel {
 
     private JButton buttonMostraSottoelemento;
     private JButton buttonAddPrenotazione;
@@ -20,7 +20,7 @@ public class panelTavolo extends JPanel {
     private JLabel labelNomeSelezionato;
     private JLabel labelNomeElementoSelezionato;
 
-    public panelTavolo(JPanel contentPane) {
+    public mainPanelTavolo(JPanel contentPane) {
 
         setLayout(new GridBagLayout());
 
@@ -42,8 +42,8 @@ public class panelTavolo extends JPanel {
         DefaultListModel modelloSelezione = new DefaultListModel();
         //codice che estrae la lista di oggetti selezionabili
 
-        buttonMostraSottoelemento = new JButton("Mostra Prenotazioni Tavolo");
-        buttonAddPrenotazione = new JButton("+ Prenotazione a Tavolo");
+        buttonMostraSottoelemento = new JButton("+ Prenotazione a Tavolo");
+        buttonAddPrenotazione = new JButton("Modifica Prenotazioni di Tavolo Selezionato");
 
         buttonMostraSottoelemento.addActionListener(new ActionListener() {
             @Override

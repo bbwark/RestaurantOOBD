@@ -1,4 +1,4 @@
-package GUI.panels;
+package GUI.mainFrame.mainPanels;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -7,11 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class panelSala extends JPanel {
+public class mainPanelSala extends JPanel {
 
     private JButton buttonStatistics;
     private JButton buttonElencoClienti;
-    private JButton buttonPrenotazioni;
+    private JButton buttonEditPrenotazioni;
 
     private JButton buttonMostraSottoelemento;
     private JButton buttonAddPrenotazione;
@@ -28,7 +28,7 @@ public class panelSala extends JPanel {
     private JLabel labelNomeSelezionato;
     private JLabel labelNomeElementoSelezionato;
 
-    public panelSala(JPanel contentPane){
+    public mainPanelSala(JPanel contentPane){
 
 
         setLayout(new GridBagLayout());
@@ -53,9 +53,9 @@ public class panelSala extends JPanel {
 
         buttonStatistics = new JButton("Statistiche");
         buttonElencoClienti = new JButton("Elenco Clienti");
-        buttonPrenotazioni = new JButton("Prenotazioni");
+        buttonEditPrenotazioni = new JButton("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Lista Tavoli di Sala " + "*nome*");
+        labelTableVisualizza = new JLabel("Preview Tavoli di Sala " + "*nome*");
         tableVisualizza = new JTable();
 
         DefaultTableModel modelloVisualizza = new DefaultTableModel();
@@ -80,7 +80,7 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        gbc.insets = new Insets(10, 10, 0, 0);
         add(buttonAdd, gbc);
 
         //Modifica Elemento
@@ -119,7 +119,7 @@ public class panelSala extends JPanel {
         gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        gbc.insets = new Insets(5, 0, 0, 10);
+        gbc.insets = new Insets(5, 10, 0, 10);
         add(labelListaSelezione, gbc);
 
         //Lista Selezione
@@ -131,7 +131,7 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 0, 10, 10);
+        gbc.insets = new Insets(0, 10, 10, 10);
         add(new JScrollPane(listaSelezione), gbc);
 
         //Statistiche
@@ -142,7 +142,7 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.02;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 5);
+        gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonStatistics, gbc);
 
         //Elenco Clienti
@@ -153,7 +153,7 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.02;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 5);
+        gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonElencoClienti, gbc);
 
         //Prenotazioni
@@ -164,8 +164,8 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.02;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 5);
-        add(buttonPrenotazioni, gbc);
+        gbc.insets = new Insets(0, 10, 0, 10);
+        add(buttonEditPrenotazioni, gbc);
 
         //Label Table Sottoelementi
         gbc = new GridBagConstraints();
@@ -174,7 +174,7 @@ public class panelSala extends JPanel {
         gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        gbc.insets = new Insets(15, 10, 0, 5);
+        gbc.insets = new Insets(15, 10, 0, 10);
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(labelTableVisualizza, gbc);
 
@@ -186,7 +186,7 @@ public class panelSala extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 10, 0, 5);
+        gbc.insets = new Insets(0, 10, 0, 10);
         add(new JScrollPane(tableVisualizza), gbc);
 
         //Mostra Sottoelementi
@@ -194,10 +194,10 @@ public class panelSala extends JPanel {
         gbc.gridx = 2;
         gbc.gridy = 7;
         gbc.weightx = 0.0;
-        gbc.weighty = 0.15;
+        gbc.weighty = 0.3;
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 30, 5);
+        gbc.insets = new Insets(60, 10, 30, 0);
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(buttonMostraSottoelemento, gbc);
 
@@ -206,10 +206,10 @@ public class panelSala extends JPanel {
         gbc.gridx = 3;
         gbc.gridy = 7;
         gbc.weightx = 0.0;
-        gbc.weighty = 0.15;
+        gbc.weighty = 0.3;
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 5, 30, 5);
+        gbc.insets = new Insets(60, 0, 30, 10);
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(buttonAddPrenotazione, gbc);
     }
