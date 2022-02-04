@@ -1,4 +1,4 @@
-package GUI.frameSala;
+package GUI.panels;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainPanelSala extends JPanel {
+public class panelSala extends JPanel {
 
     private JButton buttonStatistics;
     private JButton buttonElencoClienti;
@@ -28,7 +28,7 @@ public class mainPanelSala extends JPanel {
     private JLabel labelNomeSelezionato;
     private JLabel labelNomeElementoSelezionato;
 
-    public mainPanelSala(JPanel contentPane){
+    public panelSala(JPanel contentPane){
 
 
         setLayout(new GridBagLayout());
@@ -68,7 +68,7 @@ public class mainPanelSala extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.next(contentPane);
+                cardLayout.show(contentPane, "Panel Tavolo");
             }
         });
 

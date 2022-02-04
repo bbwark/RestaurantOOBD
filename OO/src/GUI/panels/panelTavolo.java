@@ -1,4 +1,4 @@
-package GUI.frameTavolo;
+package GUI.panels;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainPanelTavolo extends JPanel {
+public class panelTavolo extends JPanel {
 
     private JButton buttonMostraSottoelemento;
     private JButton buttonAddPrenotazione;
@@ -20,7 +20,7 @@ public class mainPanelTavolo extends JPanel {
     private JLabel labelNomeSelezionato;
     private JLabel labelNomeElementoSelezionato;
 
-    public mainPanelTavolo(JPanel contentPane) {
+    public panelTavolo(JPanel contentPane) {
 
         setLayout(new GridBagLayout());
 
@@ -49,7 +49,7 @@ public class mainPanelTavolo extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.next(contentPane);
+                cardLayout.show(contentPane, "Panel Sala"); //TEMPORANEO
             }
         });
 

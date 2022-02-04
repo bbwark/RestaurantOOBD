@@ -1,5 +1,7 @@
+import GUI.mainFrame.mainFrame;
+
 public class Controller {
     public static void main(String[] args){
-        new GUI.mainFrame();
+        new mainFrame();
     }
 }
