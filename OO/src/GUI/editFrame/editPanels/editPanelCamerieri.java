@@ -1,8 +1,6 @@
 package GUI.editFrame.editPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGreen;
-import GUI.JButtonGrey;
+import GUI.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -41,8 +39,8 @@ public class editPanelCamerieri extends JPanel {
         DefaultListModel modelloSelezione = new DefaultListModel<>();
         //codice per selezione della lista
 
-        buttonAnnulla = new JButtonGrey("Annulla");
-        buttonConferma = new JButtonGreen("Conferma");
+        buttonAnnulla = new JButtonAnnulla();
+        buttonConferma = new JButtonConferma();
 
         buttonModificaSelezionato = new JButtonGrey("Modifica Cameriere Selezionato");
 

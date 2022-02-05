@@ -1,9 +1,6 @@
 package GUI.editFrame.editPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGreen;
-import GUI.JButtonGrey;
-import GUI.JButtonRed;
+import GUI.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -49,8 +46,8 @@ public class editPanelRistorante extends JPanel {
         buttonElimina = new JButtonRed("ELIMINA Ristorante");
         buttonModificaSelezionato = new JButtonGrey("Modifica Sala Selezionata");
 
-        buttonConferma = new JButtonGreen("Conferma");
-        buttonAnnulla = new JButtonGrey("Annulla");
+        buttonConferma = new JButtonConferma();
+        buttonAnnulla = new JButtonAnnulla();
 
         //Creazione Listeners
         buttonModificaSelezionato.addActionListener(new ActionListener() {

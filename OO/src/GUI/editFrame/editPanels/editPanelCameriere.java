@@ -1,9 +1,6 @@
 package GUI.editFrame.editPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGreen;
-import GUI.JButtonGrey;
-import GUI.JButtonRed;
+import GUI.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -47,8 +44,8 @@ public class editPanelCameriere extends JPanel {
         textFieldCognome = new JTextField(20);
 
         buttonElimina = new JButtonRed("ELIMINA Cameriere");
-        buttonConferma = new JButtonGreen("Conferma");
-        buttonAnnulla = new JButtonGrey("Annulla");
+        buttonConferma = new JButtonConferma();
+        buttonAnnulla = new JButtonAnnulla();
 
         labelPrenotazioni = new JLabel("Prenotazioni a cui lavora:");
         listPrenotazioni = new JList();
@@ -61,15 +58,8 @@ public class editPanelCameriere extends JPanel {
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
 
-        buttonIndietro=new JButtonGrey("Indietro");
+        buttonIndietro=new JButtonIndietro(contentPane);
 
-        buttonIndietro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Prenotazioni");
-            }
-        });
 
         //label Nome
         GridBagConstraints gbc = new GridBagConstraints();

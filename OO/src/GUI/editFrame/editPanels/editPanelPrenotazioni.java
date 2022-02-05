@@ -1,9 +1,8 @@
 package GUI.editFrame.editPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGreen;
-import GUI.JButtonGrey;
-import GUI.JButtonRed;
+import GUI.*;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,6 +14,8 @@ public class editPanelPrenotazioni extends JPanel {
 
     private JLabel labelData;
     private JTextField textFieldData;
+    private JDatePanelImpl datePanel; // da implementare
+    private JDatePickerImpl datePicker; // da implementare
 
     private JButton buttonAddSelezioneCliente;
     private JButton buttonRemoveSelezionatoCliente;
@@ -44,6 +45,12 @@ public class editPanelPrenotazioni extends JPanel {
         //Dichiarazione Componenti
         labelData = new JLabel("Data: ");
         textFieldData = new JTextField(20);
+        /*UtilDateModel model = new UtilDateModel();
+        JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+
+        da implementare al posto della textfield
+        */
 
         buttonAddSelezioneCliente = new JButtonBlue(" + ");
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
@@ -63,19 +70,10 @@ public class editPanelPrenotazioni extends JPanel {
         buttonModificaSelezionatoCliente = new JButtonGrey("Modifica Cliente Selezionato");
         buttonModificaSelezionatoCameriere = new JButtonGrey("Modifica Cameriere Selezionato");
 
-        buttonConferma = new JButtonGreen("Conferma");
-        buttonAnnulla = new JButtonGrey("Annulla");
+        buttonConferma = new JButtonConferma();
+        buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro = new JButtonGrey("Indietro");
-
-        buttonIndietro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Tavolo");
-            }
-        });
-
+        buttonIndietro=new JButtonIndietro(contentPane);
 
         //Creazione Listeners
         buttonModificaSelezionatoCliente.addActionListener(new ActionListener() {

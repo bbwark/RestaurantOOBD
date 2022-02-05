@@ -17,7 +17,7 @@ public class addFrameContentPane extends JPanel {
 
     public addFrameContentPane(){
         setBorder(
-                BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                BorderFactory.createEmptyBorder(3, 3, 3, 3));
         setLayout(new CardLayout());
 
 

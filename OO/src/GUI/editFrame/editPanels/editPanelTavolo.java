@@ -1,9 +1,6 @@
 package GUI.editFrame.editPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGreen;
-import GUI.JButtonGrey;
-import GUI.JButtonRed;
+import GUI.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -51,10 +48,10 @@ public class editPanelTavolo extends JPanel {
         buttonElimina = new JButtonRed("ELIMINA Tavolo");
         buttonModificaSelezionato = new JButtonGrey("Modifica Prenotazione Selezionata");
 
-        buttonConferma = new JButtonGreen("Conferma");
-        buttonAnnulla = new JButtonGrey("Annulla");
+        buttonConferma = new JButtonConferma();
+        buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro = new JButtonGrey("Indietro");
+        buttonIndietro=new JButtonIndietro(contentPane);
 
         //Creazione Listeners
         buttonModificaSelezionato.addActionListener(new ActionListener() {
@@ -65,14 +62,6 @@ public class editPanelTavolo extends JPanel {
             }
         });
 
-
-        buttonIndietro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Sala");
-            }
-        });
 
         //Aggiunta Elementi a Layout
         //Label Max Avventori
