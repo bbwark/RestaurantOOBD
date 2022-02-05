@@ -18,6 +18,7 @@ public class mainPanelRistorante extends JPanel{
 
     private JButton buttonMostraSottoelemento;
     private JButton buttonAddPrenotazione;
+    private JButton buttonEditCamerieri;
 
     private JButton buttonAdd;
     private JButton buttonEdit;
@@ -27,9 +28,6 @@ public class mainPanelRistorante extends JPanel{
 
     private JLabel labelTableVisualizza;
     private JTable tableVisualizza;
-
-    private JLabel labelNomeSelezionato;
-    private JLabel labelNomeElementoSelezionato;
 
     public mainPanelRistorante(JPanel contentPane) {
 
@@ -43,9 +41,6 @@ public class mainPanelRistorante extends JPanel{
         //Definizione Attributi
         buttonAdd = new JButtonBlue("+ Ristorante");
         buttonEdit = new JButtonGrey("Modifica Ristorante");
-
-        labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: ");
-        labelNomeElementoSelezionato = new JLabel("*nome*");
 
         labelListaSelezione = new JLabel("Lista Ristoranti");
         listaSelezione = new JList();
@@ -65,6 +60,7 @@ public class mainPanelRistorante extends JPanel{
 
         buttonMostraSottoelemento = new JButtonGrey("Mostra Sale di Ristorante Selezionato");
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Ristorante");
+        buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Ristorante Selezionato");
 
         buttonMostraSottoelemento.addActionListener(new ActionListener() {
             @Override
@@ -95,25 +91,6 @@ public class mainPanelRistorante extends JPanel{
         gbc.insets = new Insets(10, 0, 0, 10);
         add(buttonEdit, gbc);
 
-        //Label nomeSelezionato
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = new Insets(10, 10, 0, 8);
-        add(labelNomeSelezionato, gbc);
-
-        //Label nomeElementoSelezionato
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 0;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = new Insets(10, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.LINE_START;
-        add(labelNomeElementoSelezionato, gbc);
-
         //Label Lista Selezione
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -129,7 +106,7 @@ public class mainPanelRistorante extends JPanel{
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.gridheight = 6;
+        gbc.gridheight = 7;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
@@ -169,10 +146,21 @@ public class mainPanelRistorante extends JPanel{
         gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonEditPrenotazioni, gbc);
 
+        //button Edit Camerieri
+        gbc = new GridBagConstraints();
+        gbc.gridx=2;
+        gbc.gridy=5;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.02;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 0, 10);
+        add(buttonEditCamerieri, gbc);
+
         //Label Table Sottoelementi
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
@@ -182,7 +170,7 @@ public class mainPanelRistorante extends JPanel{
 
         //Table Sottoelementi
         gbc.gridx = 2;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
         gbc.weightx = 0.0;
@@ -194,7 +182,7 @@ public class mainPanelRistorante extends JPanel{
         //Mostra Sottoelementi
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.weightx = 0.0;
         gbc.weighty = 0.3;
         gbc.ipady = 15;
@@ -206,7 +194,7 @@ public class mainPanelRistorante extends JPanel{
         //+ Prenotazione
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.weightx = 0.0;
         gbc.weighty = 0.3;
         gbc.ipady = 15;

@@ -13,6 +13,7 @@ public class editFrameContentPane extends JPanel {
     private editPanelPrenotazioni editPanelPrenotazioni;
     private editPanelCliente editPanelCliente;
     private editPanelCameriere editPanelCameriere;
+    private editPanelCamerieri editPanelCamerieri;
 
     public editFrameContentPane(){
         setBorder(
@@ -26,6 +27,7 @@ public class editFrameContentPane extends JPanel {
         editPanelPrenotazioni = new editPanelPrenotazioni(this);
         editPanelCliente = new editPanelCliente(this);
         editPanelCameriere = new editPanelCameriere(this);
+        editPanelCamerieri = new editPanelCamerieri(this);
 
         add(editPanelRistorante, "Panel Ristorante");
         add(editPanelSala, "Panel Sala");
@@ -33,5 +35,6 @@ public class editFrameContentPane extends JPanel {
         add(editPanelPrenotazioni, "Panel Prenotazioni");
         add(editPanelCliente, "Panel Cliente");
         add(editPanelCameriere, "Panel Cameriere");
+        add(editPanelCamerieri, "Panel Camerieri");
     }
 }
