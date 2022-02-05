@@ -1,5 +1,8 @@
 package GUI.mainFrame.mainPanels;
 
+import GUI.JButtonBlue;
+import GUI.JButtonGrey;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
@@ -38,8 +41,8 @@ public class mainPanelRistorante extends JPanel{
         setBorder(bordoFinale);
 
         //Definizione Attributi
-        buttonAdd = new JButton("+ Ristorante");
-        buttonEdit = new JButton("Modifica Ristorante");
+        buttonAdd = new JButtonBlue("+ Ristorante");
+        buttonEdit = new JButtonGrey("Modifica Ristorante");
 
         labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: ");
         labelNomeElementoSelezionato = new JLabel("*nome*");
@@ -50,9 +53,9 @@ public class mainPanelRistorante extends JPanel{
         DefaultListModel modelloSelezione = new DefaultListModel();
         //codice che estrae la lista di oggetti selezionabili
 
-        buttonStatistics = new JButton("Statistiche");
-        buttonElencoClienti = new JButton("Elenco Clienti");
-        buttonEditPrenotazioni = new JButton("Modifica Prenotazioni");
+        buttonStatistics = new JButtonGrey("Statistiche");
+        buttonElencoClienti = new JButtonGrey("Elenco Clienti");
+        buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
         labelTableVisualizza = new JLabel("Preview Sale di Ristorante " + "*nome*");
         tableVisualizza = new JTable();
@@ -60,8 +63,8 @@ public class mainPanelRistorante extends JPanel{
         DefaultTableModel modelloVisualizza = new DefaultTableModel();
         //codice che estrae la lista di sottoelementi del selezionato
 
-        buttonMostraSottoelemento = new JButton("Mostra Sale di Ristorante Selezionato");
-        buttonAddPrenotazione = new JButton("+ Prenotazione in Ristorante");
+        buttonMostraSottoelemento = new JButtonGrey("Mostra Sale di Ristorante Selezionato");
+        buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Ristorante");
 
         buttonMostraSottoelemento.addActionListener(new ActionListener() {
             @Override

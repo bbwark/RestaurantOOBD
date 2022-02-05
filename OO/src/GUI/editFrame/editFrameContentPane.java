@@ -16,7 +16,7 @@ public class editFrameContentPane extends JPanel {
 
     public editFrameContentPane(){
         setBorder(
-                BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                BorderFactory.createEmptyBorder(3, 3, 3, 3));
         setLayout(new CardLayout());
 
 
