@@ -14,7 +14,6 @@ public class editPanelCliente extends JPanel {
     private JLabel labelCognome;
     private JLabel labelCartaID;
     private JLabel labelNumeroTel;
-    private JLabel labelNumeroPrenotazioni;
 
     private JTextField textFieldNome;
     private JTextField textFieldCognome;

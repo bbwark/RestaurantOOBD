@@ -1,8 +1,9 @@
 package GUI.editFrame.editPanels;
 
 import GUI.*;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,9 +14,8 @@ import java.awt.event.ActionListener;
 public class editPanelPrenotazioni extends JPanel {
 
     private JLabel labelData;
-    private JTextField textFieldData;
-    private JDatePanelImpl datePanel; // da implementare
-    private JDatePickerImpl datePicker; // da implementare
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
 
     private JButton buttonAddSelezioneCliente;
     private JButton buttonRemoveSelezionatoCliente;
@@ -44,13 +44,9 @@ public class editPanelPrenotazioni extends JPanel {
 
         //Dichiarazione Componenti
         labelData = new JLabel("Data: ");
-        textFieldData = new JTextField(20);
-        /*UtilDateModel model = new UtilDateModel();
+        UtilDateModel model = new UtilDateModel();
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-
-        da implementare al posto della textfield
-        */
 
         buttonAddSelezioneCliente = new JButtonBlue(" + ");
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
@@ -111,7 +107,7 @@ public class editPanelPrenotazioni extends JPanel {
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.insets = new Insets(10, 0, 5, 10);
-        add(textFieldData, gbc);
+        add(datePicker, gbc);
 
         //button Add Selezione Cliente
         gbc = new GridBagConstraints();
