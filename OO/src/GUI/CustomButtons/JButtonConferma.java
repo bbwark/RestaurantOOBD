@@ -1,4 +1,4 @@
-package GUI;
+package GUI.CustomButtons;
 
 import javax.swing.*;
 import java.awt.*;

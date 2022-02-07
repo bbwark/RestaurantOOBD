@@ -1,9 +1,9 @@
 package GUI.addFrame.addPanels;
 
-import GUI.JButtonAnnulla;
-import GUI.JButtonBlue;
-import GUI.JButtonConferma;
-import GUI.JButtonGrey;
+import GUI.CustomButtons.JButtonAnnulla;
+import GUI.CustomButtons.JButtonBlue;
+import GUI.CustomButtons.JButtonConferma;
+import GUI.CustomButtons.JButtonGrey;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;

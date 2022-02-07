@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Tavolo{
 
-	private int MaxAvventori;
-	private ArrayList<Tavolo> TavoliAdiacenti;
+	private int maxAvventori;
+	private ArrayList<Tavolo> tavoliAdiacenti;
 	private Sala sala;
 	private ArrayList<Tavolata> Tavolate;
 
 	public ArrayList<Tavolo> getTavoliAdiacenti() {
-		return TavoliAdiacenti;
+		return tavoliAdiacenti;
 	}
 
 	public void setTavoliAdiacenti(ArrayList<Tavolo> tavoliAdiacenti) {
-		TavoliAdiacenti = tavoliAdiacenti;
+		this.tavoliAdiacenti = tavoliAdiacenti;
 	}
 
 	public Sala getSala() {
@@ -34,10 +34,10 @@ public class Tavolo{
 	}
 
 	public int getMaxAvventori() {
-		return MaxAvventori;
+		return maxAvventori;
 	}
 	
 	public void setMaxAvventori(int maxAvventori) {
-		MaxAvventori = maxAvventori;
+		this.maxAvventori = maxAvventori;
 	}
 }

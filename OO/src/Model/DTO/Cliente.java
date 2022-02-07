@@ -1,12 +1,14 @@
 package Model.DTO;
 
+import java.util.ArrayList;
+
 public class Cliente {
 
 	private String nome;
 	private String cognome;
 	private String numeroIDCard;
 	private String numeroTelefono;
-	private Tavolata tavolata;
+	private ArrayList<Tavolata> tavolata;
 
 	public String getNome() {
 		return nome;
@@ -24,11 +26,11 @@ public class Cliente {
 		this.cognome = cognome;
 	}
 
-	public Tavolata getTavolata() {
+	public ArrayList<Tavolata> getTavolata() {
 		return tavolata;
 	}
 
-	public void setTavolata(Tavolata tavolata) {
+	public void setTavolata(ArrayList<Tavolata> tavolata) {
 		this.tavolata = tavolata;
 	}
 

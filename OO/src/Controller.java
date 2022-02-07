@@ -1,11 +1,5 @@
-import GUI.editFrame.*;
-import GUI.addFrame.*;
-import GUI.mainFrame.*;
-
 public class Controller {
     public static void main(String[] args){
-        //new mainFrame();
-        new editFrame();
-        //new addFrame();
+
     }
 }

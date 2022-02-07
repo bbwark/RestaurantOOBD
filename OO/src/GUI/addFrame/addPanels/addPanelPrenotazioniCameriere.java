@@ -1,7 +1,7 @@
 package GUI.addFrame.addPanels;
 
-import GUI.JButtonAnnulla;
-import GUI.JButtonGreen;
+import GUI.CustomButtons.JButtonAnnulla;
+import GUI.CustomButtons.JButtonGreen;
 
 import javax.swing.*;
 import javax.swing.border.Border;

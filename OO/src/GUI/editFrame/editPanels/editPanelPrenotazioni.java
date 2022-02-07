@@ -1,6 +1,6 @@
 package GUI.editFrame.editPanels;
 
-import GUI.*;
+import GUI.CustomButtons.*;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;

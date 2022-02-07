@@ -1,12 +1,13 @@
 package GUI.editFrame.editPanels;
 
-import GUI.*;
+import GUI.CustomButtons.JButtonAnnulla;
+import GUI.CustomButtons.JButtonConferma;
+import GUI.CustomButtons.JButtonIndietro;
+import GUI.CustomButtons.JButtonRed;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class editPanelCliente extends JPanel {
 

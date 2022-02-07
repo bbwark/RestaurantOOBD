@@ -1,13 +1,11 @@
 package GUI.mainFrame.mainPanels;
 
-import GUI.JButtonBlue;
-import GUI.JButtonGrey;
+import GUI.CustomButtons.JButtonBlue;
+import GUI.CustomButtons.JButtonGrey;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class mainPanelTavolo extends JPanel {
 

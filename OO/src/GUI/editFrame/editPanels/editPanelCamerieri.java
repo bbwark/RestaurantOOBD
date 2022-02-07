@@ -1,6 +1,9 @@
 package GUI.editFrame.editPanels;
 
-import GUI.*;
+import GUI.CustomButtons.JButtonAnnulla;
+import GUI.CustomButtons.JButtonBlue;
+import GUI.CustomButtons.JButtonConferma;
+import GUI.CustomButtons.JButtonGrey;
 
 import javax.swing.*;
 import javax.swing.border.Border;
