@@ -6,6 +6,7 @@ public class Cameriere{
 
     private String nome;
     private String cognome;
+    private int id;
     private ArrayList<Tavolata> prenotazioni;
 
     public ArrayList<Tavolata> getPrenotazioni() {

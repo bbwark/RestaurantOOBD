@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Sala {
 	
 	private String nome;
-	private int numeroTavoli;
 	private Ristorante ristorante;
 	private ArrayList<Tavolo> Tavoli;
 
@@ -32,13 +31,4 @@ public class Sala {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public int getNumeroTavoli() {
-		return numeroTavoli;
-	}
-
-	public void setNumeroTavoli(int numeroTavoli) {
-		this.numeroTavoli = numeroTavoli;
-	}
-
 }

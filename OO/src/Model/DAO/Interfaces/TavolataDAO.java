@@ -1,4 +1,4 @@
-package Model.DAO_Interfaces;
+package Model.DAO.Interfaces;
 
 import Model.DTO.Cameriere;
 import Model.DTO.Cliente;
@@ -10,15 +10,16 @@ import java.util.Date;
 
 public interface TavolataDAO {
 
-    Date getDataArrivo();
-    ArrayList<Cameriere> getCamerieriPrenotazione();
-    Tavolo getTavoloPrenotazione();
-    ArrayList<Cliente> getClientiPrenotazione();
+    Date getDataArrivoById();
+    ArrayList<Cameriere> getCamerieriPrenotazioneById();
+    Tavolo getTavoloPrenotazioneById();
+    ArrayList<Cliente> getClientiPrenotazioneById();
+    int getId();
 
-    void setDataArrivo();
-    void setCamerieriPrenotazione();
-    void setTavoloPrenotazione();
-    void setClientiPrenotazione();
+    boolean setDataArrivoById();
+    boolean setCamerieriPrenotazioneById();
+    boolean setTavoloPrenotazioneById();
+    boolean setClientiPrenotazioneById();
 
     ArrayList<Tavolata> getAllPrenotazioni();
     ArrayList<Tavolata> getAllPrenotazioniByRistorante();
@@ -27,7 +28,7 @@ public interface TavolataDAO {
     ArrayList<Tavolata> getAllPrenotazioniByCameriere();
     ArrayList<Tavolata> getAllPrenotazioniByCliente();
 
-    void deletePrenotazione();
-    void addPrenotazione();
-    void updatePrenotazione();
+    boolean createPrenotazione();
+    boolean updatePrenotazione();
+    boolean deletePrenotazione();
 }

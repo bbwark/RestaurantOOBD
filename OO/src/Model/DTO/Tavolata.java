@@ -6,9 +6,18 @@ import java.util.Date;
 public class Tavolata {
 
 	private Date DataArrivo = new Date();
+	private int id;
 	private ArrayList<Cameriere> camerieri;
 	private Tavolo tavolo;
 	private ArrayList<Cliente> clienti;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public ArrayList<Cameriere> getCamerieri() {
 		return camerieri;

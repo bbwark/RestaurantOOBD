@@ -1,10 +1,10 @@
-package Model.PostgresJDBC_DAO_Impl.DatabaseConnection;
+package Model.DAO.ImplementationClass.PostgreSQL.Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabasePostgres {
+public class DatabasePostgresConnection {
 
     private Connection db;
     private String url;
@@ -12,7 +12,7 @@ public class DatabasePostgres {
     private String password;
 
 
-    public DatabasePostgres(String host, String port, String databaseName, String username, String password) {
+    public DatabasePostgresConnection(String host, String port, String databaseName, String username, String password) {
         url = "jdbc:postgresql://" + host + ":" + port + "/" + databaseName;
         this.username = username;
         this.password = password;
@@ -23,11 +23,12 @@ public class DatabasePostgres {
         try {
             this.db = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + "\nConnection Failed");
+            e.printStackTrace();
+            System.out.println("\nConnection Failed");
             return false;
         }
         System.out.println("Connection Succeeded");
-        System.out.println("Connected with " + url);
+        System.out.println("Connected with " + url + " as" + username + " user");
         return true;
     }
 
@@ -40,5 +41,9 @@ public class DatabasePostgres {
             }
             this.db = null;
         }
+    }
+
+    public Connection getDatabaseConnection() {
+        return db;
     }
 }
