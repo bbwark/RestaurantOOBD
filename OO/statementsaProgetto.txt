@@ -1,0 +1,8 @@
++++GET ALL CLIENTI BY RISTORANTE+++
+
+SELECT DISTINCT "Cliente"."Nome", "Cliente"."Cognome", "Cliente"."Numero_ID_Card", "Cliente"."Numero_Tel" FROM "Ristorante" INNER JOIN "Sala" ON ("Ristorante"."ID_Ristorante" = "Sala"."ID_Ristorante") INNER JOIN "Tavolo" ON ("Sala"."Nome_Sala" = "Tavolo"."Nome_Sala") INNER JOIN "Tavolata" ON ("Tavolo"."Codice_Tavolo" = "Tavolata"."Codice_Tavolo") INNER JOIN "ClienteTavolata" ON ("Tavolata"."Codice_Prenotazione" = "ClienteTavolata"."Codice_Prenotazione") INNER JOIN "Cliente" ON ("ClienteTavolata"."Numero_ID_Card" = "Cliente"."Numero_ID_Card") WHERE "Ristorante"."ID_Ristorante" = 1;
+
+
++++GET ALL CLIENTI BY SALA+++
+
+SELECT DISTINCT "Cliente"."Nome", "Cliente"."Cognome", "Cliente"."Numero_ID_Card", "Cliente"."Numero_Tel" FROM "Sala" INNER JOIN "Tavolo" ON ("Sala"."Nome_Sala" = "Tavolo"."Nome_Sala") INNER JOIN "Tavolata" ON ("Tavolo"."Codice_Tavolo" = "Tavolata"."Codice_Tavolo") INNER JOIN "ClienteTavolata" ON ("Tavolata"."Codice_Prenotazione" = "ClienteTavolata"."Codice_Prenotazione") INNER JOIN "Cliente" ON ("ClienteTavolata"."Numero_ID_Card" = "Cliente"."Numero_ID_Card") WHERE "Sala"."Nome_Sala" = 'Prima_Sala1';
