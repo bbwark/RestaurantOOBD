@@ -275,7 +275,36 @@ public class ClienteImpl implements ClienteDAO {
 
     @Override
     public ArrayList<Cliente> getAllClientiBySala(String nomeSala) {
-        return null;
+        ArrayList<Cliente> result = new ArrayList<Cliente>();
+        Cliente temp = new Cliente();
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try{
+                PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
+                        "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"Nome_Sala\" " +
+                        "= \"Tavolo\".\"Nome_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
+                        "INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") " +
+                        "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"Nome_Sala\" = '\"?\"'");
+                st.setString(1, nomeSala);
+                ResultSet rs = st.executeQuery();
+                while(rs.next()){
+                    temp.setNome(rs.getString(1));
+                    temp.setCognome(rs.getString(2));
+                    temp.setNumeroIDCard(rs.getString(3));
+                    temp.setNumeroTelefono(rs.getString(4));
+                    result.add(temp);
+                }
+                st.close();
+                rs.close();
+                connection.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
+        return result;
     }
 
     @Override
