@@ -12,28 +12,53 @@ public class RistoranteImpl implements RistoranteDAO {
 
     private DatabasePostgresConnection databasePostgresConnection;
     private Connection connection;
-    private boolean connectionSuccedeed;
+    private boolean connectionSucceeded;
 
     @Override
     public String getNomeByID(int id) {
+        String result = null;
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSuccedeed = databasePostgresConnection.openConnection();
-        if(connectionSuccedeed){
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if(connectionSucceeded){
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT \"Nome_Ristorante\" FROM \"Ristorante\" WHERE \"ID_Ristorante\" = ?");
                 st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
-                return rs.getString(1);
+                result = rs.getString(1);
+                st.close();
+                rs.close();
+                connection.close();
             }catch (SQLException e){
                 e.printStackTrace();
             }
         }
-        return null;
+        databasePostgresConnection.closeConnection();
+        return result;
     }
 
     @Override
-    public ArrayList<Sala> getSaleRistoranteById() {
+    public ArrayList<Sala> getSaleRistoranteById(int id) {
+        ArrayList<Sala> salaResult = null;
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if(connectionSucceeded){
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try{
+                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Sala\" WHERE \"ID_Ristorante\" = ?");
+                st.setInt(1, id);
+                ResultSet rs = st.executeQuery();
+
+
+
+
+
+
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 

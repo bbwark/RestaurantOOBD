@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface RistoranteDAO {
 
     String getNomeByID(int id);
-    ArrayList<Sala> getSaleRistoranteById();
+    ArrayList<Sala> getSaleRistoranteById(int id);
 
     boolean setNomeRistoranteById();
     boolean setSaleRistoranteById();
