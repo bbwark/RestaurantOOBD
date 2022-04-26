@@ -62,6 +62,7 @@ public class ClienteImpl implements ClienteDAO {
 
     @Override
     public String getNumeroIDCardCliente() {
+        return null;
     }
 
     @Override
@@ -89,6 +90,33 @@ public class ClienteImpl implements ClienteDAO {
 
     @Override
     public ArrayList<Tavolata> getPrenotazioniClienteById(String id) {
+        ArrayList<Tavolata> result = new ArrayList<Tavolata>();
+        Tavolata temp = new Tavolata();
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" " +
+                        "FROM \"Tavolata\" INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") WHERE " +
+                        "\"ClienteTavolata\".\"Numero_ID_Card\" = ?");
+                st.setString(1, id);
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    temp.setDataArrivo(rs.getString(1));
+                    temp.setId(rs.getString(2));
+                    temp.setTavolo(rs.getString(3));
+                    result.add(temp);
+                }
+                st.close();
+                rs.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
+        return result;
     }
 
     @Override
@@ -190,8 +218,8 @@ public class ClienteImpl implements ClienteDAO {
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
-            try{
-                for (Tavolata prenotazione : prenotazioni){
+            try {
+                for (Tavolata prenotazione : prenotazioni) {
                     PreparedStatement st = connection.prepareStatement("UPDATE \"ClienteTavolata\" SET \"Codice_Prenotazione\" = '?' WHERE \"Numero_ID_Card\" = ?");
                     st.setString(1, Integer.toString(prenotazione.getId()));
                     st.setString(2, id);
@@ -201,7 +229,7 @@ public class ClienteImpl implements ClienteDAO {
                     connection.close();
                 }
 
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -218,10 +246,10 @@ public class ClienteImpl implements ClienteDAO {
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
-            try{
+            try {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery("SELECT * FROM \"Cliente\"");
-                while(rs.next()){
+                while (rs.next()) {
                     temp.setNome(rs.getString(1));
                     temp.setCognome(rs.getString(2));
                     temp.setNumeroIDCard(rs.getString(3));
@@ -231,7 +259,7 @@ public class ClienteImpl implements ClienteDAO {
                 st.close();
                 rs.close();
                 connection.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -247,7 +275,7 @@ public class ClienteImpl implements ClienteDAO {
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
-            try{
+            try {
                 PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON (\"Ristorante\".\"ID_Ristorante\" = \"Sala\".\"ID_Ristorante\") " +
                         "INNER JOIN \"Tavolo\" ON (\"Sala\".\"Nome_Sala\" = \"Tavolo\".\"Nome_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
@@ -255,7 +283,7 @@ public class ClienteImpl implements ClienteDAO {
                         "= \"Cliente\".\"Numero_ID_Card\") WHERE \"Ristorante\".\"ID_Ristorante\" = ?");
                 st.setString(1, Integer.toString(idRistorante));
                 ResultSet rs = st.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     temp.setNome(rs.getString(1));
                     temp.setCognome(rs.getString(2));
                     temp.setNumeroIDCard(rs.getString(3));
@@ -265,7 +293,7 @@ public class ClienteImpl implements ClienteDAO {
                 st.close();
                 rs.close();
                 connection.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -281,7 +309,7 @@ public class ClienteImpl implements ClienteDAO {
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
-            try{
+            try {
                 PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"Nome_Sala\" " +
                         "= \"Tavolo\".\"Nome_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
@@ -289,7 +317,7 @@ public class ClienteImpl implements ClienteDAO {
                         "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"Nome_Sala\" = '\"?\"'");
                 st.setString(1, nomeSala);
                 ResultSet rs = st.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     temp.setNome(rs.getString(1));
                     temp.setCognome(rs.getString(2));
                     temp.setNumeroIDCard(rs.getString(3));
@@ -299,7 +327,7 @@ public class ClienteImpl implements ClienteDAO {
                 st.close();
                 rs.close();
                 connection.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -309,12 +337,68 @@ public class ClienteImpl implements ClienteDAO {
 
     @Override
     public ArrayList<Cliente> getAllClientiByTavolo(int idTavolo) {
-        return null;
+        ArrayList<Cliente> result = new ArrayList<Cliente>();
+        Cliente temp = new Cliente();
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
+                        "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Tavolo\" INNER JOIN \"Tavolata\" ON " +
+                        "(\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") INNER JOIN \"ClienteTavolata\" ON " +
+                        "(\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" " +
+                        "ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolo\".\"Codice_Tavolo\" = '\"?\"'");
+                st.setString(1, Integer.toString(idTavolo));
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    temp.setNome(rs.getString(1));
+                    temp.setCognome(rs.getString(2));
+                    temp.setNumeroIDCard(rs.getString(3));
+                    temp.setNumeroTelefono(rs.getString(4));
+                    result.add(temp);
+                }
+                st.close();
+                rs.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
+        return result;
     }
 
     @Override
     public ArrayList<Cliente> getAllClientiByPrenotazione(int idPrenotazione) {
-        return null;
+        ArrayList<Cliente> result = new ArrayList<Cliente>();
+        Cliente temp = new Cliente();
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", \"Cliente\".\"Numero_ID_Card\"," +
+                        " \"Cliente\".\"Numero_Tel\" FROM \"Tavolata\" INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") " +
+                        "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolata\".\"Codice_Prenotazione\" = \"?\"");
+                st.setString(1, Integer.toString(idPrenotazione));
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    temp.setNome(rs.getString(1));
+                    temp.setCognome(rs.getString(2));
+                    temp.setNumeroIDCard(rs.getString(3));
+                    temp.setNumeroTelefono(rs.getString(4));
+                    result.add(temp);
+                }
+                st.close();
+                rs.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
+        return result;
     }
 
     @Override
