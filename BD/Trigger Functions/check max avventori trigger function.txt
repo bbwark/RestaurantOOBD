@@ -1,0 +1,22 @@
+CREATE OR REPLACE FUNCTION check_max_avventori()
+RETURNS trigger AS
+$body$
+
+DECLARE max_avventori integer;
+BEGIN
+SELECT "Tavolo"."Max_Avventori" INTO max_avventori FROM "Tavolo"
+INNER JOIN "Tavolata" ON "Tavolo"."Codice_Tavolo" = "Tavolata"."Codice_Tavolo"
+INNER JOIN "Prenotazione" ON "Tavolata"."Codice_Prenotazione" = "Prenotazione"."Codice_Prenotazione";
+
+IF 
+(SELECT COUNT(*) FROM "Prenotazione"
+INNER JOIN "Tavolata" ON "Prenotazione"."Codice_Prenotazione" = "Tavolata"."Codice_Prenotazione"
+INNER JOIN "Tavolo" ON "Tavolata"."Codice_Tavolo" = "Tavolo"."Codice_Tavolo" 
+WHERE "Prenotazione"."Codice_Prenotazione" = NEW."Codice_Prenotazione") = max_avventori
+THEN 
+RAISE EXCEPTION 'Numero massimo di avventori raggiunto.';
+END IF;
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;

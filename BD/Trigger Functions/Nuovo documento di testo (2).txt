@@ -1,0 +1,95 @@
+CREATE OR REPLACE FUNCTION conta_posti_1sala_insert_tavolo()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+BEGIN
+
+SELECT SUM("Max_Avventori") INTO x FROM "Tavolo"
+WHERE "Tavolo"."Nome_Sala" = NEW."Nome_Sala";
+
+UPDATE "Sala" SET "Capienza" = x
+WHERE "Sala"."Nome_Sala" = NEW."Nome_Sala";
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION conta_posti_1sala_delete_tavolo()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+BEGIN
+
+SELECT SUM("Max_Avventori") INTO x FROM "Tavolo"
+WHERE "Tavolo"."Nome_Sala" = OLD."Nome_Sala";
+
+UPDATE "Sala" SET "Capienza" = x
+WHERE "Sala"."Nome_Sala" = OLD."Nome_Sala";
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER conta_posti_1sala_insert_tavolo
+AFTER INSERT ON "Tavolo"
+FOR EACH ROW EXECUTE PROCEDURE conta_posti_1sala_insert_tavolo();
+
+CREATE TRIGGER conta_posti_1sala_delete_tavolo
+AFTER DELETE ON "Tavolo"
+FOR EACH ROW EXECUTE PROCEDURE conta_posti_1sala_delete_tavolo();
+
+CREATE OR REPLACE FUNCTION conta_posti_2ristorante_insert_tavolo()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+DECLARE id integer;
+BEGIN
+
+SELECT SUM("Sala"."Capienza") INTO x FROM "Ristorante"
+WHERE "Sala"."ID_Ristorante" = "Ristorante"."ID_Ristorante";
+
+SELECT "Ristorante"."ID_Ristorante" INTO id FROM "Ristorante"
+INNER JOIN "Sala" ON "Ristorante"."ID_Ristorante" = "Sala"."ID_Ristorante"
+INNER JOIN "Tavolo" ON "Sala"."Nome_Sala" = "Tavolo"."Nome_Sala"
+WHERE "Tavolo"."Codice_Tavolo" = NEW."Codice_Tavolo";
+
+UPDATE "Ristorante" SET "Capienza" = x
+WHERE "Ristorante"."ID_Ristorante" = id;
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION conta_posti_2ristorante_delete_tavolo()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+DECLARE id integer;
+BEGIN
+
+SELECT SUM("Sala"."Capienza") INTO x FROM "Ristorante"
+WHERE "Sala"."ID_Ristorante" = "Ristorante"."ID_Ristorante";
+
+SELECT "Ristorante"."ID_Ristorante" INTO id FROM "Ristorante"
+INNER JOIN "Sala" ON "Ristorante"."ID_Ristorante" = "Sala"."ID_Ristorante"
+INNER JOIN "Tavolo" ON "Sala"."Nome_Sala" = "Tavolo"."Nome_Sala"
+WHERE "Tavolo"."Codice_Tavolo" = OLD."Codice_Tavolo";
+
+UPDATE "Ristorante" SET "Capienza" = x
+WHERE "Ristorante"."ID_Ristorante" = id;
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER conta_posti_2ristorante_insert_tavolo
+AFTER INSERT ON "Tavolo"
+FOR EACH ROW EXECUTE PROCEDURE conta_posti_2ristorante_insert_tavolo();
+
+CREATE TRIGGER conta_posti_2ristorante_delete_tavolo
+AFTER DELETE ON "Tavolo"
+FOR EACH ROW EXECUTE PROCEDURE conta_posti_2ristorante_delete_tavolo();

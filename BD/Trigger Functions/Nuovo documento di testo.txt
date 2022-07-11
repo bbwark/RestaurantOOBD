@@ -1,0 +1,41 @@
+CREATE OR REPLACE FUNCTION update_ristorante_insert_cameriere()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+BEGIN
+
+SELECT COUNT(*) INTO x FROM "Cameriere"
+WHERE "Cameriere"."ID_Ristorante" = NEW."ID_Ristorante";
+
+UPDATE "Ristorante" SET "Numero_Camerieri" = x
+WHERE "Ristorante"."ID_Ristorante" = NEW."ID_Ristorante";
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION update_ristorante_delete_cameriere()
+RETURNS trigger AS
+$body$
+
+DECLARE x integer;
+BEGIN
+
+SELECT COUNT(*) INTO x FROM "Cameriere"
+WHERE "Cameriere"."ID_Ristorante" = OLD."ID_Ristorante";
+
+UPDATE "Ristorante" SET "Numero_Camerieri" = x
+WHERE "Ristorante"."ID_Ristorante" = OLD."ID_Ristorante";
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_ristorante_insert_cameriere
+AFTER INSERT ON "Cameriere"
+FOR EACH ROW EXECUTE PROCEDURE update_ristorante_insert_cameriere();
+
+CREATE TRIGGER update_ristorante_delete_cameriere
+AFTER DELETE ON "Cameriere"
+FOR EACH ROW EXECUTE PROCEDURE update_ristorante_delete_cameriere();

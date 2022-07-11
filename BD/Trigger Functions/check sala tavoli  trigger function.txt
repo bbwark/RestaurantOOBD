@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION check_tavoli_sale()
+RETURNS trigger AS
+$body$
+
+DECLARE sala1 text;
+DECLARE sala2 text;
+BEGIN
+
+SELECT "Tavolo"."Nome_Sala" INTO sala1 FROM "Tavolo" 
+WHERE "Tavolo"."Codice_Tavolo" = NEW."ID_Tavolo";
+
+SELECT "Tavolo"."Nome_Sala" INTO sala2 FROM "Tavolo" 
+WHERE "Tavolo"."Codice_Tavolo" = NEW."ID_Tavolo_Adiacente";
+
+IF sala1<>sala2 THEN
+RAISE EXCEPTION 'I tavoli non possono essere adiacenti: non sono nella stessa sala';
+END IF;
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;

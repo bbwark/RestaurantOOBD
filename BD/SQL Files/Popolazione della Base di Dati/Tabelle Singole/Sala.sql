@@ -1,0 +1,12 @@
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Verde', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Rosso', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Viola', 3);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Oro', 3);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Blu', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Giallo', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Rosa', 3);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Indaco', 1);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Marrone', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Nero', 1);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Magenta', 2);
+INSERT INTO "Sala" ("Nome_Sala", "ID_Ristorante") VALUES ('Arancione', 2);

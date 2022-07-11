@@ -1,0 +1,14 @@
+CREATE OR REPLACE FUNCTION commutazione_adiacenza()
+RETURNS trigger AS
+$body$
+
+BEGIN
+	
+INSERT INTO "TavoliAdiacenti" ("ID_Tavolo_Adiacente", "ID_Tavolo") 
+VALUES (NEW."ID_Tavolo", NEW."ID_Tavolo_Adiacente")
+ON CONFLICT DO NOTHING;
+
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;

@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION check_date()
+RETURNS trigger AS
+$body$
+
+DECLARE tavolo_trovato integer;
+BEGIN
+SELECT "Tavolata"."Codice_Tavolo" INTO tavolo_trovato FROM "Tavolata" 
+WHERE NEW."Data_Arrivo" = "Data_Arrivo" 
+AND
+NEW."Codice_Tavolo" = "Codice_Tavolo";
+
+IF FOUND THEN
+RAISE EXCEPTION 'Tavolo occupato per la data inserita.';
+END IF;
+RETURN NEW;
+END
+$body$
+LANGUAGE plpgsql;
