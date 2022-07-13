@@ -8,22 +8,13 @@ import java.util.ArrayList;
 
 public interface TavoloDAO {
 
-    int getMaxAvventoriById();
-    ArrayList<Tavolo> getTavoliAdiacentiById();
-    Sala getSalaTavoloById();
-    ArrayList<Tavolata> getPrenotazioniTavoloById();
-    int getIdTavolo();
-
-    boolean setMaxAvventoriById();
-    boolean setTavoliAdiacentiById();
-    boolean setSalaTavoloById();
-    boolean setPrenotazioniTavoloById();
+    Tavolo getTavoloById(int id);
 
     ArrayList<Tavolo> getAllTavoli();
-    ArrayList<Tavolo> getAllTavoliByRistorante();
-    ArrayList<Tavolo> getAllTavoliBySala();
+    ArrayList<Tavolo> getAllTavoliByRistorante(String nomeRistorante);
+    ArrayList<Tavolo> getAllTavoliBySala(String nomeSala);
 
-    boolean createTavolo();
-    boolean updateTavolo();
-    boolean deleteTavolo();
+    void createTavolo(Tavolo tavolo);
+    void updateTavolo(Tavolo tavolo);
+    void deleteTavolo(Tavolo tavolo);
 }

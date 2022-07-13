@@ -15,233 +15,40 @@ public class ClienteImpl implements ClienteDAO {
     private boolean connectionSucceeded;
 
     @Override
-    public String getNomeClienteById(String id) {
-        String result = null;
+    public Cliente getClienteById(String id) {
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Nome\" FROM \"Cliente\" WHERE \"Numero_ID_Card\" = ?");
+                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Cliente\" WHERE \"Numero_ID_Card\" = '?'");
                 st.setString(1, id);
                 ResultSet rs = st.executeQuery();
-                result = rs.getString(1);
+
+                String nome = rs.getString(1);
+                String cognome = rs.getString(2);
+                String numeroIdCard = rs.getString(3);
+                String numeroTel = rs.getString(4);
+                TavolataImpl tempTavolata = new TavolataImpl();
+                ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTel, prenotazioni);
+
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return tempCliente;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            databasePostgresConnection.closeConnection();
         }
-        return result;
-    }
-
-    @Override
-    public String getCognomeClienteById(String id) {
-        String result = null;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Cognome\" FROM \"Cliente\" WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, id);
-                ResultSet rs = st.executeQuery();
-                result = rs.getString(1);
-                st.close();
-                rs.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            databasePostgresConnection.closeConnection();
-        }
-        return result;
-    }
-
-    @Override
-    public String getNumeroIDCardCliente() {
         return null;
     }
 
     @Override
-    public String getNumeroTelefonoClienteById(String id) {
-        String result = null;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Numero_Tel\" FROM \"Cliente\" WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, id);
-                ResultSet rs = st.executeQuery();
-                result = rs.getString(1);
-                st.close();
-                rs.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            databasePostgresConnection.closeConnection();
-        }
-        return result;
-    }
-
-    @Override
-    public ArrayList<Tavolata> getPrenotazioniClienteById(String id) {
-        ArrayList<Tavolata> result = new ArrayList<Tavolata>();
-        Tavolata temp = new Tavolata();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" " +
-                        "FROM \"Tavolata\" INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") WHERE " +
-                        "\"ClienteTavolata\".\"Numero_ID_Card\" = ?");
-                st.setString(1, id);
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {
-                    temp.setDataArrivo(rs.getString(1));
-                    temp.setId(rs.getString(2));
-                    temp.setTavolo(rs.getString(3));
-                    result.add(temp);
-                }
-                st.close();
-                rs.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-    @Override
-    public boolean setNomeClienteById(String id, String nome) {
-        boolean result = false;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Nome\" = '?' WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, nome);
-                st.setString(2, id);
-                st.executeUpdate();
-                result = true;
-                st.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-    @Override
-    public boolean setCognomeClienteById(String id, String cognome) {
-        boolean result = false;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Cognome\" = '?' WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, cognome);
-                st.setString(2, id);
-                st.executeUpdate();
-                result = true;
-                st.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-    @Override
-    public boolean setNumeroIDCardClienteById(String id, String idCard) {
-        boolean result = false;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Numero_ID_Card\" = '?' WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, idCard);
-                st.setString(2, id);
-                st.executeUpdate();
-                result = true;
-                st.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-    @Override
-    public boolean setNumeroTelefonoClienteById(String id, String numTelefono) {
-        boolean result = false;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Numero_Tel\" = '?' WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, numTelefono);
-                st.setString(2, id);
-                st.executeUpdate();
-                result = true;
-                st.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-    @Override
-    public boolean setPrenotazioniClienteById(String id, ArrayList<Tavolata> prenotazioni) {
-        boolean result = false;
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try {
-                for (Tavolata prenotazione : prenotazioni) {
-                    PreparedStatement st = connection.prepareStatement("UPDATE \"ClienteTavolata\" SET \"Codice_Prenotazione\" = '?' WHERE \"Numero_ID_Card\" = ?");
-                    st.setString(1, Integer.toString(prenotazione.getId()));
-                    st.setString(2, id);
-                    st.executeUpdate();
-                    result = true;
-                    st.close();
-                    connection.close();
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-        return result;
-    }
-
-
-    @Override
     public ArrayList<Cliente> getAllClienti() {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
-        Cliente temp = new Cliente();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
@@ -250,95 +57,113 @@ public class ClienteImpl implements ClienteDAO {
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery("SELECT * FROM \"Cliente\"");
                 while (rs.next()) {
-                    temp.setNome(rs.getString(1));
-                    temp.setCognome(rs.getString(2));
-                    temp.setNumeroIDCard(rs.getString(3));
-                    temp.setNumeroTelefono(rs.getString(4));
-                    result.add(temp);
+
+                    String nome = rs.getString(1);
+                    String cognome = rs.getString(2);
+                    String numeroIdCard = rs.getString(3);
+                    String numeroTelefono = rs.getString(4);
+                    TavolataImpl tempTavolata = new TavolataImpl();
+                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+
+                    result.add(tempCliente);
                 }
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-        return result;
+        return null;
     }
 
     @Override
-    public ArrayList<Cliente> getAllClientiByRistorante(int idRistorante) {
+    public ArrayList<Cliente> getAllClientiByRistorante(String nomeRistorante) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
-        Cliente temp = new Cliente();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
-                PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
+                PreparedStatement st = connection.prepareStatement("SELECT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON (\"Ristorante\".\"ID_Ristorante\" = \"Sala\".\"ID_Ristorante\") " +
-                        "INNER JOIN \"Tavolo\" ON (\"Sala\".\"Nome_Sala\" = \"Tavolo\".\"Nome_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
-                        "INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" " +
-                        "= \"Cliente\".\"Numero_ID_Card\") WHERE \"Ristorante\".\"ID_Ristorante\" = ?");
-                st.setString(1, Integer.toString(idRistorante));
+                        "INNER JOIN \"Tavolo\" ON (\"Sala\".\"ID_Sala\" = \"Tavolo\".\"ID_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
+                        "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" " +
+                        "= \"Cliente\".\"Numero_ID_Card\") WHERE \"Ristorante\".\"Nome_Ristorante\" = '?'");
+                st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
-                    temp.setNome(rs.getString(1));
-                    temp.setCognome(rs.getString(2));
-                    temp.setNumeroIDCard(rs.getString(3));
-                    temp.setNumeroTelefono(rs.getString(4));
-                    result.add(temp);
+
+                    String nome = rs.getString(1);
+                    String cognome = rs.getString(2);
+                    String numeroIdCard = rs.getString(3);
+                    String numeroTelefono = rs.getString(4);
+                    TavolataImpl tempTavolata = new TavolataImpl();
+                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+
+                    result.add(tempCliente);
                 }
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-        return result;
+        return null;
     }
 
     @Override
     public ArrayList<Cliente> getAllClientiBySala(String nomeSala) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
-        Cliente temp = new Cliente();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
-                        "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"Nome_Sala\" " +
-                        "= \"Tavolo\".\"Nome_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
-                        "INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") " +
-                        "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"Nome_Sala\" = '\"?\"'");
+                        "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"ID_Sala\" " +
+                        "= \"Tavolo\".\"ID_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
+                        "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") " +
+                        "INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"Nome_Sala\" = '?'");
                 st.setString(1, nomeSala);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
-                    temp.setNome(rs.getString(1));
-                    temp.setCognome(rs.getString(2));
-                    temp.setNumeroIDCard(rs.getString(3));
-                    temp.setNumeroTelefono(rs.getString(4));
-                    result.add(temp);
+
+                    String nome = rs.getString(1);
+                    String cognome = rs.getString(2);
+                    String numeroIdCard = rs.getString(3);
+                    String numeroTelefono = rs.getString(4);
+                    TavolataImpl tempTavolata = new TavolataImpl();
+                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+
+                    result.add(tempCliente);
                 }
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-        return result;
+        return null;
     }
 
     @Override
-    public ArrayList<Cliente> getAllClientiByTavolo(int idTavolo) {
+    public ArrayList<Cliente> getAllClientiByTavolo(int id) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
-        Cliente temp = new Cliente();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
@@ -346,83 +171,172 @@ public class ClienteImpl implements ClienteDAO {
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Tavolo\" INNER JOIN \"Tavolata\" ON " +
-                        "(\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") INNER JOIN \"ClienteTavolata\" ON " +
-                        "(\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" " +
-                        "ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolo\".\"Codice_Tavolo\" = '\"?\"'");
-                st.setString(1, Integer.toString(idTavolo));
+                        "(\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") INNER JOIN \"Prenotazione\" ON " +
+                        "(\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" " +
+                        "ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolo\".\"Codice_Tavolo\" = ?");
+                st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
-                    temp.setNome(rs.getString(1));
-                    temp.setCognome(rs.getString(2));
-                    temp.setNumeroIDCard(rs.getString(3));
-                    temp.setNumeroTelefono(rs.getString(4));
-                    result.add(temp);
+
+                    String nome = rs.getString(1);
+                    String cognome = rs.getString(2);
+                    String numeroIdCard = rs.getString(3);
+                    String numeroTelefono = rs.getString(4);
+                    TavolataImpl tempTavolata = new TavolataImpl();
+                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+
+                    result.add(tempCliente);
                 }
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-        return result;
+        return null;
     }
 
     @Override
-    public ArrayList<Cliente> getAllClientiByPrenotazione(int idPrenotazione) {
+    public ArrayList<Cliente> getAllClientiByTavolata(int id) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
-        Cliente temp = new Cliente();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", \"Cliente\".\"Numero_ID_Card\"," +
-                        " \"Cliente\".\"Numero_Tel\" FROM \"Tavolata\" INNER JOIN \"ClienteTavolata\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"ClienteTavolata\".\"Codice_Prenotazione\") " +
-                        "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolata\".\"Codice_Prenotazione\" = \"?\"");
-                st.setString(1, Integer.toString(idPrenotazione));
+                        " \"Cliente\".\"Numero_Tel\" FROM \"Tavolata\" INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") " +
+                        "INNER JOIN \"Cliente\" ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolata\".\"Codice_Prenotazione\" = ?");
+                st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
-                    temp.setNome(rs.getString(1));
-                    temp.setCognome(rs.getString(2));
-                    temp.setNumeroIDCard(rs.getString(3));
-                    temp.setNumeroTelefono(rs.getString(4));
-                    result.add(temp);
+
+                    String nome = rs.getString(1);
+                    String cognome = rs.getString(2);
+                    String numeroIdCard = rs.getString(3);
+                    String numeroTelefono = rs.getString(4);
+                    TavolataImpl tempTavolata = new TavolataImpl();
+                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
+
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+
+                    result.add(tempCliente);
                 }
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    @Override
+    public void createCliente(Cliente cliente) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Cliente\" (\"Nome\", \"Cognome\", \"Numero_ID_Card\", \"Numero_Tel\") VALUES ('?', '?', '?', '?')");
+                st.setString(1, cliente.getNome());
+                st.setString(2, cliente.getCognome());
+                st.setString(3, cliente.getNumeroIdCard());
+                st.setString(4, cliente.getNumeroTelefono());
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         databasePostgresConnection.closeConnection();
-        return result;
     }
 
     @Override
-    public int getNumClientiByRistorante(int idRistorante) {
-        return 0;
+    public void updateCliente(Cliente cliente) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Nome\" = '?', \"Cognome\" = '?', \"Numero_Tel\" = '?' WHERE \"Numero_ID_Card\" = '?'");
+                st.setString(1, cliente.getNome());
+                st.setString(2, cliente.getCognome());
+                st.setString(3, cliente.getNumeroTelefono());
+                st.setString(4, cliente.getNumeroIdCard());
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 
     @Override
-    public int getNumClientiByPrenotazione(int idPrenotazione) {
-        return 0;
+    public void updateCliente(Cliente cliente, String oldIdCard) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Nome\" = '?', \"Cognome\" = '?', \"Numero_ID_Card\" = '?', \"Numero_Tel\" = '?' WHERE \"Numero_ID_Card\" = '?'");
+                st.setString(1, cliente.getNome());
+                st.setString(2, cliente.getCognome());
+                st.setString(3, cliente.getNumeroIdCard());
+                st.setString(4, cliente.getNumeroTelefono());
+                st.setString(5, oldIdCard);
+                st.executeUpdate();
+
+                st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = '?'");
+                st.setString(1, cliente.getNumeroIdCard());
+                st.executeUpdate();
+                for (Tavolata tavolata : cliente.getPrenotazioni()){
+                    st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                    st.setString(1, cliente.getNumeroIdCard());
+                    st.setInt(2, tavolata.getCodicePrenotazione());
+                    st.executeUpdate();
+                }
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 
     @Override
-    public boolean createCliente() {
-        return false;
-    }
+    public void deleteCliente(Cliente cliente) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
 
-    @Override
-    public boolean updateCliente() {
-        return false;
-    }
+                PreparedStatement st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = '?'");
+                st.setString(1, cliente.getNumeroIdCard());
+                st.executeUpdate();
 
-    @Override
-    public boolean deleteCliente() {
-        return false;
+                st = connection.prepareStatement("DELETE FROM \"Cliente\" WHERE \"Numero_ID_Card\" = '?'");
+                st.setString(1, cliente.getNumeroIdCard());
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 }

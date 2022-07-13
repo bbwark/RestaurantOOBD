@@ -6,17 +6,17 @@ import java.util.Date;
 public class Tavolata {
 
 	private Date DataArrivo = new Date();
-	private int id;
 	private ArrayList<Cameriere> camerieri;
 	private Tavolo tavolo;
 	private ArrayList<Cliente> clienti;
+	private final int codicePrenotazione;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public Tavolata(Date dataArrivo, ArrayList<Cameriere> camerieri, Tavolo tavolo, ArrayList<Cliente> clienti, int codicePrenotazione) {
+		DataArrivo = dataArrivo;
+		this.camerieri = camerieri;
+		this.tavolo = tavolo;
+		this.clienti = clienti;
+		this.codicePrenotazione = codicePrenotazione;
 	}
 
 	public ArrayList<Cameriere> getCamerieri() {
@@ -49,5 +49,9 @@ public class Tavolata {
 
 	public void setDataArrivo(Date dataArrivo) {
 		DataArrivo = dataArrivo;
+	}
+
+	public int getCodicePrenotazione() {
+		return codicePrenotazione;
 	}
 }

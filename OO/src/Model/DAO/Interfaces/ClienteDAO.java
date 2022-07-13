@@ -1,33 +1,21 @@
 package Model.DAO.Interfaces;
 
-import Model.DTO.Cliente;
-import Model.DTO.Tavolata;
+import Model.DTO.*;
 
 import java.util.ArrayList;
 
 public interface ClienteDAO {
 
-    String getNomeClienteById(String id);
-    String getCognomeClienteById(String id);
-    String getNumeroIDCardCliente();
-    String getNumeroTelefonoClienteById(String id);
-    ArrayList<Tavolata> getPrenotazioniClienteById(String id);
-
-    boolean setNomeClienteById(String id, String nome);
-    boolean setCognomeClienteById(String id, String cognome);
-    boolean setNumeroIDCardClienteById(String id, String idCard);
-    boolean setNumeroTelefonoClienteById(String id, String numTelefono);
-    boolean setPrenotazioniClienteById(String id, ArrayList<Tavolata> prenotazioni);
+    Cliente getClienteById (String id);
 
     ArrayList<Cliente> getAllClienti();
-    ArrayList<Cliente> getAllClientiByRistorante(int idRistorante);
+    ArrayList<Cliente> getAllClientiByRistorante(String nomeRistorante);
     ArrayList<Cliente> getAllClientiBySala(String nomeSala);
-    ArrayList<Cliente> getAllClientiByTavolo(int idTavolo);
-    ArrayList<Cliente> getAllClientiByPrenotazione(int idPrenotazione);
-    int getNumClientiByRistorante(int idRistorante);
-    int getNumClientiByPrenotazione(int idPrenotazione);
+    ArrayList<Cliente> getAllClientiByTavolo(int id);
+    ArrayList<Cliente> getAllClientiByTavolata(int id);
 
-    boolean createCliente();
-    boolean updateCliente();
-    boolean deleteCliente();
+    void createCliente(Cliente cliente);
+    void updateCliente(Cliente cliente);
+    void updateCliente (Cliente cliente, String oldIdCard);
+    void deleteCliente(Cliente cliente);
 }

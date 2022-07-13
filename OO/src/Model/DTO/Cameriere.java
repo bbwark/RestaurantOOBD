@@ -6,15 +6,24 @@ public class Cameriere{
 
     private String nome;
     private String cognome;
-    private int id;
-    private ArrayList<Tavolata> prenotazioni;
+    private Ristorante ristorante;
+    private ArrayList<Tavolata> servizio;
+    private final int codiceCameriere;
 
-    public ArrayList<Tavolata> getPrenotazioni() {
-        return prenotazioni;
+    public Cameriere(String nome, String cognome, Ristorante ristorante, ArrayList<Tavolata> servizio, int codiceCameriere) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.ristorante = ristorante;
+        this.servizio = servizio;
+        this.codiceCameriere = codiceCameriere;
     }
 
-    public void setPrenotazioni(ArrayList<Tavolata> prenotazioni) {
-        this.prenotazioni = prenotazioni;
+    public ArrayList<Tavolata> getServizio() {
+        return servizio;
+    }
+
+    public void setServizio(ArrayList<Tavolata> servizio) {
+        this.servizio = servizio;
     }
 
     public String getNome() {
@@ -31,5 +40,17 @@ public class Cameriere{
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
+    }
+
+    public Ristorante getRistorante() {
+        return ristorante;
+    }
+
+    public void setRistorante(Ristorante ristorante) {
+        this.ristorante = ristorante;
+    }
+
+    public int getCodiceCameriere() {
+        return codiceCameriere;
     }
 }

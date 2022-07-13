@@ -1,28 +1,20 @@
 package Model.DAO.Interfaces;
 
-import Model.DTO.Cameriere;
-import Model.DTO.Tavolata;
+import Model.DTO.*;
 
 import java.util.ArrayList;
 
 public interface CameriereDAO {
 
-    String getNomeCameriereById();
-    String getCognomeCameriereById();
-    ArrayList<Tavolata> getPrenotazioniCameriereById();
-    int getId();
-
-    boolean setNomeCameriereById();
-    boolean setCognomeCameriereById();
-    boolean setPrenotazioniCameriereById();
+    Cameriere getCameriereById(int id);
 
     ArrayList<Cameriere> getAllCamerieri();
-    ArrayList<Cameriere> getAllCamerieriByRistorante();
-    ArrayList<Cameriere> getAllCamerieriBySala();
-    ArrayList<Cameriere> getAllCamerieriByTavolo();
-    ArrayList<Cameriere> getAllCamerieriByPrenotazione();
+    ArrayList<Cameriere> getAllCamerieriByRistorante(String nomeRistorante);
+    ArrayList<Cameriere> getAllCamerieriBySala(String nomeSala);
+    ArrayList<Cameriere> getAllCamerieriByTavolo(int id);
+    ArrayList<Cameriere> getAllCamerieriByTavolata(int id);
 
-    boolean createCameriere();
-    boolean updateCameriere();
-    boolean deleteCameriere();
+    void createCameriere(Cameriere cameriere);
+    void updateCameriere(Cameriere cameriere);
+    void deleteCameriere(Cameriere cameriere);
 }

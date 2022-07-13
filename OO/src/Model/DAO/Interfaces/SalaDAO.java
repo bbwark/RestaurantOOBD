@@ -8,21 +8,14 @@ import java.util.ArrayList;
 
 public interface SalaDAO {
 
-    String getNomeSala();
-    Sala getSalaByNome();
-    int getNumeroTavoliSala();
-    Ristorante getRistoranteByNomeSala();
-    ArrayList<Tavolo> getTavoliSalaByNome();
-
-    boolean setNomeSala();
-    boolean setNumeroTavoli();
-    boolean setRistoranteSalaByNome();
-    boolean setTavoliSala();
+    Sala getSalaByNome(String nomeSala);
+    Sala getSalaById(int id);
 
     ArrayList<Sala> getAllSale();
-    ArrayList<Sala> getAllSaleByRistorante();
+    ArrayList<Sala> getAllSaleByRistorante(String nomeRistorante);
 
-    void createSala();
-    void updateSala();
-    void deleteSala();
+    void createSala(Sala sala);
+    void updateSala(Sala sala);
+    void updateSala(Sala sala, String oldName);
+    void deleteSala(Sala sala);
 }

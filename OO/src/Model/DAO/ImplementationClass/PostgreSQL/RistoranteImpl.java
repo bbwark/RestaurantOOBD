@@ -15,80 +15,156 @@ public class RistoranteImpl implements RistoranteDAO {
     private boolean connectionSucceeded;
 
     @Override
-    public String getNomeByID(int id) {
-        String result = null;
+    public Ristorante getRistoranteByNome(String nomeRistorante) {
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if(connectionSucceeded){
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Nome_Ristorante\" FROM \"Ristorante\" WHERE \"ID_Ristorante\" = ?");
-                st.setInt(1, id);
+                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = '?'");
+                st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
-                result = rs.getString(1);
+
+                String nome = rs.getString(1);
+                int numeroCamerieri = rs.getInt(3);
+                int capienza = rs.getInt(4);
+                SalaImpl tempSala = new SalaImpl();
+                ArrayList<Sala> tempSale = tempSala.getAllSaleByRistorante(nome);
+
+                Ristorante tempRistorante = new Ristorante(nome, numeroCamerieri, tempSale, capienza);
+
                 st.close();
                 rs.close();
                 connection.close();
+                databasePostgresConnection.closeConnection();
+                return tempRistorante;
             }catch (SQLException e){
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-        return result;
+        return null;
     }
 
     @Override
-    public ArrayList<Sala> getSaleRistoranteById(int id) {
-        ArrayList<Sala> salaResult = null;
+    public Ristorante getRistoranteById(int id) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if(connectionSucceeded){
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try {
+                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Ristorante\" WHERE \"ID_Ristorante\" = ?");
+                st.setInt(1, id);
+                ResultSet rs = st.executeQuery();
+
+                String nome = rs.getString(1);
+                int numeroCamerieri = rs.getInt(3);
+                int capienza = rs.getInt(4);
+                SalaImpl tempSala = new SalaImpl();
+                ArrayList<Sala> tempSale = tempSala.getAllSaleByRistorante(nome);
+
+                Ristorante tempRistorante = new Ristorante(nome, numeroCamerieri, tempSale, capienza);
+
+                st.close();
+                rs.close();
+                connection.close();
+                databasePostgresConnection.closeConnection();
+                return tempRistorante;
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Ristorante> getAllRistoranti() {
+        ArrayList<Ristorante> result = new ArrayList<>();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
         if(connectionSucceeded){
             connection = databasePostgresConnection.getDatabaseConnection();
             try{
-                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Sala\" WHERE \"ID_Ristorante\" = ?");
-                st.setInt(1, id);
-                ResultSet rs = st.executeQuery();
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM \"Ristorante\" ORDER BY \"ID_Ristorante\" ASC");
+                while (rs.next()){
 
+                    String nome = rs.getString(1);
+                    int numeroCamerieri = rs.getInt(3);
+                    int capienza = rs.getInt(4);
+                    SalaImpl tempSala = new SalaImpl();
+                    ArrayList<Sala> tempSale = tempSala.getAllSaleByRistorante(nome);
 
+                    Ristorante tempRistorante = new Ristorante(nome, numeroCamerieri, tempSale, capienza);
 
-
-
-
-            } catch (SQLException e){
+                    result.add(tempRistorante);
+                }
+                st.close();
+                rs.close();
+                connection.close();
+                databasePostgresConnection.closeConnection();
+                return result;
+            }catch (SQLException e){
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 
     @Override
-    public boolean setNomeRistoranteById() {
-        return false;
+    public void createRistorante(Ristorante ristorante) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try{
+                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Ristorante\" (\"Nome_Ristorante\") VALUES ('?')");
+                st.setString(1, ristorante.getNome());
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 
     @Override
-    public boolean setSaleRistoranteById() {
-        return false;
+    public void updateRistorante(Ristorante ristorante, String oldName) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try{
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Ristorante\" SET \"Nome_Ristorante\" = '?' WHERE \"Nome_Ristorante\" = '?'");
+                st.setString(1, ristorante.getNome());
+                st.setString(2, oldName);
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 
     @Override
-    public ArrayList<Ristorante> getAllRistoranti() {
-        return null;
-    }
-
-    @Override
-    public boolean createRistorante() {
-        return false;
-    }
-
-    @Override
-    public boolean updateRistorante() {
-        return false;
-    }
-
-    @Override
-    public boolean deleteRistorante() {
-        return false;
+    public void deleteRistorante(Ristorante ristorante) {
+        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
+        connectionSucceeded = databasePostgresConnection.openConnection();
+        if (connectionSucceeded) {
+            connection = databasePostgresConnection.getDatabaseConnection();
+            try{
+                PreparedStatement st = connection.prepareStatement("DELETE FROM\"Ristorante\" WHERE \"Nome_Ristorante\" = '?'");
+                st.setString(1, ristorante.getNome());
+                st.executeUpdate();
+                st.close();
+                connection.close();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        databasePostgresConnection.closeConnection();
     }
 }

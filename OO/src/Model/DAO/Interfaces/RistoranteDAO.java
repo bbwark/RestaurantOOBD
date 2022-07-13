@@ -7,15 +7,12 @@ import java.util.ArrayList;
 
 public interface RistoranteDAO {
 
-    String getNomeByID(int id);
-    ArrayList<Sala> getSaleRistoranteById(int id);
-
-    boolean setNomeRistoranteById();
-    boolean setSaleRistoranteById();
+    Ristorante getRistoranteByNome(String nomeRistorante);
+    Ristorante getRistoranteById(int id);
 
     ArrayList<Ristorante> getAllRistoranti();
 
-    boolean createRistorante();
-    boolean updateRistorante();
-    boolean deleteRistorante();
+    void createRistorante(Ristorante ristorante);
+    void updateRistorante(Ristorante ristorante, String oldName);
+    void deleteRistorante(Ristorante ristorante);
 }

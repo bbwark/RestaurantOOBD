@@ -5,15 +5,32 @@ import java.util.ArrayList;
 public class Ristorante {
 
 	private String nome;
-	private int id;
+	private int numeroCamerieri;
+	private int capienza;
 	private ArrayList<Sala> Sale;
 
-	public int getId() {
-		return id;
+	public Ristorante(String nome, ArrayList<Sala> sale) {
+		this.nome = nome;
+		Sale = sale;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public Ristorante(String nome, int numeroCamerieri, ArrayList<Sala> sale) {
+		this.nome = nome;
+		this.numeroCamerieri = numeroCamerieri;
+		Sale = sale;
+	}
+
+	public Ristorante(String nome, ArrayList<Sala> sale, int capienza) {
+		this.nome = nome;
+		Sale = sale;
+		this.capienza = capienza;
+	}
+
+	public Ristorante(String nome, int numeroCamerieri, ArrayList<Sala> sale, int capienza) {
+		this.nome = nome;
+		this.numeroCamerieri = numeroCamerieri;
+		Sale = sale;
+		this.capienza = capienza;
 	}
 
 	public String getNome() {
@@ -31,4 +48,12 @@ public class Ristorante {
 	public void setSale(ArrayList<Sala> sale) {
 		Sale = sale;
 	}
+
+	public int getNumeroCamerieri() {return numeroCamerieri;}
+
+	public void setNumeroCamerieri(int numeroCamerieri) {this.numeroCamerieri = numeroCamerieri;}
+
+	public int getCapienza() {return capienza;}
+
+	public void setCapienza(int capienza) {this.capienza = capienza;}
 }
