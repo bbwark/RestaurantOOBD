@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class JButtonIndietro extends JButton {
 
-    public JButtonIndietro(JPanel contentPane) {
+    public JButtonIndietro(JPanel contentPane, String namePanel) {
         super("Indietro");
         setBackground(Color.lightGray);
         setOpaque(true);
@@ -16,7 +16,7 @@ public class JButtonIndietro extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.previous(contentPane);
+                cardLayout.show(contentPane, namePanel);
             }
         });
     }

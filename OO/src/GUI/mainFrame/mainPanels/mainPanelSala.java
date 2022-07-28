@@ -2,6 +2,7 @@ package GUI.mainFrame.mainPanels;
 
 import GUI.CustomButtons.JButtonBlue;
 import GUI.CustomButtons.JButtonGrey;
+import GUI.CustomButtons.JButtonIndietro;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -31,6 +32,8 @@ public class mainPanelSala extends JPanel {
 
     private JLabel labelNomeSelezionato;
     private String nomeSelezionato;
+
+    private JButtonIndietro buttonIndietro;
 
     public mainPanelSala(JPanel contentPane){
 
@@ -77,6 +80,8 @@ public class mainPanelSala extends JPanel {
                 cardLayout.show(contentPane, "Panel Tavolo");
             }
         });
+
+        buttonIndietro = new JButtonIndietro(contentPane, "Panel Ristorante");
 
         //Aggiunta Elementi a Layout
         //+ Elemento
@@ -222,5 +227,16 @@ public class mainPanelSala extends JPanel {
         gbc.insets = new Insets(60, 0, 30, 10);
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(buttonAddPrenotazione, gbc);
+
+        //Button Indietro
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 10, 10, 0);
+        add(buttonIndietro, gbc);
     }
 }

@@ -312,18 +312,22 @@ public class TavolataImpl implements TavolataDAO {
                 st.setInt(2, tavolata.getTavolo().getCodiceTavolo());
                 st.executeUpdate();
 
-                for (Cameriere cameriere : tavolata.getCamerieri()) {
-                    st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
-                    st.setInt(1, cameriere.getCodiceCameriere());
-                    st.setInt(2, tavolata.getCodicePrenotazione());
-                    st.executeUpdate();
+                if(!tavolata.getCamerieri().isEmpty()) {
+                    for (Cameriere cameriere : tavolata.getCamerieri()) {
+                        st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
+                        st.setInt(1, cameriere.getCodiceCameriere());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
                 }
 
-                for (Cliente cliente : tavolata.getClienti()){
-                    st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
-                    st.setString(1, cliente.getNumeroIdCard());
-                    st.setInt(2, tavolata.getCodicePrenotazione());
-                    st.executeUpdate();
+                if(!tavolata.getClienti().isEmpty()) {
+                    for (Cliente cliente : tavolata.getClienti()) {
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                        st.setString(1, cliente.getNumeroIdCard());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
                 }
                 st.close();
                 connection.close();
@@ -347,24 +351,28 @@ public class TavolataImpl implements TavolataDAO {
                 st.setInt(3, tavolata.getCodicePrenotazione());
                 st.executeUpdate();
 
-                st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"Codice_Prenotazione\" = ?");
-                st.setInt(1, tavolata.getCodicePrenotazione());
-                st.executeUpdate();
-                for (Cameriere cameriere : tavolata.getCamerieri()) {
-                    st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
-                    st.setInt(1, cameriere.getCodiceCameriere());
-                    st.setInt(2, tavolata.getCodicePrenotazione());
+                if (!tavolata.getCamerieri().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"Codice_Prenotazione\" = ?");
+                    st.setInt(1, tavolata.getCodicePrenotazione());
                     st.executeUpdate();
+                    for (Cameriere cameriere : tavolata.getCamerieri()) {
+                        st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
+                        st.setInt(1, cameriere.getCodiceCameriere());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
                 }
 
-                st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Codice_Prenotazione\" = ?");
-                st.setInt(1, tavolata.getCodicePrenotazione());
-                st.executeUpdate();
-                for (Cliente cliente : tavolata.getClienti()) {
-                    st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
-                    st.setString(1, cliente.getNumeroIdCard());
-                    st.setInt(2, tavolata.getCodicePrenotazione());
+                if(!tavolata.getClienti().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Codice_Prenotazione\" = ?");
+                    st.setInt(1, tavolata.getCodicePrenotazione());
                     st.executeUpdate();
+                    for (Cliente cliente : tavolata.getClienti()) {
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                        st.setString(1, cliente.getNumeroIdCard());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
                 }
 
                 st.close();

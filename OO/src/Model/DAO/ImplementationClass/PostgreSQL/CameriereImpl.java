@@ -287,21 +287,32 @@ public class CameriereImpl implements CameriereDAO {
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cameriere\" \"Nome\" = '?', \"Cognome\" = '?', \"ID_Ristorante\" = ? WHERE \"ID_Cameriere = ?\"");
+
+                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = '?'");
+                st.setString(1, cameriere.getRistorante().getNome());
+                ResultSet rs = st.executeQuery();
+                int idRistorante = rs.getInt(1);
+                rs.close();
+
+                st = connection.prepareStatement("UPDATE \"Cameriere\" \"Nome\" = '?', \"Cognome\" = '?', \"ID_Ristorante\" = ? WHERE \"ID_Cameriere = ?\"");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
-
-                PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = '?'");
-                st2.setString(1, cameriere.getRistorante().getNome());
-                ResultSet rs2 = st2.executeQuery();
-                int idRistorante = rs2.getInt(1);
-
                 st.setInt(3, idRistorante);
                 st.setInt(4, cameriere.getCodiceCameriere());
-
                 st.executeUpdate();
-                st2.close();
-                rs2.close();
+
+                if (!cameriere.getServizio().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"ID_Cameriere\" = ?");
+                    st.setInt(1, cameriere.getCodiceCameriere());
+                    st.executeUpdate();
+                    for (Tavolata tavolata : cameriere.getServizio()) {
+                        st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?)");
+                        st.setInt(1, cameriere.getCodiceCameriere());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
+                }
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {
@@ -318,9 +329,15 @@ public class CameriereImpl implements CameriereDAO {
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try {
-                PreparedStatement st = connection.prepareStatement("DELETE FROM \"Cameriere\" WHERE \"ID_Cameriere\" = ?");
+
+                PreparedStatement st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"ID_Cameriere\" = ?");
                 st.setInt(1, cameriere.getCodiceCameriere());
                 st.executeUpdate();
+
+                st = connection.prepareStatement("DELETE FROM \"Cameriere\" WHERE \"ID_Cameriere\" = ?");
+                st.setInt(1, cameriere.getCodiceCameriere());
+                st.executeUpdate();
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {

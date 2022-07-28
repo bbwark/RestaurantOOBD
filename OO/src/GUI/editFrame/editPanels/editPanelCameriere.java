@@ -56,8 +56,7 @@ public class editPanelCameriere extends JPanel {
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
 
-        buttonIndietro=new JButtonIndietro(contentPane);
-
+        buttonIndietro = new JButtonIndietro(contentPane, "Panel Prenotazioni");
 
         //label Nome
         GridBagConstraints gbc = new GridBagConstraints();
@@ -123,8 +122,8 @@ public class editPanelCameriere extends JPanel {
         gbc.weightx=0.0;
         gbc.weighty=0.0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0,0,10,10);
-        add(listPrenotazioni, gbc);
+        gbc.insets = new Insets(0,0,0,10);
+        add(new JScrollPane(listPrenotazioni), gbc);
 
         //button Statistiche
         gbc = new GridBagConstraints();
@@ -143,6 +142,7 @@ public class editPanelCameriere extends JPanel {
         gbc.weightx=0.0;
         gbc.weighty=0.0;
         gbc.anchor=GridBagConstraints.LAST_LINE_START;
+        gbc.insets = new Insets(10,0,0,0);
         add(buttonIndietro, gbc);
 
         //button Elimina
@@ -161,8 +161,9 @@ public class editPanelCameriere extends JPanel {
         gbc.gridy=3;
         gbc.weightx=0.0;
         gbc.weighty=0.0;
-        gbc.insets = new Insets(0,10,5,10);
+        gbc.insets = new Insets(100,10,5,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor=GridBagConstraints.LAST_LINE_START;
         add(buttonAnnulla, gbc);
 
         //button Conferma
@@ -173,6 +174,7 @@ public class editPanelCameriere extends JPanel {
         gbc.weighty=0.0;
         gbc.insets = new Insets(0,10,0,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor=GridBagConstraints.LAST_LINE_START;
         add(buttonConferma, gbc);
     }
 }

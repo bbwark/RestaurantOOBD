@@ -13,7 +13,8 @@ public class addFrameContentPane extends JPanel {
     private addPanelPrenotazioni addPanelPrenotazioni;
     private addPanelCliente addPanelCliente;
     private addPanelCameriere addPanelCameriere;
-    private addPanelPrenotazioniCameriere addPanelPrenotazioniCameriere;
+    private addPanelServizioCameriere addPanelServizioCameriere;
+    private addPanelPrenotazioniCliente addPanelPrenotazioniCliente;
 
     public addFrameContentPane(){
         setBorder(
@@ -27,7 +28,8 @@ public class addFrameContentPane extends JPanel {
         addPanelPrenotazioni = new addPanelPrenotazioni(this);
         addPanelCliente = new addPanelCliente(this);
         addPanelCameriere = new addPanelCameriere(this);
-        addPanelPrenotazioniCameriere = new addPanelPrenotazioniCameriere(this);
+        addPanelServizioCameriere = new addPanelServizioCameriere(this);
+        addPanelPrenotazioniCliente = new addPanelPrenotazioniCliente(this);
 
         add(addPanelRistorante, "Panel Ristorante");
         add(addPanelSala, "Panel Sala");
@@ -35,6 +37,7 @@ public class addFrameContentPane extends JPanel {
         add(addPanelPrenotazioni, "Panel Prenotazioni");
         add(addPanelCliente, "Panel Cliente");
         add(addPanelCameriere, "Panel Cameriere");
-        add(addPanelPrenotazioniCameriere, "Panel Prenotazioni Cameriere");
+        add(addPanelServizioCameriere, "Panel Servizi Cameriere");
+        add(addPanelPrenotazioniCliente, "Panel Prenotazioni Cliente");
     }
 }

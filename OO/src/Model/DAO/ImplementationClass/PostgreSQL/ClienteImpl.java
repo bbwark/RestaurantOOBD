@@ -274,6 +274,19 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(3, cliente.getNumeroTelefono());
                 st.setString(4, cliente.getNumeroIdCard());
                 st.executeUpdate();
+
+                if(!cliente.getPrenotazioni().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = '?'");
+                    st.setString(1, cliente.getNumeroIdCard());
+                    st.executeUpdate();
+                    for (Tavolata tavolata : cliente.getPrenotazioni()) {
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?)");
+                        st.setString(1, cliente.getNumeroIdCard());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
+                }
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {
@@ -298,15 +311,18 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(5, oldIdCard);
                 st.executeUpdate();
 
-                st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = '?'");
-                st.setString(1, cliente.getNumeroIdCard());
-                st.executeUpdate();
-                for (Tavolata tavolata : cliente.getPrenotazioni()){
-                    st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                if(!cliente.getPrenotazioni().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = '?'");
                     st.setString(1, cliente.getNumeroIdCard());
-                    st.setInt(2, tavolata.getCodicePrenotazione());
                     st.executeUpdate();
+                    for (Tavolata tavolata : cliente.getPrenotazioni()) {
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                        st.setString(1, cliente.getNumeroIdCard());
+                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.executeUpdate();
+                    }
                 }
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {

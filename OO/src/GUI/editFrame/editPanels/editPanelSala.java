@@ -58,7 +58,7 @@ public class editPanelSala extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro = new JButtonIndietro(contentPane);
+        buttonIndietro = new JButtonIndietro(contentPane, "Panel Ristorante");
 
         //Creazione Listeners
         buttonModificaSelezionato.addActionListener(new ActionListener() {

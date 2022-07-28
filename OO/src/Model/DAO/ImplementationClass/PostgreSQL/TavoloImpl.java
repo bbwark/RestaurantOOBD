@@ -225,7 +225,7 @@ public class TavoloImpl implements TavoloDAO {
                 ResultSet rs2 = st2.executeQuery();
                 int idSala = rs2.getInt(1);
 
-                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolo\" (\"Max_Avventori\", \"ID_Sala\") VALUES (?, ?)");
+                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolo\" (\"Max_Avventori\", \"ID_Sala\") VALUES (?, ?) ON CONFLICT DO NOTHING");
                 st.setInt(1, tavolo.getMaxAvventori());
                 st.setInt(2, idSala);
 
@@ -248,19 +248,33 @@ public class TavoloImpl implements TavoloDAO {
         if (connectionSucceeded) {
             connection = databasePostgresConnection.getDatabaseConnection();
             try{
-                PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Sala\" WHERE \"Nome_Sala\" = '?'");
-                st2.setString(1, tavolo.getSala().getNome());
-                ResultSet rs2 = st2.executeQuery();
-                int idSala = rs2.getInt(1);
+                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Sala\" WHERE \"Nome_Sala\" = '?'");
+                st.setString(1, tavolo.getSala().getNome());
+                ResultSet rs = st.executeQuery();
+                int idSala = rs.getInt(1);
+                rs.close();
 
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ?, \"ID_Sala\" = ? WHERE \"Codice_Tavolo\" = ?");
+                st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ?, \"ID_Sala\" = ? WHERE \"Codice_Tavolo\" = ?");
                 st.setInt(1, tavolo.getMaxAvventori());
                 st.setInt(2, idSala);
                 st.setInt(3, tavolo.getCodiceTavolo());
-
                 st.executeUpdate();
-                st2.close();
-                rs2.close();
+
+                if(!tavolo.getTavoliAdiacenti().isEmpty()) {
+                    st = connection.prepareStatement("DELETE FROM \"TavoliAdiacenti\" WHERE \"ID_Tavolo\" = ? OR \"ID_Tavolo_Adiacente\" = ? ");
+                    st.setInt(1, tavolo.getCodiceTavolo());
+                    st.setInt(2, tavolo.getCodiceTavolo());
+                    st.executeUpdate();
+
+                    for (Tavolo tavoloAdiacente : tavolo.getTavoliAdiacenti()) {
+                        st = connection.prepareStatement("INSERT INTO \"TavoliAdiacenti\" (\"ID_Tavolo\", \"ID_Tavolo_Adiacente\") VALUES (?, ?)");
+                        st.setInt(1, tavolo.getCodiceTavolo());
+                        st.setInt(2, tavoloAdiacente.getCodiceTavolo());
+                        st.executeUpdate();
+                    }
+                }
+
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {
@@ -279,8 +293,13 @@ public class TavoloImpl implements TavoloDAO {
             try{
                 PreparedStatement st = connection.prepareStatement("DELETE FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
                 st.setInt(1, tavolo.getCodiceTavolo());
-
                 st.executeUpdate();
+
+                st = connection.prepareStatement("DELETE FROM \"TavoliAdiacenti\" WHERE \"ID_Tavolo\" = ? OR \"ID_Tavolo_Adiacente\" = ?");
+                st.setInt(1, tavolo.getCodiceTavolo());
+                st.setInt(2, tavolo.getCodiceTavolo());
+                st.executeUpdate();
+
                 st.close();
                 connection.close();
             }catch (SQLException e) {

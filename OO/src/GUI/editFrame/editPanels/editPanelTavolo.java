@@ -51,7 +51,7 @@ public class editPanelTavolo extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro=new JButtonIndietro(contentPane);
+        buttonIndietro=new JButtonIndietro(contentPane, "Panel Sala");
 
         //Creazione Listeners
         buttonModificaSelezionato.addActionListener(new ActionListener() {
@@ -157,7 +157,7 @@ public class editPanelTavolo extends JPanel {
         gbc.insets = new Insets(10, 10, 5, 10);
         add(buttonElimina, gbc);
 
-        //button Indeitro
+        //button Indietro
         gbc = new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=5;

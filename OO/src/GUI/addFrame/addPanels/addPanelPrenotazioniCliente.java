@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class addPanelPrenotazioniCameriere extends JPanel {
+public class addPanelPrenotazioniCliente extends JPanel {
 
     private JLabel labelSelezione;
     private JList listSelezione;
@@ -15,10 +15,10 @@ public class addPanelPrenotazioniCameriere extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonAggiungi;
 
-    public addPanelPrenotazioniCameriere(JPanel contentPane){
+    public addPanelPrenotazioniCliente(JPanel contentPane){
         setLayout(new GridBagLayout());
 
-        Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Prenotazione Cameriere");
+        Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Prenotazione Cliente");
         Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
         setBorder(bordoFinale);
@@ -73,7 +73,5 @@ public class addPanelPrenotazioniCameriere extends JPanel {
         gbc.fill=GridBagConstraints.HORIZONTAL;
         gbc.insets=new Insets(20,10,10,10);
         add(buttonAggiungi, gbc);
-
-
     }
 }

@@ -1,0 +1,6 @@
+Trigger Mancati
+1. Fare l'update degli attributi della capienza e del numero di camerieri in ristorante sull'update della sala
+2. Negare l'update sulla FK Ristorante del cameriere se ha, in una data successiva a quella odierna, dei servizi nel ristorante in cui è ancora registrato
+3. negare l'update sul max avventori di un tavolo se ha in programma, in una data successiva a quella odierna, tavolate con un numero di clienti superiore al numero che si vuole inserire in update
+
+Documentazione non completata al 100% -> manca la spiegazione di alcuni trigger come "commutazione adiacenze"

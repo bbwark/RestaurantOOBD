@@ -2,6 +2,7 @@ package GUI.mainFrame.mainPanels;
 
 import GUI.CustomButtons.JButtonBlue;
 import GUI.CustomButtons.JButtonGrey;
+import GUI.CustomButtons.JButtonIndietro;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,7 +11,7 @@ import java.awt.*;
 public class mainPanelTavolo extends JPanel {
 
     private JButton buttonAddPrenotazione;
-    private JButton buttonModificaSottoelemento;
+    private JButton buttonModificaElemento;
     private JButton buttonEditCamerieri;
 
     private JButton buttonAdd;
@@ -21,6 +22,8 @@ public class mainPanelTavolo extends JPanel {
 
     private JLabel labelNomeSelezionato;
     private String nomeSelezionato;
+
+    private JButtonIndietro buttonIndietro;
 
     public mainPanelTavolo(JPanel contentPane) {
 
@@ -46,8 +49,10 @@ public class mainPanelTavolo extends JPanel {
         //codice che estrae la lista di oggetti selezionabili
 
         buttonAddPrenotazione = new JButtonGrey("+ Prenotazione a Tavolo");
-        buttonModificaSottoelemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
+        buttonModificaElemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Tavolo Selezionato");
+
+        buttonIndietro = new JButtonIndietro(contentPane, "Panel Sala");
 
         //Aggiunta Elementi a Layout
         //+ Elemento
@@ -104,7 +109,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.insets = new Insets(0, 0, 10, 10);
         add(new JScrollPane(listaSelezione), gbc);
 
-        //+ Prenotazione
+        //Modifica Tavolo
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
@@ -114,7 +119,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 0, 10);
-        add(buttonModificaSottoelemento, gbc);
+        add(buttonModificaElemento, gbc);
 
         //button Edit Camerieri
         gbc = new GridBagConstraints();
@@ -128,7 +133,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonEditCamerieri, gbc);
 
-        //Mostra Sottoelementi
+        //Add Sottoelemento
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 5;
@@ -139,5 +144,16 @@ public class mainPanelTavolo extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonAddPrenotazione, gbc);
+
+        //Button Indietro
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 0, 10, 0);
+        add(buttonIndietro, gbc);
     }
 }
