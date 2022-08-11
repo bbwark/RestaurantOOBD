@@ -1,9 +1,6 @@
 package GUI.mainFrame;
 
-import GUI.mainFrame.mainPanels.mainPanelCliente;
-import GUI.mainFrame.mainPanels.mainPanelRistorante;
-import GUI.mainFrame.mainPanels.mainPanelSala;
-import GUI.mainFrame.mainPanels.mainPanelTavolo;
+import GUI.mainFrame.mainPanels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +11,7 @@ public class mainFrameContentPane extends JPanel {
     private mainPanelSala mainPanelSala;
     private mainPanelTavolo mainPanelTavolo;
     private mainPanelCliente mainPanelCliente;
+    private GUI.mainFrame.mainPanels.mainPanelCameriere mainPanelCameriere;
 
     public mainFrameContentPane(){
         setBorder(
@@ -25,10 +23,12 @@ public class mainFrameContentPane extends JPanel {
         mainPanelSala = new mainPanelSala(this);
         mainPanelTavolo = new mainPanelTavolo(this);
         mainPanelCliente = new mainPanelCliente(this);
+        mainPanelCameriere = new mainPanelCameriere(this);
 
         add(mainPanelRistorante, "Panel Ristorante");
         add(mainPanelSala, "Panel Sala");
         add(mainPanelTavolo, "Panel Tavolo");
         add(mainPanelCliente, "Panel Cliente");
+        add(mainPanelCameriere, "Panel Cameriere");
     }
 }

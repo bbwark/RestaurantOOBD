@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class mainPanelCliente extends JPanel {
+public class mainPanelCameriere extends JPanel {
 
     private JLabel labelListaSelezione;
     private JList listaSelezione;
@@ -18,7 +18,7 @@ public class mainPanelCliente extends JPanel {
 
     private JButton buttonEdit;
 
-    public mainPanelCliente(JPanel contentPane){
+    public mainPanelCameriere(JPanel contentPane) {
 
         setLayout(new GridBagLayout());
 
@@ -28,8 +28,8 @@ public class mainPanelCliente extends JPanel {
         setBorder(bordoFinale);
 
         //Definizione Attributi
-        buttonEdit = new JButtonGrey("Modifica Cliente Selezionato");
-        labelListaSelezione = new JLabel("Lista Clienti");
+        buttonEdit = new JButtonGrey("Modifica Cameriere Selezionato");
+        labelListaSelezione = new JLabel("Lista Camerieri");
         listaSelezione = new JList();
 
         DefaultListModel modelloSelezione = new DefaultListModel();

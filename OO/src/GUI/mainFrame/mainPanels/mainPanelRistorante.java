@@ -52,6 +52,14 @@ public class mainPanelRistorante extends JPanel{
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
+        buttonElencoClienti.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+                cardLayout.show(contentPane, "Panel Cliente");
+            }
+        }));
+
         labelTableVisualizza = new JLabel("Preview Sale di Ristorante " + "*nome*");
         tableVisualizza = new JTable();
 
