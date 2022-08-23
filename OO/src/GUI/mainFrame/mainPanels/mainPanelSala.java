@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 
 public class mainPanelSala extends JPanel {
 
-    private JButton buttonStatistics;
     private JButton buttonElencoClienti;
     private JButton buttonEditPrenotazioni;
 
@@ -59,7 +58,6 @@ public class mainPanelSala extends JPanel {
         DefaultListModel modelloSelezione = new DefaultListModel();
         //codice che estrae la lista di oggetti selezionabili
 
-        buttonStatistics = new JButtonGrey("Statistiche");
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
@@ -138,16 +136,6 @@ public class mainPanelSala extends JPanel {
         gbc.insets = new Insets(0, 10, 10, 10);
         add(new JScrollPane(listaSelezione), gbc);
 
-        //Statistiche
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.02;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 10);
-        add(buttonStatistics, gbc);
 
         //Elenco Clienti
         gbc = new GridBagConstraints();

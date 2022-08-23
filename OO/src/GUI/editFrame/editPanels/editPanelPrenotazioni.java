@@ -69,7 +69,7 @@ public class editPanelPrenotazioni extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro=new JButtonIndietro(contentPane, "Panel Tavolo");
+        buttonIndietro = new JButtonIndietro(contentPane, "Panel Tavolo");
 
         //Creazione Listeners
         buttonModificaSelezionatoCliente.addActionListener(new ActionListener() {
