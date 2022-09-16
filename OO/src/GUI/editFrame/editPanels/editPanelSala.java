@@ -215,4 +215,12 @@ public class editPanelSala extends JPanel {
     public void setModelListaSeleziona(DefaultListModel defaultListModel){
         listaSelezione.setModel(defaultListModel);
     }
+
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
+    }
+
+    public void setTextFieldNome(String nome) {
+        this.textFieldNome.setText(nome);
+    }
 }

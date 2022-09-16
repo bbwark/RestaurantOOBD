@@ -162,20 +162,20 @@ public class editPanelCameriere extends JPanel {
         add(buttonConferma, gbc);
     }
 
-    public JTextField getTextFieldNome() {
-        return textFieldNome;
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
     }
 
-    public void setTextFieldNome(JTextField textFieldNome) {
-        this.textFieldNome = textFieldNome;
+    public void setTextFieldNome(String nome) {
+        this.textFieldNome.setText(nome);
     }
 
-    public JTextField getTextFieldCognome() {
-        return textFieldCognome;
+    public String getTextFieldCognome() {
+        return textFieldCognome.getText();
     }
 
-    public void setTextFieldCognome(JTextField textFieldCognome) {
-        this.textFieldCognome = textFieldCognome;
+    public void setTextFieldCognome(String cognome) {
+        this.textFieldCognome.setText(cognome);
     }
 
     public JButton getButtonAddPrenotazione() {

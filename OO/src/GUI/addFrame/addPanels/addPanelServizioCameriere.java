@@ -26,8 +26,6 @@ public class addPanelServizioCameriere extends JPanel {
         labelSelezione = new JLabel("Lista Servizi Disponibili");
         listSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-
         buttonAnnulla = new JButtonAnnulla();
         buttonAggiungi = new JButtonGreen("Aggiungi");
 
@@ -73,7 +71,17 @@ public class addPanelServizioCameriere extends JPanel {
         gbc.fill=GridBagConstraints.HORIZONTAL;
         gbc.insets=new Insets(20,10,10,10);
         add(buttonAggiungi, gbc);
+    }
 
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
 
+    public JButton getButtonAggiungi() {
+        return buttonAggiungi;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listSelezione.setModel(defaultListModel);
     }
 }

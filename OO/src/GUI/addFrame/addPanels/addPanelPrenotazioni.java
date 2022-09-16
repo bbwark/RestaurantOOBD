@@ -47,10 +47,7 @@ public class addPanelPrenotazioni extends JPanel {
         buttonAnnulla = new JButtonAnnulla();
         buttonConferma = new JButtonConferma();
 
-        listaSelezione = new JList<>();
-
-        DefaultListModel modelloSelezione = new DefaultListModel();
-
+        listaSelezione = new JList();
 
         //Aggiunta Elementi a Layout
         //label Data
@@ -121,5 +118,29 @@ public class addPanelPrenotazioni extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0,10,10,10);
         add(buttonConferma, gbc);
+    }
+
+    public JButton getButtonAddSelezione() {
+        return buttonAddSelezione;
+    }
+
+    public JButton getButtonRemoveSelezionato() {
+        return buttonRemoveSelezionato;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public String getTextFieldData() {
+        return textFieldData.getText();
+    }
+
+    public String getDate(){
+        return (String) datePicker.getModel().getValue();
     }
 }

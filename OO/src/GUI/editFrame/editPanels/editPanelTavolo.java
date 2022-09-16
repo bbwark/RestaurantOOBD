@@ -196,4 +196,13 @@ public class editPanelTavolo extends JPanel {
     public void setModelListaSeleziona(DefaultListModel defaultListModel){
         listaSelezione.setModel(defaultListModel);
     }
+
+
+    public String getTextFieldMaxAvventori() {
+        return textFieldMaxAvventori.getText();
+    }
+
+    public void setTextFieldMaxAvventori(String maxAvventori) {
+        this.textFieldMaxAvventori.setText(maxAvventori);
+    }
 }

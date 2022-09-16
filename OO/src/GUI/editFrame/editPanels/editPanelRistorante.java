@@ -174,6 +174,14 @@ public class editPanelRistorante extends JPanel {
         return buttonAnnulla;
     }
 
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
+    }
+
+    public void setTextFieldNome(String nome) {
+        this.textFieldNome.setText(nome);
+    }
+
     public void setModelListaSeleziona(DefaultListModel defaultListModel){
         listaSelezione.setModel(defaultListModel);
     }

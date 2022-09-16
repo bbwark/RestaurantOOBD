@@ -71,4 +71,16 @@ public class addPanelTavolo extends JPanel {
         gbc.insets = new Insets(10, 0, 10, 10);
         add(buttonConferma, gbc);
     }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public String getTextFieldMaxAvventori() {
+        return textFieldMaxAvventori.getText();
+    }
 }

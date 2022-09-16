@@ -207,36 +207,36 @@ public class editPanelCliente extends JPanel {
         add(buttonConferma, gbc);
     }
 
-    public JTextField getTextFieldNome() {
-        return textFieldNome;
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
     }
 
-    public void setTextFieldNome(JTextField textFieldNome) {
-        this.textFieldNome = textFieldNome;
+    public void setTextFieldNome(String nome) {
+        this.textFieldNome.setText(nome);
     }
 
-    public JTextField getTextFieldCognome() {
-        return textFieldCognome;
+    public String getTextFieldCognome() {
+        return textFieldCognome.getText();
     }
 
-    public void setTextFieldCognome(JTextField textFieldCognome) {
-        this.textFieldCognome = textFieldCognome;
+    public void setTextFieldCognome(String cognome) {
+        this.textFieldCognome.setText(cognome);
     }
 
-    public JTextField getTextFieldCartaID() {
-        return textFieldCartaID;
+    public String getTextFieldCartaID() {
+        return textFieldCartaID.getText();
     }
 
-    public void setTextFieldCartaID(JTextField textFieldCartaID) {
-        this.textFieldCartaID = textFieldCartaID;
+    public void setTextFieldCartaID(String cartaID) {
+        this.textFieldCartaID.setText(cartaID);
     }
 
-    public JTextField getTextFieldNumeroTel() {
-        return textFieldNumeroTel;
+    public String getTextFieldNumeroTel() {
+        return textFieldNumeroTel.getText();
     }
 
-    public void setTextFieldNumeroTel(JTextField textFieldNumeroTel) {
-        this.textFieldNumeroTel = textFieldNumeroTel;
+    public void setTextFieldNumeroTel(String numeroTel) {
+        this.textFieldNumeroTel.setText(numeroTel);
     }
 
     public JButton getButtonElimina() {

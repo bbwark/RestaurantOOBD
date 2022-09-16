@@ -73,4 +73,16 @@ public class addPanelRistorante extends JPanel {
         gbc.insets = new Insets(10,0,10,10);
         add(buttonConferma, gbc);
     }
+
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
 }

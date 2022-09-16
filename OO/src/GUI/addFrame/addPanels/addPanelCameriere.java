@@ -94,4 +94,20 @@ public class addPanelCameriere extends JPanel {
         gbc.insets = new Insets(10, 0, 10, 10);
         add(buttonConferma, gbc);
     }
+
+    public String getTextFieldNome() {
+        return textFieldNome.getText();
+    }
+
+    public String getTextFieldCognome() {
+        return textFieldCognome.getText();
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
 }
