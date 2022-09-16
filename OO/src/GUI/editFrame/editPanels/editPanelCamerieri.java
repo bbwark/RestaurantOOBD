@@ -39,16 +39,11 @@ public class editPanelCamerieri extends JPanel {
 
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel<>();
-        //codice per selezione della lista
-
         buttonAnnulla = new JButtonAnnulla();
         buttonConferma = new JButtonConferma();
 
         buttonModificaSelezionato = new JButtonGrey("Modifica Cameriere Selezionato");
 
-        nomeSelezionatoSuperiore = "*nome*";
-        tipoSelezionatoSuperiore = "*Ris/Sala/Tav*";
         labelNomeSelezionatoSuperiore = new JLabel("Nome "+tipoSelezionatoSuperiore+": "+nomeSelezionatoSuperiore);
         labelNomeSelezionatoSuperiore.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
@@ -111,5 +106,37 @@ public class editPanelCamerieri extends JPanel {
         gbc.fill= GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0,10,10,10);
         add(buttonConferma, gbc);
+    }
+
+    public void setNomeSelezionatoSuperiore(String nomeSelezionatoSuperiore) {
+        this.nomeSelezionatoSuperiore = nomeSelezionatoSuperiore;
+    }
+
+    public void setTipoSelezionatoSuperiore(String tipoSelezionatoSuperiore) {
+        this.tipoSelezionatoSuperiore = tipoSelezionatoSuperiore;
+    }
+
+    public JButton getButtonAddSelezione() {
+        return buttonAddSelezione;
+    }
+
+    public JButton getButtonRimuoviSelezionato() {
+        return buttonRimuoviSelezionato;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonModificaSelezionato() {
+        return buttonModificaSelezionato;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
     }
 }

@@ -52,15 +52,9 @@ public class editPanelPrenotazioni extends JPanel {
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
         listaSelezioneCliente = new JList();
 
-        DefaultListModel modelloSelezioneCliente = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
         buttonAddSelezioneCameriere = new JButtonBlue(" + ");
         buttonRemoveSelezionatoCameriere = new JButtonGrey("Rimuovi Cameriere Selezionato");
         listaSelezioneCameriere = new JList();
-
-        DefaultListModel modelloSelezioneCameriere = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
 
         buttonElimina = new JButtonRed("ELIMINA Prenotazione");
         buttonModificaSelezionatoCliente = new JButtonGrey("Modifica Cliente Selezionato");
@@ -71,7 +65,6 @@ public class editPanelPrenotazioni extends JPanel {
 
         buttonIndietro = new JButtonIndietro(contentPane, "Panel Tavolo");
 
-        //Creazione Listeners
         buttonModificaSelezionatoCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -234,5 +227,57 @@ public class editPanelPrenotazioni extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(10,10,10,0);
         add(buttonIndietro, gbc);
+    }
+
+    public JButton getButtonModificaSelezionatoCliente() {
+        return buttonModificaSelezionatoCliente;
+    }
+
+    public JButton getButtonModificaSelezionatoCameriere() {
+        return buttonModificaSelezionatoCameriere;
+    }
+
+    public JButton getButtonElimina() {
+        return buttonElimina;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public JButton getButtonAddSelezioneCameriere() {
+        return buttonAddSelezioneCameriere;
+    }
+
+    public JButton getButtonRemoveSelezionatoCameriere() {
+        return buttonRemoveSelezionatoCameriere;
+    }
+
+    public JButton getButtonAddSelezioneCliente() {
+        return buttonAddSelezioneCliente;
+    }
+
+    public JButton getButtonRemoveSelezionatoCliente() {
+        return buttonRemoveSelezionatoCliente;
+    }
+
+    public String getDate(){
+        return (String) datePicker.getModel().getValue();
+    }
+
+    public void setModelListaSelezionaCliente(DefaultListModel defaultListModel){
+        listaSelezioneCliente.setModel(defaultListModel);
+    }
+
+    public void setModelListaSelezionaCameriere(DefaultListModel defaultListModel){
+        listaSelezioneCameriere.setModel(defaultListModel);
     }
 }

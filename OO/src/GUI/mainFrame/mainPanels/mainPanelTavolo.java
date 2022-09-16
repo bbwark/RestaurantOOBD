@@ -38,15 +38,11 @@ public class mainPanelTavolo extends JPanel {
         buttonAdd = new JButtonBlue("+ Tavolo");
         buttonEdit = new JButtonGrey("Modifica Tavolo");
 
-        nomeSelezionato = "*nome*";
         labelNomeSelezionato = new JLabel("Nome Sala Selezionata: "+nomeSelezionato);
         labelNomeSelezionato.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         labelListaSelezione = new JLabel("Lista Tavoli");
         listaSelezione = new JList();
-
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
 
         buttonAddPrenotazione = new JButtonGrey("+ Prenotazione a Tavolo");
         buttonModificaElemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");

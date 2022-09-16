@@ -45,10 +45,6 @@ public class editPanelSala extends JPanel {
         buttonRemoveSelezionato = new JButtonGrey("Rimuovi Tavolo Selezionato");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
-        numTavoli = "*numero calcolato*";
         labelNumeroTavoli = new JLabel("Numero Tavoli: "+ numTavoli);
         labelNumeroTavoli.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
@@ -182,5 +178,41 @@ public class editPanelSala extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5,10,10,0);
         add(buttonIndietro, gbc);
+    }
+
+    public JButton getButtonModificaSelezionato() {
+        return buttonModificaSelezionato;
+    }
+
+    public JButton getButtonElimina() {
+        return buttonElimina;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public JButton getButtonAddSelezione() {
+        return buttonAddSelezione;
+    }
+
+    public JButton getButtonRemoveSelezionato() {
+        return buttonRemoveSelezionato;
+    }
+
+    public String getNumTavoli() {
+        return numTavoli;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
     }
 }

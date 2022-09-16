@@ -42,9 +42,6 @@ public class editPanelTavolo extends JPanel {
         buttonRemoveSelezionato = new JButtonGrey("Rimuovi Prenotazione Selezionata");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
         buttonElimina = new JButtonRed("ELIMINA Tavolo");
         buttonModificaSelezionato = new JButtonGrey("Modifica Prenotazione Selezionata");
 
@@ -166,5 +163,37 @@ public class editPanelTavolo extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5,10,10,0);
         add(buttonIndietro, gbc);
+    }
+
+    public JButton getButtonModificaSelezionato() {
+        return buttonModificaSelezionato;
+    }
+
+    public JButton getButtonElimina() {
+        return buttonElimina;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public JButton getButtonAddSelezione() {
+        return buttonAddSelezione;
+    }
+
+    public JButton getButtonRemoveSelezionato() {
+        return buttonRemoveSelezionato;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
     }
 }

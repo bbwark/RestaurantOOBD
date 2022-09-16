@@ -40,9 +40,6 @@ public class editPanelRistorante extends JPanel {
         buttonRemoveSelezionato = new JButtonGrey("Rimuovi Sala Selezionata");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
         buttonElimina = new JButtonRed("ELIMINA Ristorante");
         buttonModificaSelezionato = new JButtonGrey("Modifica Sala Selezionata");
 
@@ -151,5 +148,33 @@ public class editPanelRistorante extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
         add(buttonElimina, gbc);
+    }
+
+    public JButton getButtonAddSelezione() {
+        return buttonAddSelezione;
+    }
+
+    public JButton getButtonRemoveSelezionato() {
+        return buttonRemoveSelezionato;
+    }
+
+    public JButton getButtonModificaSelezionato() {
+        return buttonModificaSelezionato;
+    }
+
+    public JButton getButtonElimina() {
+        return buttonElimina;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
     }
 }

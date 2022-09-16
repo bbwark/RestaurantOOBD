@@ -54,9 +54,6 @@ public class editPanelCliente extends JPanel {
         labelPrenotazioni = new JLabel("Prenotazioni a cui siede:");
         listPrenotazioni = new JList();
 
-        DefaultListModel modelloPrenotazioni = new DefaultListModel();
-        //Codice per la gestione della lista
-
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
 
@@ -208,5 +205,65 @@ public class editPanelCliente extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor=GridBagConstraints.LAST_LINE_START;
         add(buttonConferma, gbc);
+    }
+
+    public JTextField getTextFieldNome() {
+        return textFieldNome;
+    }
+
+    public void setTextFieldNome(JTextField textFieldNome) {
+        this.textFieldNome = textFieldNome;
+    }
+
+    public JTextField getTextFieldCognome() {
+        return textFieldCognome;
+    }
+
+    public void setTextFieldCognome(JTextField textFieldCognome) {
+        this.textFieldCognome = textFieldCognome;
+    }
+
+    public JTextField getTextFieldCartaID() {
+        return textFieldCartaID;
+    }
+
+    public void setTextFieldCartaID(JTextField textFieldCartaID) {
+        this.textFieldCartaID = textFieldCartaID;
+    }
+
+    public JTextField getTextFieldNumeroTel() {
+        return textFieldNumeroTel;
+    }
+
+    public void setTextFieldNumeroTel(JTextField textFieldNumeroTel) {
+        this.textFieldNumeroTel = textFieldNumeroTel;
+    }
+
+    public JButton getButtonElimina() {
+        return buttonElimina;
+    }
+
+    public JButton getButtonConferma() {
+        return buttonConferma;
+    }
+
+    public JButton getButtonAnnulla() {
+        return buttonAnnulla;
+    }
+
+    public JButton getButtonAddPrenotazione() {
+        return buttonAddPrenotazione;
+    }
+
+    public JButton getButtonRemovePrenotazione() {
+        return buttonRemovePrenotazione;
+    }
+
+    public JButton getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public void setModelListaPrenotazioni(DefaultListModel defaultListModel){
+        listPrenotazioni.setModel(defaultListModel);
     }
 }

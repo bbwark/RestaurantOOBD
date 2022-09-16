@@ -48,7 +48,6 @@ public class mainPanelSala extends JPanel {
         buttonAdd = new JButtonBlue("+ Sala");
         buttonEdit = new JButtonGrey("Modifica Sala");
 
-        nomeSelezionato="*nome*";
         labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: "+nomeSelezionato);
         labelNomeSelezionato.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
