@@ -23,7 +23,6 @@ public class editPanelCameriere extends JPanel {
     private JButton buttonAddPrenotazione;
     private JButton buttonRemovePrenotazione;
 
-    private JButton buttonStatistiche;
 
     private JButton buttonIndietro;
 
@@ -50,8 +49,6 @@ public class editPanelCameriere extends JPanel {
 
         DefaultListModel modelloPrenotazioni = new DefaultListModel();
         //Codice per la gestione della lista
-
-        buttonStatistiche = new JButtonGrey("Statistiche");
 
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
@@ -124,16 +121,6 @@ public class editPanelCameriere extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0,0,0,10);
         add(new JScrollPane(listPrenotazioni), gbc);
-
-        //button Statistiche
-        gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=2;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10,10,10,10);
-        add(buttonStatistiche, gbc);
 
         //button Indietro
         gbc = new GridBagConstraints();

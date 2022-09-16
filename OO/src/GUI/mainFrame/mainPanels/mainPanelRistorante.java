@@ -211,4 +211,38 @@ public class mainPanelRistorante extends JPanel{
         gbc.anchor = GridBagConstraints.PAGE_END;
         add(buttonAddPrenotazione, gbc);
     }
+
+    public JButton getButtonStatistics() {
+        return buttonStatistics;
+    }
+
+    public JButton getButtonElencoClienti() {
+        return buttonElencoClienti;
+    }
+
+    public JButton getButtonEditPrenotazioni() {
+        return buttonEditPrenotazioni;
+    }
+
+    public JButton getButtonMostraSottoelemento() {
+        return buttonMostraSottoelemento;
+    }
+
+    public JButton getButtonAddPrenotazione() {
+        return buttonAddPrenotazione;
+    }
+
+    public JButton getButtonEditCamerieri() {
+        return buttonEditCamerieri;
+    }
+
+    public JButton getButtonAdd() {
+        return buttonAdd;
+    }
+
+    public JButton getButtonEdit() {
+        return buttonEdit;
+    }
+
+
 }
