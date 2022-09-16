@@ -5,7 +5,6 @@ import GUI.CustomButtons.JButtonGrey;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +26,7 @@ public class mainPanelRistorante extends JPanel{
     private JList listaSelezione;
 
     private JLabel labelTableVisualizza;
-    private JTable tableVisualizza;
+    private JList listaVisualizza;
 
     public mainPanelRistorante(JPanel contentPane) {
 
@@ -45,9 +44,6 @@ public class mainPanelRistorante extends JPanel{
         labelListaSelezione = new JLabel("Lista Ristoranti");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
         buttonStatistics = new JButtonGrey("Statistiche");
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
@@ -60,11 +56,8 @@ public class mainPanelRistorante extends JPanel{
             }
         }));
 
-        labelTableVisualizza = new JLabel("Preview Sale di Ristorante " + "*nome*");
-        tableVisualizza = new JTable();
-
-        DefaultTableModel modelloVisualizza = new DefaultTableModel();
-        //codice che estrae la lista di sottoelementi del selezionato
+        labelTableVisualizza = new JLabel("Preview Sale di Ristorante Selezionato");
+        listaVisualizza = new JList();
 
         buttonMostraSottoelemento = new JButtonGrey("Mostra Sale di Ristorante Selezionato");
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Ristorante");
@@ -185,7 +178,7 @@ public class mainPanelRistorante extends JPanel{
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 10, 0, 10);
-        add(new JScrollPane(tableVisualizza), gbc);
+        add(new JScrollPane(listaVisualizza), gbc);
 
         //Mostra Sottoelementi
         gbc = new GridBagConstraints();
@@ -244,5 +237,12 @@ public class mainPanelRistorante extends JPanel{
         return buttonEdit;
     }
 
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
+    }
+
+    public void setModelListaVisualizza(DefaultListModel defaultListModel){
+        listaVisualizza.setModel(defaultListModel);
+    }
 
 }

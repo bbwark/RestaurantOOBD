@@ -156,4 +156,32 @@ public class mainPanelTavolo extends JPanel {
         gbc.insets = new Insets(5, 0, 10, 0);
         add(buttonIndietro, gbc);
     }
+
+    public JButton getButtonAddPrenotazione() {
+        return buttonAddPrenotazione;
+    }
+
+    public JButton getButtonModificaElemento() {
+        return buttonModificaElemento;
+    }
+
+    public JButton getButtonEditCamerieri() {
+        return buttonEditCamerieri;
+    }
+
+    public JButton getButtonAdd() {
+        return buttonAdd;
+    }
+
+    public JButton getButtonEdit() {
+        return buttonEdit;
+    }
+
+    public JButtonIndietro getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public void setNomeSelezionato(String nomeSelezionato) {
+        this.nomeSelezionato = nomeSelezionato;
+    }
 }

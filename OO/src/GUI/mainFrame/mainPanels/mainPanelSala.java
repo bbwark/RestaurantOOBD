@@ -27,7 +27,7 @@ public class mainPanelSala extends JPanel {
     private JList listaSelezione;
 
     private JLabel labelTableVisualizza;
-    private JTable tableVisualizza;
+    private JList listaVisualizza;
 
     private JLabel labelNomeSelezionato;
     private String nomeSelezionato;
@@ -55,17 +55,11 @@ public class mainPanelSala extends JPanel {
         labelListaSelezione = new JLabel("Lista Sale");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-        //codice che estrae la lista di oggetti selezionabili
-
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Preview Tavoli di Sala " + "*nome*");
-        tableVisualizza = new JTable();
-
-        DefaultTableModel modelloVisualizza = new DefaultTableModel();
-        //codice che estrae la lista di sottoelementi del selezionato
+        labelTableVisualizza = new JLabel("Preview Tavoli di Sala Selezionata");
+        listaVisualizza = new JList();
 
         buttonMostraSottoelemento = new JButtonGrey("Mostra Tavoli di Sala Selezionata");
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Sala");
@@ -190,7 +184,7 @@ public class mainPanelSala extends JPanel {
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 10, 0, 10);
-        add(new JScrollPane(tableVisualizza), gbc);
+        add(new JScrollPane(listaVisualizza), gbc);
 
         //Mostra Sottoelementi
         gbc = new GridBagConstraints();
@@ -226,5 +220,49 @@ public class mainPanelSala extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 10, 10, 0);
         add(buttonIndietro, gbc);
+    }
+
+    public JButton getButtonElencoClienti() {
+        return buttonElencoClienti;
+    }
+
+    public JButton getButtonEditPrenotazioni() {
+        return buttonEditPrenotazioni;
+    }
+
+    public JButton getButtonMostraSottoelemento() {
+        return buttonMostraSottoelemento;
+    }
+
+    public JButton getButtonAddPrenotazione() {
+        return buttonAddPrenotazione;
+    }
+
+    public JButton getButtonEditCamerieri() {
+        return buttonEditCamerieri;
+    }
+
+    public JButton getButtonAdd() {
+        return buttonAdd;
+    }
+
+    public JButton getButtonEdit() {
+        return buttonEdit;
+    }
+
+    public JButtonIndietro getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
+    }
+
+    public void setModelListaVisualizza(DefaultListModel defaultListModel){
+        listaVisualizza.setModel(defaultListModel);
+    }
+
+    public void setNomeSelezionato(String nomeSelezionato) {
+        this.nomeSelezionato = nomeSelezionato;
     }
 }

@@ -12,9 +12,7 @@ public class mainPanelCameriere extends JPanel {
     private JLabel labelListaSelezione;
     private JList listaSelezione;
 
-    private JButtonIndietro buttonIndietro;
-    //TEMPORANEO -- in qualche modo va collegato questo panel col panel giusto al quale ritornare col button indietro
-    private String nomePannelloPrecedente;
+    private JButton buttonIndietro;
 
     private JButton buttonEdit;
 
@@ -32,9 +30,7 @@ public class mainPanelCameriere extends JPanel {
         labelListaSelezione = new JLabel("Lista Camerieri");
         listaSelezione = new JList();
 
-        DefaultListModel modelloSelezione = new DefaultListModel();
-
-        buttonIndietro = new JButtonIndietro(contentPane, nomePannelloPrecedente);
+        buttonIndietro = new JButton("Indietro");
 
         //Aggiunta Elementi a Layout
         //Label Elenco
@@ -79,5 +75,17 @@ public class mainPanelCameriere extends JPanel {
         gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.insets = new Insets(20, 5, 10, 20);
         add(buttonIndietro, gbc);
+    }
+
+    public JButton getButtonIndietro() {
+        return buttonIndietro;
+    }
+
+    public JButton getButtonEdit() {
+        return buttonEdit;
+    }
+
+    public void setModelListaSeleziona(DefaultListModel defaultListModel){
+        listaSelezione.setModel(defaultListModel);
     }
 }
