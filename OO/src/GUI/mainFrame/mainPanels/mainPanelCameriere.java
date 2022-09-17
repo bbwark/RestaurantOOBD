@@ -1,7 +1,6 @@
 package GUI.mainFrame.mainPanels;
 
 import GUI.CustomButtons.JButtonGrey;
-import GUI.CustomButtons.JButtonIndietro;
 
 import javax.swing.*;
 import javax.swing.border.Border;

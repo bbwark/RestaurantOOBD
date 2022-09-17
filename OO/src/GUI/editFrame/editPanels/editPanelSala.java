@@ -54,16 +54,8 @@ public class editPanelSala extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro = new JButtonIndietro(contentPane, "Panel Ristorante");
+        buttonIndietro = new JButtonGrey("Indietro");
 
-        //Creazione Listeners
-        buttonModificaSelezionato.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Tavolo");
-            }
-        });
 
 
         //Aggiunta Elementi a Layout

@@ -63,23 +63,7 @@ public class editPanelPrenotazioni extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        buttonIndietro = new JButtonIndietro(contentPane, "Panel Tavolo");
-
-        buttonModificaSelezionatoCliente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Cliente");
-            }
-        });
-
-        buttonModificaSelezionatoCameriere.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Cameriere");
-            }
-        });
+        buttonIndietro = new JButtonGrey("Indietro");
 
 
         //Aggiunta Elementi a Layout

@@ -2,7 +2,6 @@ package GUI.mainFrame.mainPanels;
 
 import GUI.CustomButtons.JButtonBlue;
 import GUI.CustomButtons.JButtonGrey;
-import GUI.CustomButtons.JButtonIndietro;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,7 +22,7 @@ public class mainPanelTavolo extends JPanel {
     private JLabel labelNomeSelezionato;
     private String nomeSelezionato;
 
-    private JButtonIndietro buttonIndietro;
+    private JButton buttonIndietro;
 
     public mainPanelTavolo(JPanel contentPane) {
 
@@ -48,7 +47,7 @@ public class mainPanelTavolo extends JPanel {
         buttonModificaElemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Tavolo Selezionato");
 
-        buttonIndietro = new JButtonIndietro(contentPane, "Panel Sala");
+        buttonIndietro = new JButtonGrey("Indietro");
 
         //Aggiunta Elementi a Layout
         //+ Elemento
@@ -173,7 +172,7 @@ public class mainPanelTavolo extends JPanel {
         return buttonEdit;
     }
 
-    public JButtonIndietro getButtonIndietro() {
+    public JButton getButtonIndietro() {
         return buttonIndietro;
     }
 

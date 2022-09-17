@@ -50,7 +50,7 @@ public class editPanelCameriere extends JPanel {
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
 
-        buttonIndietro = new JButtonIndietro(contentPane, "Panel Prenotazioni");
+        buttonIndietro = new JButtonGrey("Indietro");
 
         //label Nome
         GridBagConstraints gbc = new GridBagConstraints();

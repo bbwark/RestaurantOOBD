@@ -2,14 +2,10 @@ package GUI.mainFrame.mainPanels;
 
 import GUI.CustomButtons.JButtonBlue;
 import GUI.CustomButtons.JButtonGrey;
-import GUI.CustomButtons.JButtonIndietro;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class mainPanelSala extends JPanel {
 
@@ -32,7 +28,7 @@ public class mainPanelSala extends JPanel {
     private JLabel labelNomeSelezionato;
     private String nomeSelezionato;
 
-    private JButtonIndietro buttonIndietro;
+    private JButton buttonIndietro;
 
     public mainPanelSala(JPanel contentPane){
 
@@ -64,15 +60,7 @@ public class mainPanelSala extends JPanel {
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Sala");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Sala Selezionata");
 
-        buttonMostraSottoelemento.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Tavolo");
-            }
-        });
-
-        buttonIndietro = new JButtonIndietro(contentPane, "Panel Ristorante");
+        buttonIndietro = new JButtonGrey("Indietro");
 
         //Aggiunta Elementi a Layout
         //+ Elemento
@@ -249,7 +237,7 @@ public class mainPanelSala extends JPanel {
         return buttonEdit;
     }
 
-    public JButtonIndietro getButtonIndietro() {
+    public JButton getButtonIndietro() {
         return buttonIndietro;
     }
 
