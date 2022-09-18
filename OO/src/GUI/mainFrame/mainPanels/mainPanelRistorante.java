@@ -28,7 +28,7 @@ public class mainPanelRistorante extends JPanel{
     private JLabel labelTableVisualizza;
     private JList listaVisualizza;
 
-    public mainPanelRistorante(JPanel contentPane) {
+    public mainPanelRistorante() {
 
         setLayout(new GridBagLayout());
 
@@ -55,13 +55,6 @@ public class mainPanelRistorante extends JPanel{
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Ristorante");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Ristorante Selezionato");
 
-        buttonMostraSottoelemento.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Sala");
-            }
-        });
 
         //Aggiunta Elementi a Layout
         //+ Elemento
@@ -237,4 +230,11 @@ public class mainPanelRistorante extends JPanel{
         listaVisualizza.setModel(defaultListModel);
     }
 
+    public JList getListaSelezione() {
+        return listaSelezione;
+    }
+
+    public JList getListaVisualizza() {
+        return listaVisualizza;
+    }
 }

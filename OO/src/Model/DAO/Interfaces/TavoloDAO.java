@@ -12,7 +12,7 @@ public interface TavoloDAO {
 
     ArrayList<Tavolo> getAllTavoli();
     ArrayList<Tavolo> getAllTavoliByRistorante(String nomeRistorante);
-    ArrayList<Tavolo> getAllTavoliBySala(String nomeSala);
+    ArrayList<Tavolo> getAllTavoliBySala(int id);
 
     void createTavolo(Tavolo tavolo);
     void updateTavolo(Tavolo tavolo);

@@ -10,7 +10,7 @@ public interface ClienteDAO {
 
     ArrayList<Cliente> getAllClienti();
     ArrayList<Cliente> getAllClientiByRistorante(String nomeRistorante);
-    ArrayList<Cliente> getAllClientiBySala(String nomeSala);
+    ArrayList<Cliente> getAllClientiBySala(int id);
     ArrayList<Cliente> getAllClientiByTavolo(int id);
     ArrayList<Cliente> getAllClientiByTavolata(int id);
 

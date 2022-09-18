@@ -34,7 +34,7 @@ public class editPanelPrenotazioni extends JPanel {
 
     private JButton buttonIndietro;
 
-    public editPanelPrenotazioni(JPanel contentPane) {
+    public editPanelPrenotazioni() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Prenotazione");
@@ -64,7 +64,6 @@ public class editPanelPrenotazioni extends JPanel {
         buttonAnnulla = new JButtonAnnulla();
 
         buttonIndietro = new JButtonGrey("Indietro");
-
 
         //Aggiunta Elementi a Layout
         //Label Data

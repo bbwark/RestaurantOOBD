@@ -1,12 +1,13 @@
 package GUI.mainFrame.mainPanels;
 
+import GUI.CustomButtons.JButtonGreen;
 import GUI.CustomButtons.JButtonGrey;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class mainPanelCameriere extends JPanel {
+public class mainPanelSelezionaTavolo extends JPanel {
 
     private JLabel labelListaSelezione;
     private JList listaSelezione;
@@ -15,7 +16,7 @@ public class mainPanelCameriere extends JPanel {
 
     private JButton buttonEdit;
 
-    public mainPanelCameriere(JPanel contentPane) {
+    public mainPanelSelezionaTavolo(){
 
         setLayout(new GridBagLayout());
 
@@ -25,11 +26,11 @@ public class mainPanelCameriere extends JPanel {
         setBorder(bordoFinale);
 
         //Definizione Attributi
-        buttonEdit = new JButtonGrey("Modifica Cameriere Selezionato");
-        labelListaSelezione = new JLabel("Lista Camerieri");
+        buttonEdit = new JButtonGreen("Seleziona Tavolo per Prenotazione");
+        labelListaSelezione = new JLabel("Lista Tavoli");
         listaSelezione = new JList();
 
-        buttonIndietro = new JButton("Indietro");
+        buttonIndietro = new JButtonGrey("Indietro");
 
         //Aggiunta Elementi a Layout
         //Label Elenco
@@ -82,6 +83,10 @@ public class mainPanelCameriere extends JPanel {
 
     public JButton getButtonEdit() {
         return buttonEdit;
+    }
+
+    public JList getListaSelezione() {
+        return listaSelezione;
     }
 
     public void setModelListaSeleziona(DefaultListModel defaultListModel){

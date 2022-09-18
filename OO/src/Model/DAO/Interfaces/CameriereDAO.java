@@ -10,7 +10,7 @@ public interface CameriereDAO {
 
     ArrayList<Cameriere> getAllCamerieri();
     ArrayList<Cameriere> getAllCamerieriByRistorante(String nomeRistorante);
-    ArrayList<Cameriere> getAllCamerieriBySala(String nomeSala);
+    ArrayList<Cameriere> getAllCamerieriBySala(int id);
     ArrayList<Cameriere> getAllCamerieriByTavolo(int id);
     ArrayList<Cameriere> getAllCamerieriByTavolata(int id);
 

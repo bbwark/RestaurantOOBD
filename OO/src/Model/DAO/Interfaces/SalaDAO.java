@@ -16,6 +16,5 @@ public interface SalaDAO {
 
     void createSala(Sala sala);
     void updateSala(Sala sala);
-    void updateSala(Sala sala, String oldName);
     void deleteSala(Sala sala);
 }

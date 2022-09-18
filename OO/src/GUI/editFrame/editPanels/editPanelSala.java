@@ -29,7 +29,7 @@ public class editPanelSala extends JPanel {
 
     private String numTavoli;
 
-    public editPanelSala(JPanel contentPane){
+    public editPanelSala(){
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Sala");
@@ -55,7 +55,6 @@ public class editPanelSala extends JPanel {
         buttonAnnulla = new JButtonAnnulla();
 
         buttonIndietro = new JButtonGrey("Indietro");
-
 
 
         //Aggiunta Elementi a Layout

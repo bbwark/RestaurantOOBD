@@ -25,7 +25,7 @@ public class editPanelTavolo extends JPanel {
 
     private JButton buttonIndietro;
 
-    public editPanelTavolo(JPanel contentPane){
+    public editPanelTavolo(){
 
         setLayout(new GridBagLayout());
 

@@ -30,7 +30,7 @@ public class mainPanelSala extends JPanel {
 
     private JButton buttonIndietro;
 
-    public mainPanelSala(JPanel contentPane){
+    public mainPanelSala(){
 
 
         setLayout(new GridBagLayout());
@@ -247,6 +247,14 @@ public class mainPanelSala extends JPanel {
 
     public void setModelListaVisualizza(DefaultListModel defaultListModel){
         listaVisualizza.setModel(defaultListModel);
+    }
+
+    public JList getListaSelezione() {
+        return listaSelezione;
+    }
+
+    public JList getListaVisualizza() {
+        return listaVisualizza;
     }
 
     public void setNomeSelezionato(String nomeSelezionato) {

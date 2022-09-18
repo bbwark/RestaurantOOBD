@@ -1,5 +1,6 @@
 package GUI.statisticFrame.statisticPanels;
 
+import Model.DTO.Ristorante;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -33,11 +34,11 @@ public class statisticPanelRistorante extends JPanel {
     private JFreeChart avventoriLineChart;
     private DefaultCategoryDataset avventoriDataset;
 
+    private String nomeRistorante;
 
-    public statisticPanelRistorante(JPanel contentPane){
+    public statisticPanelRistorante(){
         setLayout(new GridBagLayout());
 
-        String nomeRistorante = "*NOME*";
         Border bordoInterno = BorderFactory.createTitledBorder("Statistiche Ristorante " + nomeRistorante);
         Border bordoEsterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
@@ -57,7 +58,7 @@ public class statisticPanelRistorante extends JPanel {
         //avventoriDataset.addValue(120, "normal", "pino");
         //avventoriDataset.addValue(80, "normal", "lino");
 
-        avventoriLineChart = ChartFactory.createLineChart("", "Periodo", "Numero Avventori", avventoriDataset, PlotOrientation.VERTICAL, false, false, false);
+        //avventoriLineChart = ChartFactory.createLineChart("", "Periodo", "Numero Avventori", avventoriDataset, PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanel = new ChartPanel(avventoriLineChart);
 
 
@@ -199,6 +200,14 @@ public class statisticPanelRistorante extends JPanel {
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
         gbc.insets = new Insets(5, 0, 5,40);
         add(crescitaAvventoriTotali, gbc);
+    }
+
+    public String getNomeRistorante() {
+        return nomeRistorante;
+    }
+
+    public void setNomeRistorante(String nomeRistorante) {
+        this.nomeRistorante = nomeRistorante;
     }
 }
 

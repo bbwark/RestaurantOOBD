@@ -23,7 +23,7 @@ public class editPanelRistorante extends JPanel {
     private JButton buttonConferma;
     private JButton buttonAnnulla;
 
-    public editPanelRistorante(JPanel contentPane){
+    public editPanelRistorante(){
 
         setLayout(new GridBagLayout());
 
@@ -45,16 +45,6 @@ public class editPanelRistorante extends JPanel {
 
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
-
-        //Creazione Listeners
-        buttonModificaSelezionato.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-                cardLayout.show(contentPane, "Panel Sala");
-            }
-        });
-
 
         //Aggiunta Elementi a Layout
         //Label Nome

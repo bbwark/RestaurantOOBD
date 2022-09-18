@@ -26,7 +26,7 @@ public class editPanelCamerieri extends JPanel {
     private String tipoSelezionatoSuperiore;
 
 
-    public editPanelCamerieri(JPanel contentPane){
+    public editPanelCamerieri(){
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Camerieri");

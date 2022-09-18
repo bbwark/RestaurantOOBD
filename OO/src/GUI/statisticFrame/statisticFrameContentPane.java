@@ -1,6 +1,7 @@
 package GUI.statisticFrame;
 
 import GUI.statisticFrame.statisticPanels.statisticPanelRistorante;
+import Model.DTO.Ristorante;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +16,12 @@ public class statisticFrameContentPane extends JPanel {
         setLayout(new CardLayout());
 
 
-        statisticPanelRistorante = new statisticPanelRistorante(this);
+        statisticPanelRistorante = new statisticPanelRistorante();
 
         add(statisticPanelRistorante, "Panel Ristorante");
+    }
+
+    public GUI.statisticFrame.statisticPanels.statisticPanelRistorante getStatisticPanelRistorante() {
+        return statisticPanelRistorante;
     }
 }

@@ -130,7 +130,7 @@ public class TavolataImpl implements TavolataDAO {
     }
 
     @Override
-    public ArrayList<Tavolata> getAllTavolateBySala(String nomeSala) {
+    public ArrayList<Tavolata> getAllTavolateBySala(int id) {
         ArrayList<Tavolata> result = new ArrayList<>();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
@@ -140,8 +140,8 @@ public class TavolataImpl implements TavolataDAO {
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Sala\" " +
                         "INNER JOIN \"Tavolo\" ON \"Sala\".\"ID_Sala\" = \"Tavolo\".\"ID_Sala\" " +
                         "INNER JOIN \"Tavolata\" ON \"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\" " +
-                        "WHERE \"Sala\".\"Nome_Sala\" = '?' ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
-                st.setString(1, nomeSala);
+                        "WHERE \"Sala\".\"ID_Sala\" = ? ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
+                st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
 
                 while (rs.next()){

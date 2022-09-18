@@ -25,14 +25,15 @@ public class SalaImpl implements SalaDAO {
                 ResultSet rs = st.executeQuery();
 
                 String nome = rs.getString(4);
+                int id = rs.getInt(5);
                 int numeroTavoli = rs.getInt(2);
                 int capienza = rs.getInt(3);
                 TavoloImpl tempTavolo = new TavoloImpl();
-                ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(nome);
+                ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
                 RistoranteImpl tempRistorante = new RistoranteImpl();
                 Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                Sala tempSala = new Sala(nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
 
                 st.close();
                 rs.close();
@@ -61,11 +62,11 @@ public class SalaImpl implements SalaDAO {
                 int numeroTavoli = rs.getInt(2);
                 int capienza = rs.getInt(3);
                 TavoloImpl tempTavolo = new TavoloImpl();
-                ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(nome);
+                ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
                 RistoranteImpl tempRistorante = new RistoranteImpl();
                 Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                Sala tempSala = new Sala(nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
 
                 st.close();
                 rs.close();
@@ -92,14 +93,15 @@ public class SalaImpl implements SalaDAO {
                 while (rs.next()){
 
                     String nome = rs.getString(4);
+                    int id = rs.getInt(5);
                     int numeroTavoli = rs.getInt(2);
                     int capienza = rs.getInt(3);
                     TavoloImpl tempTavolo = new TavoloImpl();
-                    ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(nome);
+                    ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
                     RistoranteImpl tempRistorante = new RistoranteImpl();
                     Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                    Sala tempSala = new Sala(nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                    Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
 
                     result.add(tempSala);
                 }
@@ -128,21 +130,22 @@ public class SalaImpl implements SalaDAO {
                 ResultSet rs = st.executeQuery();
                 int idRistorante = rs.getInt(1);
 
-                st = connection.prepareStatement("SELECT * FROM \"Ristorante\" WHERE \"ID_Ristorante\" = ?");
+                st = connection.prepareStatement("SELECT * FROM \"Sala\" WHERE \"ID_Ristorante\" = ?");
                 st.setInt(1, idRistorante);
                 rs = st.executeQuery();
 
                 while (rs.next()) {
 
                     String nome = rs.getString(4);
+                    int id = rs.getInt(5);
                     int numeroTavoli = rs.getInt(2);
                     int capienza = rs.getInt(3);
                     TavoloImpl tempTavolo = new TavoloImpl();
-                    ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(nome);
+                    ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
                     RistoranteImpl tempRistorante = new RistoranteImpl();
                     Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                    Sala tempSala = new Sala(nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                    Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
 
                     result.add(tempSala);
                 }
@@ -199,38 +202,10 @@ public class SalaImpl implements SalaDAO {
                 int idRistorante = rs.getInt(1);
                 rs.close();
 
-                st = connection.prepareStatement("UPDATE \"Sala\" SET \"Nome_Sala\" = '?', \"ID_Ristorante\" = ? WHERE \"Nome_Sala\" = '?'");
+                st = connection.prepareStatement("UPDATE \"Sala\" SET \"Nome_Sala\" = '?', \"ID_Ristorante\" = ? WHERE \"ID_Sala\" = ?");
                 st.setString(1, sala.getNome());
                 st.setInt(2, idRistorante);
-                st.setString(3, sala.getNome());
-
-                st.executeUpdate();
-                st.close();
-                connection.close();
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        databasePostgresConnection.closeConnection();
-    }
-
-    @Override
-    public void updateSala(Sala sala, String oldName) {
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
-            try{
-                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = '?'");
-                st.setString(1, sala.getRistorante().getNome());
-                ResultSet rs = st.executeQuery();
-                int idRistorante = rs.getInt(1);
-                rs.close();
-
-                st = connection.prepareStatement("UPDATE \"Sala\" SET \"Nome_Sala\" = '?', \"ID_Ristorante\" = ? WHERE \"Nome_Sala\" = '?'");
-                st.setString(1, sala.getNome());
-                st.setInt(2, idRistorante);
-                st.setString(3, oldName);
+                st.setInt(3, sala.getIdSala());
 
                 st.executeUpdate();
                 st.close();

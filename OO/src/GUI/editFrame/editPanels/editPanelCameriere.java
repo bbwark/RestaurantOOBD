@@ -26,7 +26,7 @@ public class editPanelCameriere extends JPanel {
 
     private JButton buttonIndietro;
 
-    public editPanelCameriere(JPanel contentPane){
+    public editPanelCameriere(){
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Cameriere");

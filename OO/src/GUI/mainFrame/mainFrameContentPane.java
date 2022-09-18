@@ -11,24 +11,42 @@ public class mainFrameContentPane extends JPanel {
     private mainPanelSala mainPanelSala;
     private mainPanelTavolo mainPanelTavolo;
     private mainPanelCliente mainPanelCliente;
-    private GUI.mainFrame.mainPanels.mainPanelCameriere mainPanelCameriere;
-
+    private mainPanelPrenotazioni mainPanelPrenotazioni;
+    private mainPanelSelezionaTavolo mainPanelSelezionaTavolo;
     public mainFrameContentPane(){
         setBorder(
                 BorderFactory.createEmptyBorder(3, 3, 3, 3));
         setLayout(new CardLayout());
 
 
-        mainPanelRistorante = new mainPanelRistorante(this);
-        mainPanelSala = new mainPanelSala(this);
-        mainPanelTavolo = new mainPanelTavolo(this);
-        mainPanelCliente = new mainPanelCliente(this);
-        mainPanelCameriere = new mainPanelCameriere(this);
+        mainPanelRistorante = new mainPanelRistorante();
+        mainPanelSala = new mainPanelSala();
+        mainPanelTavolo = new mainPanelTavolo();
+        mainPanelCliente = new mainPanelCliente();
+        mainPanelPrenotazioni = new mainPanelPrenotazioni();
+        mainPanelSelezionaTavolo = new mainPanelSelezionaTavolo();
 
         add(mainPanelRistorante, "Panel Ristorante");
         add(mainPanelSala, "Panel Sala");
         add(mainPanelTavolo, "Panel Tavolo");
         add(mainPanelCliente, "Panel Cliente");
-        add(mainPanelCameriere, "Panel Cameriere");
+        add(mainPanelPrenotazioni, "Panel Prenotazioni");
+        add(mainPanelSelezionaTavolo, "Panel Seleziona Tavolo");
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelRistorante getMainPanelRistorante() {
+        return mainPanelRistorante;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelSala getMainPanelSala() {
+        return mainPanelSala;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelTavolo getMainPanelTavolo() {
+        return mainPanelTavolo;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelCliente getMainPanelCliente() {
+        return mainPanelCliente;
     }
 }

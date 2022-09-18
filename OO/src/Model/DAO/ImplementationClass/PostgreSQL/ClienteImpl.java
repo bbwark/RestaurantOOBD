@@ -122,7 +122,7 @@ public class ClienteImpl implements ClienteDAO {
     }
 
     @Override
-    public ArrayList<Cliente> getAllClientiBySala(String nomeSala) {
+    public ArrayList<Cliente> getAllClientiBySala(int id) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
@@ -133,8 +133,8 @@ public class ClienteImpl implements ClienteDAO {
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"ID_Sala\" " +
                         "= \"Tavolo\".\"ID_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
                         "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") " +
-                        "INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"Nome_Sala\" = '?'");
-                st.setString(1, nomeSala);
+                        "INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"ID_Sala\" = ?");
+                st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
 

@@ -21,13 +21,13 @@ public class editFrameContentPane extends JPanel {
         setLayout(new CardLayout());
 
 
-        editPanelRistorante = new editPanelRistorante(this);
-        editPanelSala = new editPanelSala(this);
-        editPanelTavolo = new editPanelTavolo(this);
-        editPanelPrenotazioni = new editPanelPrenotazioni(this);
-        editPanelCliente = new editPanelCliente(this);
-        editPanelCameriere = new editPanelCameriere(this);
-        editPanelCamerieri = new editPanelCamerieri(this);
+        editPanelRistorante = new editPanelRistorante();
+        editPanelSala = new editPanelSala();
+        editPanelTavolo = new editPanelTavolo();
+        editPanelPrenotazioni = new editPanelPrenotazioni();
+        editPanelCliente = new editPanelCliente();
+        editPanelCameriere = new editPanelCameriere();
+        editPanelCamerieri = new editPanelCamerieri();
 
         add(editPanelRistorante, "Panel Ristorante");
         add(editPanelSala, "Panel Sala");
@@ -36,5 +36,33 @@ public class editFrameContentPane extends JPanel {
         add(editPanelCliente, "Panel Cliente");
         add(editPanelCameriere, "Panel Cameriere");
         add(editPanelCamerieri, "Panel Camerieri");
+    }
+
+    public GUI.editFrame.editPanels.editPanelRistorante getEditPanelRistorante() {
+        return editPanelRistorante;
+    }
+
+    public GUI.editFrame.editPanels.editPanelSala getEditPanelSala() {
+        return editPanelSala;
+    }
+
+    public GUI.editFrame.editPanels.editPanelTavolo getEditPanelTavolo() {
+        return editPanelTavolo;
+    }
+
+    public GUI.editFrame.editPanels.editPanelPrenotazioni getEditPanelPrenotazioni() {
+        return editPanelPrenotazioni;
+    }
+
+    public GUI.editFrame.editPanels.editPanelCliente getEditPanelCliente() {
+        return editPanelCliente;
+    }
+
+    public GUI.editFrame.editPanels.editPanelCameriere getEditPanelCameriere() {
+        return editPanelCameriere;
+    }
+
+    public GUI.editFrame.editPanels.editPanelCamerieri getEditPanelCamerieri() {
+        return editPanelCamerieri;
     }
 }

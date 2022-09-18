@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class mainPanelCliente extends JPanel {
+public class mainPanelPrenotazioni extends JPanel {
 
     private JLabel labelListaSelezione;
     private JList listaSelezione;
@@ -15,7 +15,7 @@ public class mainPanelCliente extends JPanel {
 
     private JButton buttonEdit;
 
-    public mainPanelCliente(){
+    public mainPanelPrenotazioni(){
 
         setLayout(new GridBagLayout());
 
@@ -25,8 +25,8 @@ public class mainPanelCliente extends JPanel {
         setBorder(bordoFinale);
 
         //Definizione Attributi
-        buttonEdit = new JButtonGrey("Modifica Cliente Selezionato");
-        labelListaSelezione = new JLabel("Lista Clienti");
+        buttonEdit = new JButtonGrey("Modifica Prenotazione Selezionata");
+        labelListaSelezione = new JLabel("Lista Prenotazioni");
         listaSelezione = new JList();
 
         buttonIndietro = new JButtonGrey("Indietro");

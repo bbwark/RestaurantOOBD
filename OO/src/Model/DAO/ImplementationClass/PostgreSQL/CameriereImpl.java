@@ -131,7 +131,7 @@ public class CameriereImpl implements CameriereDAO {
     }
 
     @Override
-    public ArrayList<Cameriere> getAllCamerieriBySala(String nomeSala) {
+    public ArrayList<Cameriere> getAllCamerieriBySala(int id) {
         ArrayList<Cameriere> tempCamerieri = new ArrayList<>();
         databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         connectionSucceeded = databasePostgresConnection.openConnection();
@@ -143,7 +143,7 @@ public class CameriereImpl implements CameriereDAO {
                         "INNER JOIN \"Tavolata\" ON \"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\" " +
                         "INNER JOIN \"Servizio\" ON \"Tavolata\".\"Codice_Prenotazione\" = \"Servizio\".\"Codice_Prenotazione\" " +
                         "INNER JOIN \"Cameriere\" ON \"Servizio\".\"ID_Cameriere\" = \"Cameriere\".\"ID_Cameriere\" WHERE \"Sala\".\"ID_Sala\" = ? ORDER BY \"ID_Cameriere\"");
-                st.setString(1, nomeSala);
+                st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
 

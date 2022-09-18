@@ -7,7 +7,7 @@ public class addFrame extends JFrame{
     private addFrameContentPane addFrameContentPane;
 
     public addFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         addFrameContentPane = new addFrameContentPane();
         setContentPane(addFrameContentPane);
@@ -15,5 +15,9 @@ public class addFrame extends JFrame{
         pack();
         setLocationByPlatform(true);
         setVisible(true);
+    }
+
+    public GUI.addFrame.addFrameContentPane getAddFrameContentPane() {
+        return addFrameContentPane;
     }
 }

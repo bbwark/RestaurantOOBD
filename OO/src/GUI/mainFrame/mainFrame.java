@@ -16,4 +16,8 @@ public class mainFrame extends JFrame {
         setLocationByPlatform(true);
         setVisible(true);
     }
+
+    public GUI.mainFrame.mainFrameContentPane getMainFrameContentPane() {
+        return mainFrameContentPane;
+    }
 }

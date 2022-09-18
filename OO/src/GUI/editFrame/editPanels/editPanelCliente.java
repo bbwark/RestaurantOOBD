@@ -29,7 +29,7 @@ public class editPanelCliente extends JPanel {
 
     private JButton buttonIndietro;
 
-    public editPanelCliente(JPanel contentPane){
+    public editPanelCliente(){
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Cliente");

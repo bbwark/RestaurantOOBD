@@ -40,4 +40,36 @@ public class addFrameContentPane extends JPanel {
         add(addPanelServizioCameriere, "Panel Servizi Cameriere");
         add(addPanelPrenotazioniCliente, "Panel Prenotazioni Cliente");
     }
+
+    public GUI.addFrame.addPanels.addPanelRistorante getAddPanelRistorante() {
+        return addPanelRistorante;
+    }
+
+    public GUI.addFrame.addPanels.addPanelSala getAddPanelSala() {
+        return addPanelSala;
+    }
+
+    public GUI.addFrame.addPanels.addPanelTavolo getAddPanelTavolo() {
+        return addPanelTavolo;
+    }
+
+    public GUI.addFrame.addPanels.addPanelPrenotazioni getAddPanelPrenotazioni() {
+        return addPanelPrenotazioni;
+    }
+
+    public GUI.addFrame.addPanels.addPanelCliente getAddPanelCliente() {
+        return addPanelCliente;
+    }
+
+    public GUI.addFrame.addPanels.addPanelCameriere getAddPanelCameriere() {
+        return addPanelCameriere;
+    }
+
+    public GUI.addFrame.addPanels.addPanelServizioCameriere getAddPanelServizioCameriere() {
+        return addPanelServizioCameriere;
+    }
+
+    public GUI.addFrame.addPanels.addPanelPrenotazioniCliente getAddPanelPrenotazioniCliente() {
+        return addPanelPrenotazioniCliente;
+    }
 }

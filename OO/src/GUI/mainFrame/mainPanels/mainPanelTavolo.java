@@ -24,7 +24,7 @@ public class mainPanelTavolo extends JPanel {
 
     private JButton buttonIndietro;
 
-    public mainPanelTavolo(JPanel contentPane) {
+    public mainPanelTavolo() {
 
         setLayout(new GridBagLayout());
 
@@ -174,6 +174,10 @@ public class mainPanelTavolo extends JPanel {
 
     public JButton getButtonIndietro() {
         return buttonIndietro;
+    }
+
+    public JList getListaSelezione() {
+        return listaSelezione;
     }
 
     public void setNomeSelezionato(String nomeSelezionato) {

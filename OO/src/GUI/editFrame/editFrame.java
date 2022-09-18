@@ -9,7 +9,7 @@ public class editFrame extends JFrame{
     private editFrameContentPane editFrameContentPane;
 
     public editFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         editFrameContentPane = new editFrameContentPane();
         setContentPane(editFrameContentPane);
@@ -17,5 +17,9 @@ public class editFrame extends JFrame{
         pack();
         setLocationByPlatform(true);
         setVisible(true);
+    }
+
+    public GUI.editFrame.editFrameContentPane getEditFrameContentPane() {
+        return editFrameContentPane;
     }
 }
