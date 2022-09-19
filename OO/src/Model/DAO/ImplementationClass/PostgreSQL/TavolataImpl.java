@@ -10,16 +10,14 @@ import java.util.Date;
 
 public class TavolataImpl implements TavolataDAO {
 
-    private DatabasePostgresConnection databasePostgresConnection;
     private Connection connection;
-    private boolean connectionSucceeded;
+
+    public TavolataImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public Tavolata getTavolataById(int id) {
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Tavolata\" WHERE \"Codice_Prenotazione\" = ?");
                 st.setInt(1, id);
@@ -27,34 +25,27 @@ public class TavolataImpl implements TavolataDAO {
 
                 Date dataArrivo = rs.getDate(1);
                 int codicePrenotazione = rs.getInt(2);
-                CameriereImpl tempCameriere = new CameriereImpl();
+                CameriereImpl tempCameriere = new CameriereImpl(connection);
                 ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                ClienteImpl tempCliente = new ClienteImpl();
+                ClienteImpl tempCliente = new ClienteImpl(connection);
                 ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                TavoloImpl tempTavolo = new TavoloImpl();
+                TavoloImpl tempTavolo = new TavoloImpl(connection);
                 Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                 Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return tempTavolata;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolate() {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery("SELECT * FROM \"Tavolata\" ORDER BY \"Codice_Prenotazione\" ASC");
@@ -62,11 +53,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -75,29 +66,22 @@ public class TavolataImpl implements TavolataDAO {
                 }
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolateByRistorante(String nomeRistorante) {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Ristorante\" " +
                         "INNER JOIN \"Sala\" ON \"Ristorante\".\"ID_Ristorante\" = \"Sala\".\"ID_Ristorante\" " +
                         "INNER JOIN \"Tavolo\" ON \"Sala\".\"ID_Sala\" = \"Tavolo\".\"ID_Sala\" " +
                         "INNER JOIN \"Tavolata\" ON \"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\" " +
-                        "WHERE \"Ristorante\".\"Nome_Ristorante\" = '?' ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
+                        "WHERE \"Ristorante\".\"Nome_Ristorante\" = ? ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
                 st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
 
@@ -105,11 +89,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -119,23 +103,16 @@ public class TavolataImpl implements TavolataDAO {
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolateBySala(int id) {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Sala\" " +
                         "INNER JOIN \"Tavolo\" ON \"Sala\".\"ID_Sala\" = \"Tavolo\".\"ID_Sala\" " +
@@ -148,11 +125,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -162,23 +139,16 @@ public class TavolataImpl implements TavolataDAO {
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolateByTavolo(int id) {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Tavolo\" " +
                         "INNER JOIN \"Tavolata\" ON \"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\" " +
@@ -190,11 +160,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -204,23 +174,16 @@ public class TavolataImpl implements TavolataDAO {
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolateByCameriere(int id) {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Cameriere\" " +
                         "INNER JOIN \"Servizio\" ON \"Cameriere\".\"ID_Cameriere\" = \"Servizio\".\"ID_Cameriere\" " +
@@ -233,11 +196,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -247,28 +210,21 @@ public class TavolataImpl implements TavolataDAO {
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public ArrayList<Tavolata> getAllTavolateByCliente(String id) {
         ArrayList<Tavolata> result = new ArrayList<>();
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if(connectionSucceeded){
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"Tavolata\".\"Data_Arrivo\", \"Tavolata\".\"Codice_Prenotazione\", \"Tavolata\".\"Codice_Tavolo\" FROM \"Cliente\" " +
                         "INNER JOIN \"Prenotazione\" ON \"Cliente\".\"Numero_ID_Card\" = \"Prenotazione\".\"Numero_ID\" " +
                         "INNER JOIN \"Tavolata\" ON \"Prenotazione\".\"Codice_Prenotazione\" = \"Tavolata\".\"Codice_Prenotazione\" " +
-                        "WHERE \"Cliente\".\"Numero_ID_Card\" = '?' ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
+                        "WHERE \"Cliente\".\"Numero_ID_Card\" = ? ORDER BY \"Tavolata\".\"Codice_Prenotazione\" ASC");
                 st.setString(1, id);
                 ResultSet rs = st.executeQuery();
 
@@ -276,11 +232,11 @@ public class TavolataImpl implements TavolataDAO {
 
                     Date dataArrivo = rs.getDate(1);
                     int codicePrenotazione = rs.getInt(2);
-                    CameriereImpl tempCameriere = new CameriereImpl();
+                    CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
-                    ClienteImpl tempCliente = new ClienteImpl();
+                    ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl();
+                    TavoloImpl tempTavolo = new TavoloImpl(connection);
                     Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
                     Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
@@ -290,24 +246,17 @@ public class TavolataImpl implements TavolataDAO {
 
                 st.close();
                 rs.close();
-                connection.close();
-                databasePostgresConnection.closeConnection();
                 return result;
             }catch (SQLException e){
                 e.printStackTrace();
             }
-        }
         return null;
     }
 
     @Override
     public void createPrenotazione(Tavolata tavolata) {
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
-                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolata\" (\"Data_Arrivo\", \"Codice_Tavolo\") VALUES ('?', ?)");
+                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolata\" (\"Data_Arrivo\", \"Codice_Tavolo\") VALUES (?, ?)");
                 st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
                 st.setInt(2, tavolata.getTavolo().getCodiceTavolo());
                 st.executeUpdate();
@@ -323,29 +272,22 @@ public class TavolataImpl implements TavolataDAO {
 
                 if(!tavolata.getClienti().isEmpty()) {
                     for (Cliente cliente : tavolata.getClienti()) {
-                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
                         st.setString(1, cliente.getNumeroIdCard());
                         st.setInt(2, tavolata.getCodicePrenotazione());
                         st.executeUpdate();
                     }
                 }
                 st.close();
-                connection.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-    }
 
     @Override
     public void updatePrenotazione(Tavolata tavolata) {
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = '?', \"Codice_Tavolo\" = ? WHERE \"Codice_Prenotazione\" = ?");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = ?, \"Codice_Tavolo\" = ? WHERE \"Codice_Prenotazione\" = ?");
                 st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
                 st.setInt(2, tavolata.getTavolo().getCodiceTavolo());
                 st.setInt(3, tavolata.getCodicePrenotazione());
@@ -368,7 +310,7 @@ public class TavolataImpl implements TavolataDAO {
                     st.setInt(1, tavolata.getCodicePrenotazione());
                     st.executeUpdate();
                     for (Cliente cliente : tavolata.getClienti()) {
-                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES ('?', ?) ON CONFLICT DO NOTHING");
+                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
                         st.setString(1, cliente.getNumeroIdCard());
                         st.setInt(2, tavolata.getCodicePrenotazione());
                         st.executeUpdate();
@@ -376,22 +318,14 @@ public class TavolataImpl implements TavolataDAO {
                 }
 
                 st.close();
-                connection.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
-    }
 
     @Override
     public void deletePrenotazione(Tavolata tavolata) {
-        databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
-        connectionSucceeded = databasePostgresConnection.openConnection();
-        if (connectionSucceeded) {
-            connection = databasePostgresConnection.getDatabaseConnection();
             try{
-
                 PreparedStatement st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"Codice_Prenotazione\" = ?");
                 st.setInt(1, tavolata.getCodicePrenotazione());
                 st.executeUpdate();
@@ -405,11 +339,8 @@ public class TavolataImpl implements TavolataDAO {
                 st.executeUpdate();
 
                 st.close();
-                connection.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        databasePostgresConnection.closeConnection();
     }
-}

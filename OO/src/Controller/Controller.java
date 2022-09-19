@@ -14,9 +14,17 @@ import Model.DTO.Tavolo;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class Controller {
+
+    Connection connection;
+
+    public Controller(mainFrame mainFrame, Connection connection){
+        this.connection = connection;
+        listenerMainPanelRistorante(mainFrame);
+    }
 
     public void listenerMainPanelRistorante(mainFrame mainFrame){
         ActionListener listenerButtonStatistics;
@@ -30,8 +38,8 @@ public class Controller {
         DefaultListModel<Object> modelListaSelezione = new DefaultListModel<>();
         DefaultListModel<Object> modelListaVisualizza = new DefaultListModel<>();
 
-        RistoranteDAO ristoranteDAO = new RistoranteImpl();
-        SalaDAO salaDAO = new SalaImpl();
+        RistoranteDAO ristoranteDAO = new RistoranteImpl(connection);
+        SalaDAO salaDAO = new SalaImpl(connection);
 
         /*
         * Estrazione nomi di tutti i ristoranti e inserimento nel defaultListModel da utilizzare
@@ -41,7 +49,7 @@ public class Controller {
         * */
         ArrayList<String> nomiRistoranti = new ArrayList<>();
         for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
-            nomiRistoranti.add(i.getNome());}
+            nomiRistoranti.add(i.getNome().toString());}
         modelListaSelezione.addAll(nomiRistoranti);
         mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
         
@@ -51,16 +59,7 @@ public class Controller {
          *
          * LISTA VISUALIZZA
          * */
-        MouseListener mouseListener = new MouseAdapter() {
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                Ristorante tempRistorante = ristoranteDAO.getRistoranteByNome(mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().getSelectedValue().toString());
-                modelListaVisualizza.addAll(salaDAO.getAllSaleByRistorante(tempRistorante.getNome()));
-                mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaVisualizza().setModel(modelListaVisualizza);
-            }
-        };
 
         /*
         * Estrazione del ristorante selezionato dalla lista al click del bottone per mostrare le statistiche
