@@ -1,6 +1,7 @@
 package Model.DAO.ImplementationClass.PostgreSQL;
 
 import Model.DAO.ImplementationClass.PostgreSQL.Connection.DatabasePostgresConnection;
+import Model.DAO.Interfaces.SalaDAO;
 import Model.DAO.Interfaces.TavoloDAO;
 import Model.DTO.Sala;
 import Model.DTO.Tavolata;
@@ -26,8 +27,6 @@ public class TavoloImpl implements TavoloDAO {
 
                 rs.next();
                 int maxAvventori = rs.getInt(2);
-                SalaImpl tempSala = new SalaImpl(connection);
-                Sala sala = tempSala.getSalaById(rs.getInt(3));
                 int codiceTavolo = rs.getInt(1);
 
                 TavolataImpl tempTavolate = new TavolataImpl(connection);
@@ -37,14 +36,26 @@ public class TavoloImpl implements TavoloDAO {
                 st.setInt(1, codiceTavolo);
                 rs = st.executeQuery();
 
+                ArrayList<Integer> idTavoliAdiacenti = new ArrayList<>();
                 ArrayList<Tavolo> tavoliAdiacenti = new ArrayList<>();
 
                 while (rs.next()){
-                    int codiceTavoloAdiacente = rs.getInt(1);
-                    tavoliAdiacenti.add(getTavoloById(codiceTavoloAdiacente));
+                    idTavoliAdiacenti.add(rs.getInt(1));
                 }
 
-                Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, sala, tavolate, codiceTavolo);
+                int i = 0;
+                st = connection.prepareStatement("SELECT * FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
+                for (int k :
+                        idTavoliAdiacenti) {
+                    st.setInt(1, idTavoliAdiacenti.get(i));
+                    rs = st.executeQuery();
+                    rs.next();
+                    Tavolo tempTavolo = new Tavolo(rs.getInt(2), tempTavolate.getAllTavolateByTavolo(rs.getInt(1)), rs.getInt(1));
+                    i++;
+                }
+
+
+                Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, tavolate, codiceTavolo);
 
                 st.close();
                 rs.close();
@@ -65,8 +76,6 @@ public class TavoloImpl implements TavoloDAO {
                 while (rs.next()) {
 
                     int maxAvventori = rs.getInt(2);
-                    SalaImpl tempSala = new SalaImpl(connection);
-                    Sala sala = tempSala.getSalaById(rs.getInt(3));
                     int codiceTavolo = rs.getInt(1);
 
                     TavolataImpl tempTavolate = new TavolataImpl(connection);
@@ -76,14 +85,25 @@ public class TavoloImpl implements TavoloDAO {
                     st2.setInt(1, codiceTavolo);
                     ResultSet rs2 = st2.executeQuery();
 
+                    ArrayList<Integer> idTavoliAdiacenti = new ArrayList<>();
                     ArrayList<Tavolo> tavoliAdiacenti = new ArrayList<>();
 
-                    while (rs.next()) {
-                        int codiceTavoloAdiacente = rs.getInt(1);
-                        tavoliAdiacenti.add(getTavoloById(codiceTavoloAdiacente));
+                    while (rs2.next()){
+                        idTavoliAdiacenti.add(rs2.getInt(1));
                     }
 
-                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, sala, tavolate, codiceTavolo);
+                    int i = 0;
+                    st2 = connection.prepareStatement("SELECT * FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
+                    for (int k :
+                            idTavoliAdiacenti) {
+                        st2.setInt(1, idTavoliAdiacenti.get(i));
+                        rs2 = st2.executeQuery();
+                        rs2.next();
+                        Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        i++;
+                    }
+
+                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, tavolate, codiceTavolo);
 
                     tempTavoli.add(tempTavolo);
                     st2.close();
@@ -112,8 +132,6 @@ public class TavoloImpl implements TavoloDAO {
                 while (rs.next()) {
 
                     int maxAvventori = rs.getInt(2);
-                    SalaImpl tempSala = new SalaImpl(connection);
-                    Sala sala = tempSala.getSalaById(rs.getInt(3));
                     int codiceTavolo = rs.getInt(1);
 
                     TavolataImpl tempTavolate = new TavolataImpl(connection);
@@ -123,14 +141,25 @@ public class TavoloImpl implements TavoloDAO {
                     st2.setInt(1, codiceTavolo);
                     ResultSet rs2 = st2.executeQuery();
 
+                    ArrayList<Integer> idTavoliAdiacenti = new ArrayList<>();
                     ArrayList<Tavolo> tavoliAdiacenti = new ArrayList<>();
 
-                    while (rs.next()) {
-                        int codiceTavoloAdiacente = rs.getInt(1);
-                        tavoliAdiacenti.add(getTavoloById(codiceTavoloAdiacente));
+                    while (rs2.next()){
+                        idTavoliAdiacenti.add(rs2.getInt(1));
                     }
 
-                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, sala, tavolate, codiceTavolo);
+                    int i = 0;
+                    st2 = connection.prepareStatement("SELECT * FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
+                    for (int k :
+                            idTavoliAdiacenti) {
+                        st2.setInt(1, idTavoliAdiacenti.get(i));
+                        rs2 = st2.executeQuery();
+                        rs2.next();
+                        Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        i++;
+                    }
+
+                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, tavolate, codiceTavolo);
 
                     tempTavoli.add(tempTavolo);
                     st2.close();
@@ -158,8 +187,6 @@ public class TavoloImpl implements TavoloDAO {
                 while (rs.next()) {
 
                     int maxAvventori = rs.getInt(2);
-                    SalaImpl tempSala = new SalaImpl(connection);
-                    Sala sala = tempSala.getSalaById(rs.getInt(3));
                     int codiceTavolo = rs.getInt(1);
 
                     TavolataImpl tempTavolate = new TavolataImpl(connection);
@@ -170,14 +197,25 @@ public class TavoloImpl implements TavoloDAO {
                     st2.setInt(1, codiceTavolo);
                     ResultSet rs2 = st2.executeQuery();
 
+                    ArrayList<Integer> idTavoliAdiacenti = new ArrayList<>();
                     ArrayList<Tavolo> tavoliAdiacenti = new ArrayList<>();
 
-                    while (rs.next()) {
-                        int codiceTavoloAdiacente = rs.getInt(1);
-                        tavoliAdiacenti.add(getTavoloById(codiceTavoloAdiacente));
+                    while (rs2.next()){
+                        idTavoliAdiacenti.add(rs2.getInt(1));
                     }
 
-                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, sala, tavolate, codiceTavolo);
+                    int i = 0;
+                    st2 = connection.prepareStatement("SELECT * FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
+                    for (int k :
+                            idTavoliAdiacenti) {
+                        st2.setInt(1, idTavoliAdiacenti.get(i));
+                        rs2 = st2.executeQuery();
+                        rs2.next();
+                        Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        i++;
+                    }
+
+                    Tavolo tempTavolo = new Tavolo(maxAvventori, tavoliAdiacenti, tavolate, codiceTavolo);
 
                     tempTavoli.add(tempTavolo);
                     st2.close();
@@ -194,10 +232,10 @@ public class TavoloImpl implements TavoloDAO {
     }
 
     @Override
-    public void createTavolo(Tavolo tavolo) {
+    public void createTavolo(Tavolo tavolo, Sala sala) {
             try{
                 PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Sala\" WHERE \"Nome_Sala\" = ?");
-                st2.setString(1, tavolo.getSala().getNome());
+                st2.setString(1, sala.getNome());
                 ResultSet rs2 = st2.executeQuery();
                 int idSala = rs2.getInt(1);
 
@@ -215,10 +253,10 @@ public class TavoloImpl implements TavoloDAO {
         }
 
     @Override
-    public void updateTavolo(Tavolo tavolo) {
+    public void updateTavolo(Tavolo tavolo, Sala sala) {
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Sala\" WHERE \"Nome_Sala\" = ?");
-                st.setString(1, tavolo.getSala().getNome());
+                st.setString(1, sala.getNome());
                 ResultSet rs = st.executeQuery();
                 int idSala = rs.getInt(1);
                 rs.close();

@@ -14,7 +14,7 @@ public interface CameriereDAO {
     ArrayList<Cameriere> getAllCamerieriByTavolo(int id);
     ArrayList<Cameriere> getAllCamerieriByTavolata(int id);
 
-    void createCameriere(Cameriere cameriere);
-    void updateCameriere(Cameriere cameriere);
+    void createCameriere(Cameriere cameriere, Ristorante ristorante);
+    void updateCameriere(Cameriere cameriere, Ristorante ristorante);
     void deleteCameriere(Cameriere cameriere);
 }

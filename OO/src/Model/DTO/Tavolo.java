@@ -6,15 +6,19 @@ public class Tavolo{
 
 	private int maxAvventori;
 	private ArrayList<Tavolo> tavoliAdiacenti;
-	private Sala sala;
 	private ArrayList<Tavolata> Tavolate;
 	private final int codiceTavolo;
 
 
-	public Tavolo(int maxAvventori, ArrayList<Tavolo> tavoliAdiacenti, Sala sala, ArrayList<Tavolata> tavolate, int codiceTavolo) {
+	public Tavolo(int maxAvventori, ArrayList<Tavolo> tavoliAdiacenti, ArrayList<Tavolata> tavolate, int codiceTavolo) {
 		this.maxAvventori = maxAvventori;
 		this.tavoliAdiacenti = tavoliAdiacenti;
-		this.sala = sala;
+		Tavolate = tavolate;
+		this.codiceTavolo = codiceTavolo;
+	}
+
+	public Tavolo(int maxAvventori, ArrayList<Tavolata> tavolate, int codiceTavolo) {
+		this.maxAvventori = maxAvventori;
 		Tavolate = tavolate;
 		this.codiceTavolo = codiceTavolo;
 	}
@@ -25,14 +29,6 @@ public class Tavolo{
 
 	public void setTavoliAdiacenti(ArrayList<Tavolo> tavoliAdiacenti) {
 		this.tavoliAdiacenti = tavoliAdiacenti;
-	}
-
-	public Sala getSala() {
-		return sala;
-	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
 	}
 
 	public ArrayList<Tavolata> getTavolate() {

@@ -28,10 +28,8 @@ public class SalaImpl implements SalaDAO {
                 int capienza = rs.getInt(3);
                 TavoloImpl tempTavolo = new TavoloImpl(connection);
                 ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
-                RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                Sala tempSala = new Sala(id, nome, numeroTavoli, tempTavoli, capienza);
 
                 st.close();
                 rs.close();
@@ -55,10 +53,8 @@ public class SalaImpl implements SalaDAO {
                 int capienza = rs.getInt(3);
                 TavoloImpl tempTavolo = new TavoloImpl(connection);
                 ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
-                RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                Sala tempSala = new Sala(id, nome, numeroTavoli, tempTavoli, capienza);
 
                 st.close();
                 rs.close();
@@ -83,10 +79,8 @@ public class SalaImpl implements SalaDAO {
                     int capienza = rs.getInt(3);
                     TavoloImpl tempTavolo = new TavoloImpl(connection);
                     ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                    Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                    Sala tempSala = new Sala(id, nome, numeroTavoli, tempTavoli, capienza);
 
                     result.add(tempSala);
                 }
@@ -121,10 +115,8 @@ public class SalaImpl implements SalaDAO {
                     int capienza = rs.getInt(3);
                     TavoloImpl tempTavolo = new TavoloImpl(connection);
                     ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(1));
 
-                    Sala tempSala = new Sala(id, nome, ristorante, numeroTavoli, tempTavoli, capienza);
+                    Sala tempSala = new Sala(id, nome, numeroTavoli, tempTavoli, capienza);
 
                     result.add(tempSala);
                 }
@@ -138,10 +130,10 @@ public class SalaImpl implements SalaDAO {
     }
 
     @Override
-    public void createSala(Sala sala) {
+    public void createSala(Sala sala, Ristorante ristorante) {
             try{
                 PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                st2.setString(1, sala.getRistorante().getNome());
+                st2.setString(1, ristorante.getNome());
                 ResultSet rs2 = st2.executeQuery();
                 int idRistorante = rs2.getInt(1);
 
@@ -159,10 +151,10 @@ public class SalaImpl implements SalaDAO {
         }
 
     @Override
-    public void updateSala(Sala sala) {
+    public void updateSala(Sala sala, Ristorante ristorante) {
             try{
                 PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                st.setString(1, sala.getRistorante().getNome());
+                st.setString(1, ristorante.getNome());
                 ResultSet rs = st.executeQuery();
                 int idRistorante = rs.getInt(1);
                 rs.close();

@@ -27,14 +27,9 @@ public class CameriereImpl implements CameriereDAO {
                 int codiceCameriere = rs.getInt(1);
                 String nome = rs.getString(2);
                 String cognome = rs.getString(3);
-                RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-
-                TavolataImpl tempTavolata = new TavolataImpl(connection);
-                ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
 
-                Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                 st.close();
                 rs.close();
@@ -56,13 +51,9 @@ public class CameriereImpl implements CameriereDAO {
                     int codiceCameriere = rs.getInt(1);
                     String nome = rs.getString(2);
                     String cognome = rs.getString(3);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
 
-                    Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                    Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                     tempCamerieri.add(tempCameriere);
                 }
@@ -93,12 +84,8 @@ public class CameriereImpl implements CameriereDAO {
                     int codiceCameriere = rs.getInt(1);
                     String nome = rs.getString(2);
                     String cognome = rs.getString(3);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
-                    Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                    Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                     tempCamerieri.add(tempCameriere);
                 }
@@ -127,12 +114,8 @@ public class CameriereImpl implements CameriereDAO {
                     int codiceCameriere = rs.getInt(1);
                     String nome = rs.getString(2);
                     String cognome = rs.getString(3);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
-                    Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                    Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                     tempCamerieri.add(tempCameriere);
                 }
@@ -160,12 +143,8 @@ public class CameriereImpl implements CameriereDAO {
                     int codiceCameriere = rs.getInt(1);
                     String nome = rs.getString(2);
                     String cognome = rs.getString(3);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
-                    Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                    Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                     tempCamerieri.add(tempCameriere);
                 }
@@ -192,12 +171,8 @@ public class CameriereImpl implements CameriereDAO {
                     int codiceCameriere = rs.getInt(1);
                     String nome = rs.getString(2);
                     String cognome = rs.getString(3);
-                    RistoranteImpl tempRistorante = new RistoranteImpl(connection);
-                    Ristorante ristorante = tempRistorante.getRistoranteById(rs.getInt(4));
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> servizio = tempTavolata.getAllTavolateByCameriere(codiceCameriere);
 
-                    Cameriere tempCameriere = new Cameriere(nome, cognome, ristorante, servizio, codiceCameriere);
+                    Cameriere tempCameriere = new Cameriere(nome, cognome, codiceCameriere);
 
                     tempCamerieri.add(tempCameriere);
                 }
@@ -211,14 +186,14 @@ public class CameriereImpl implements CameriereDAO {
         }
 
     @Override
-    public void createCameriere(Cameriere cameriere) {
+    public void createCameriere(Cameriere cameriere, Ristorante ristorante) {
             try {
                 PreparedStatement st = connection.prepareStatement("INSERT INTO \"Cameriere\" (\"Nome\", \"Cognome\", \"ID_Ristorante\",) VALUES (?, ?, ?)");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
 
                     PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                    st2.setString(1, cameriere.getRistorante().getNome());
+                    st2.setString(1, ristorante.getNome());
                     ResultSet rs2 = st2.executeQuery();
                     int idRistorante = rs2.getInt(1);
 
@@ -234,10 +209,10 @@ public class CameriereImpl implements CameriereDAO {
         }
 
     @Override
-    public void updateCameriere(Cameriere cameriere) {
+    public void updateCameriere(Cameriere cameriere, Ristorante ristorante) {
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                st.setString(1, cameriere.getRistorante().getNome());
+                st.setString(1, ristorante.getNome());
                 ResultSet rs = st.executeQuery();
                 int idRistorante = rs.getInt(1);
                 rs.close();
@@ -249,14 +224,17 @@ public class CameriereImpl implements CameriereDAO {
                 st.setInt(4, cameriere.getCodiceCameriere());
                 st.executeUpdate();
 
-                if (!cameriere.getServizio().isEmpty()) {
+                TavolataImpl tavolataImpl = new TavolataImpl(connection);
+                ArrayList<Tavolata> tavolateCameriere = tavolataImpl.getAllTavolateByCameriere(cameriere.getCodiceCameriere());
+
+                if (!tavolateCameriere.isEmpty()) {
                     st = connection.prepareStatement("DELETE FROM \"Servizio\" WHERE \"ID_Cameriere\" = ?");
                     st.setInt(1, cameriere.getCodiceCameriere());
                     st.executeUpdate();
-                    for (Tavolata tavolata : cameriere.getServizio()) {
+                    for (Tavolata t : tavolateCameriere) {
                         st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?)");
                         st.setInt(1, cameriere.getCodiceCameriere());
-                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.setInt(2, t.getCodicePrenotazione());
                         st.executeUpdate();
                     }
                 }

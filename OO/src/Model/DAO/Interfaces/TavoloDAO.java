@@ -14,7 +14,7 @@ public interface TavoloDAO {
     ArrayList<Tavolo> getAllTavoliByRistorante(String nomeRistorante);
     ArrayList<Tavolo> getAllTavoliBySala(int id);
 
-    void createTavolo(Tavolo tavolo);
-    void updateTavolo(Tavolo tavolo);
+    void createTavolo(Tavolo tavolo, Sala sala);
+    void updateTavolo(Tavolo tavolo, Sala sala);
     void deleteTavolo(Tavolo tavolo);
 }

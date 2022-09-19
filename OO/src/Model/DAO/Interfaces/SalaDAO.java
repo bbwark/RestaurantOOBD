@@ -14,7 +14,7 @@ public interface SalaDAO {
     ArrayList<Sala> getAllSale();
     ArrayList<Sala> getAllSaleByRistorante(String nomeRistorante);
 
-    void createSala(Sala sala);
-    void updateSala(Sala sala);
+    void createSala(Sala sala, Ristorante ristorante);
+    void updateSala(Sala sala, Ristorante ristorante);
     void deleteSala(Sala sala);
 }

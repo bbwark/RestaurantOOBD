@@ -29,10 +29,8 @@ public class TavolataImpl implements TavolataDAO {
                 ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                 ClienteImpl tempCliente = new ClienteImpl(connection);
                 ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                TavoloImpl tempTavolo = new TavoloImpl(connection);
-                Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tempClienti, codicePrenotazione);
 
                 st.close();
                 rs.close();
@@ -57,10 +55,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -93,10 +89,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -129,10 +123,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -164,10 +156,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -200,10 +190,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -236,10 +224,8 @@ public class TavolataImpl implements TavolataDAO {
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
                     ClienteImpl tempCliente = new ClienteImpl(connection);
                     ArrayList<Cliente> tempClienti = tempCliente.getAllClientiByTavolata(codicePrenotazione);
-                    TavoloImpl tempTavolo = new TavoloImpl(connection);
-                    Tavolo tavolo = tempTavolo.getTavoloById(rs.getInt(3));
 
-                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri, tavolo, tempClienti, codicePrenotazione);
+                    Tavolata tempTavolata = new Tavolata(dataArrivo, tempCamerieri,tempClienti, codicePrenotazione);
 
                     result.add(tempTavolata);
                 }
@@ -254,11 +240,11 @@ public class TavolataImpl implements TavolataDAO {
     }
 
     @Override
-    public void createPrenotazione(Tavolata tavolata) {
+    public void createPrenotazione(Tavolata tavolata, Tavolo tavolo) {
             try{
                 PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolata\" (\"Data_Arrivo\", \"Codice_Tavolo\") VALUES (?, ?)");
                 st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
-                st.setInt(2, tavolata.getTavolo().getCodiceTavolo());
+                st.setInt(2, tavolo.getCodiceTavolo());
                 st.executeUpdate();
 
                 if(!tavolata.getCamerieri().isEmpty()) {
@@ -285,11 +271,11 @@ public class TavolataImpl implements TavolataDAO {
         }
 
     @Override
-    public void updatePrenotazione(Tavolata tavolata) {
+    public void updatePrenotazione(Tavolata tavolata, Tavolo tavolo) {
             try{
                 PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = ?, \"Codice_Tavolo\" = ? WHERE \"Codice_Prenotazione\" = ?");
                 st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
-                st.setInt(2, tavolata.getTavolo().getCodiceTavolo());
+                st.setInt(2, tavolo.getCodiceTavolo());
                 st.setInt(3, tavolata.getCodicePrenotazione());
                 st.executeUpdate();
 

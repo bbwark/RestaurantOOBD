@@ -7,6 +7,7 @@ import Model.DTO.Tavolata;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ClienteImpl implements ClienteDAO {
 
@@ -27,10 +28,8 @@ public class ClienteImpl implements ClienteDAO {
                 String cognome = rs.getString(2);
                 String numeroIdCard = rs.getString(3);
                 String numeroTel = rs.getString(4);
-                TavolataImpl tempTavolata = new TavolataImpl(connection);
-                ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTel, prenotazioni);
+                Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTel);
 
                 st.close();
                 rs.close();
@@ -53,10 +52,8 @@ public class ClienteImpl implements ClienteDAO {
                     String cognome = rs.getString(2);
                     String numeroIdCard = rs.getString(3);
                     String numeroTelefono = rs.getString(4);
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono);
 
                     result.add(tempCliente);
                 }
@@ -86,10 +83,8 @@ public class ClienteImpl implements ClienteDAO {
                     String cognome = rs.getString(2);
                     String numeroIdCard = rs.getString(3);
                     String numeroTelefono = rs.getString(4);
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono);
 
                     result.add(tempCliente);
                 }
@@ -119,10 +114,8 @@ public class ClienteImpl implements ClienteDAO {
                     String cognome = rs.getString(2);
                     String numeroIdCard = rs.getString(3);
                     String numeroTelefono = rs.getString(4);
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono);
 
                     result.add(tempCliente);
                 }
@@ -152,10 +145,8 @@ public class ClienteImpl implements ClienteDAO {
                     String cognome = rs.getString(2);
                     String numeroIdCard = rs.getString(3);
                     String numeroTelefono = rs.getString(4);
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono);
 
                     result.add(tempCliente);
                 }
@@ -183,10 +174,8 @@ public class ClienteImpl implements ClienteDAO {
                     String cognome = rs.getString(2);
                     String numeroIdCard = rs.getString(3);
                     String numeroTelefono = rs.getString(4);
-                    TavolataImpl tempTavolata = new TavolataImpl(connection);
-                    ArrayList<Tavolata> prenotazioni = tempTavolata.getAllTavolateByCliente(numeroIdCard);
 
-                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono, prenotazioni);
+                    Cliente tempCliente = new Cliente(nome, cognome, numeroIdCard, numeroTelefono);
 
                     result.add(tempCliente);
                 }
@@ -224,14 +213,17 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(4, cliente.getNumeroIdCard());
                 st.executeUpdate();
 
-                if(!cliente.getPrenotazioni().isEmpty()) {
+                TavolataImpl tavolataImpl = new TavolataImpl(connection);
+                ArrayList<Tavolata> tavolateCliente = tavolataImpl.getAllTavolateByCliente(cliente.getNumeroIdCard());
+
+                if(!tavolateCliente.isEmpty()) {
                     st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = ?");
                     st.setString(1, cliente.getNumeroIdCard());
                     st.executeUpdate();
-                    for (Tavolata tavolata : cliente.getPrenotazioni()) {
+                    for (Tavolata t : tavolateCliente) {
                         st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?)");
                         st.setString(1, cliente.getNumeroIdCard());
-                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.setInt(2, t.getCodicePrenotazione());
                         st.executeUpdate();
                     }
                 }
@@ -253,14 +245,17 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(5, oldIdCard);
                 st.executeUpdate();
 
-                if(!cliente.getPrenotazioni().isEmpty()) {
+                TavolataImpl tavolataImpl = new TavolataImpl(connection);
+                ArrayList<Tavolata> tavolateCliente = tavolataImpl.getAllTavolateByCliente(cliente.getNumeroIdCard());
+
+                if(!tavolateCliente.isEmpty()) {
                     st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = ?");
                     st.setString(1, cliente.getNumeroIdCard());
                     st.executeUpdate();
-                    for (Tavolata tavolata : cliente.getPrenotazioni()) {
+                    for (Tavolata t : tavolateCliente) {
                         st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
                         st.setString(1, cliente.getNumeroIdCard());
-                        st.setInt(2, tavolata.getCodicePrenotazione());
+                        st.setInt(2, t.getCodicePrenotazione());
                         st.executeUpdate();
                     }
                 }
