@@ -64,6 +64,6 @@ public class Sala {
 
 	@Override
 	public String toString() {
-		return "#" + Integer.toString(idSala) + " " + nome;
+		return Integer.toString(idSala) + "# " + nome;
 	}
 }

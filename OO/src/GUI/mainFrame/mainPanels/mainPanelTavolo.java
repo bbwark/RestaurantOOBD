@@ -20,8 +20,6 @@ public class mainPanelTavolo extends JPanel {
     private JList listaSelezione;
 
     private JLabel labelNomeSelezionato;
-    private String nomeSelezionato;
-
     private JButton buttonIndietro;
 
     public mainPanelTavolo() {
@@ -37,11 +35,12 @@ public class mainPanelTavolo extends JPanel {
         buttonAdd = new JButtonBlue("+ Tavolo");
         buttonEdit = new JButtonGrey("Modifica Tavolo");
 
-        labelNomeSelezionato = new JLabel("Nome Sala Selezionata: "+nomeSelezionato);
+        labelNomeSelezionato = new JLabel("Nome Sala Selezionata: ");
         labelNomeSelezionato.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         labelListaSelezione = new JLabel("Lista Tavoli");
         listaSelezione = new JList();
+        listaSelezione.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonAddPrenotazione = new JButtonGrey("+ Prenotazione a Tavolo");
         buttonModificaElemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
@@ -180,7 +179,7 @@ public class mainPanelTavolo extends JPanel {
         return listaSelezione;
     }
 
-    public void setNomeSelezionato(String nomeSelezionato) {
-        this.nomeSelezionato = nomeSelezionato;
+    public void setLabelNomeSelezionato(String string) {
+        labelNomeSelezionato.setText("Nome Sala Selezionata: " + string);
     }
 }

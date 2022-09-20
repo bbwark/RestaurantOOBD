@@ -26,7 +26,6 @@ public class mainPanelSala extends JPanel {
     private JList listaVisualizza;
 
     private JLabel labelNomeSelezionato;
-    private String nomeSelezionato;
 
     private JButton buttonIndietro;
 
@@ -44,17 +43,19 @@ public class mainPanelSala extends JPanel {
         buttonAdd = new JButtonBlue("+ Sala");
         buttonEdit = new JButtonGrey("Modifica Sala");
 
-        labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: "+nomeSelezionato);
+        labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: ");
         labelNomeSelezionato.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         labelListaSelezione = new JLabel("Lista Sale");
         listaSelezione = new JList();
+        listaSelezione.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Preview Tavoli di Sala Selezionata");
+        labelTableVisualizza = new JLabel("Seleziona una Sala per visualizzare la Preview dei Tavoli");
         listaVisualizza = new JList();
+        listaVisualizza.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonMostraSottoelemento = new JButtonGrey("Mostra Tavoli di Sala Selezionata");
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Sala");
@@ -257,7 +258,11 @@ public class mainPanelSala extends JPanel {
         return listaVisualizza;
     }
 
-    public void setNomeSelezionato(String nomeSelezionato) {
-        this.nomeSelezionato = nomeSelezionato;
+    public void setLabelNomeSelezionato(String string) {
+        labelNomeSelezionato.setText("Nome Ristorante Selezionato: " + string);
+    }
+
+    public void setLabelTableVisualizza(String string) {
+        labelTableVisualizza.setText("Preview Tavoli di Sala " + string);
     }
 }

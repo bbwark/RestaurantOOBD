@@ -43,13 +43,15 @@ public class mainPanelRistorante extends JPanel{
 
         labelListaSelezione = new JLabel("Lista Ristoranti");
         listaSelezione = new JList();
+        listaSelezione.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonStatistics = new JButtonGrey("Statistiche");
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Preview Sale di Ristorante Selezionato");
+        labelTableVisualizza = new JLabel("Seleziona un Ristorante per visualizzare la Preview delle Sale");
         listaVisualizza = new JList();
+        listaVisualizza.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonMostraSottoelemento = new JButtonGrey("Mostra Sale di Ristorante Selezionato");
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione in Ristorante");
@@ -236,5 +238,9 @@ public class mainPanelRistorante extends JPanel{
 
     public JList getListaVisualizza() {
         return listaVisualizza;
+    }
+
+    public void setLabelTableVisualizza(String string) {
+        labelTableVisualizza.setText("Preview Sale di " + string);
     }
 }
