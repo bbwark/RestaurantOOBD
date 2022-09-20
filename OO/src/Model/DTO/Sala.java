@@ -11,23 +11,27 @@ public class Sala {
 	private ArrayList<Tavolo> Tavoli;
 
 	public Sala(int id, String nome, ArrayList<Tavolo> tavoli) {
+		this.idSala = id;
 		this.nome = nome;
 		Tavoli = tavoli;
 	}
 
 	public Sala(int id, String nome, int numero_tavoli, ArrayList<Tavolo> tavoli) {
+		this.idSala = id;
 		this.nome = nome;
 		this.numero_tavoli = numero_tavoli;
 		Tavoli = tavoli;
 	}
 
 	public Sala(int id, String nome, ArrayList<Tavolo> tavoli, int capienza) {
+		this.idSala = id;
 		this.nome = nome;
 		Tavoli = tavoli;
 		this.capienza = capienza;
 	}
 
 	public Sala(int id, String nome, int numero_tavoli, ArrayList<Tavolo> tavoli, int capienza) {
+		this.idSala = id;
 		this.nome = nome;
 		this.numero_tavoli = numero_tavoli;
 		Tavoli = tavoli;
@@ -56,5 +60,10 @@ public class Sala {
 
 	public int getIdSala() {
 		return idSala;
+	}
+
+	@Override
+	public String toString() {
+		return "#" + Integer.toString(idSala) + " " + nome;
 	}
 }

@@ -16,10 +16,6 @@ public class RistoranteImpl implements RistoranteDAO {
         this.connection = connection;
     }
 
-    public RistoranteImpl(DatabasePostgresConnection databasePostgresConnection){
-        this.connection = databasePostgresConnection.getDatabaseConnection();
-    }
-
     @Override
     public Ristorante getRistoranteByNome(String nomeRistorante) {
             try {
@@ -27,6 +23,7 @@ public class RistoranteImpl implements RistoranteDAO {
                 st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
 
+                rs.next();
                 String nome = rs.getString(1);
                 int numeroCamerieri = rs.getInt(3);
                 int capienza = rs.getInt(4);

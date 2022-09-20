@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Controller {
@@ -47,9 +48,10 @@ public class Controller {
         *
         * LISTA SELEZIONE
         * */
+        modelListaSelezione.clear();
         ArrayList<String> nomiRistoranti = new ArrayList<>();
         for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
-            nomiRistoranti.add(i.getNome().toString());}
+            nomiRistoranti.add(i.getNome());}
         modelListaSelezione.addAll(nomiRistoranti);
         mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
         
@@ -59,6 +61,20 @@ public class Controller {
          *
          * LISTA VISUALIZZA
          * */
+        MouseListener mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                modelListaVisualizza.clear();
+                super.mouseClicked(e);
+                Ristorante tempRistorante = ristoranteDAO.getRistoranteByNome((String) mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().getSelectedValue());
+                ArrayList<String> nomiSale = new ArrayList<>();
+                for (Sala s : salaDAO.getAllSaleByRistorante(tempRistorante.getNome())){
+                    nomiSale.add(s.toString());}
+                modelListaVisualizza.addAll(nomiSale);
+                mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaVisualizza().setModel(modelListaVisualizza);
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().addMouseListener(mouseListener);
 
 
         /*
@@ -200,6 +216,17 @@ public class Controller {
         };
         mainFrame.getMainFrameContentPane().getMainPanelRistorante().getButtonEdit().addActionListener(listenerButtonEdit);
 
+        mainFrame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                ((JFrame)(e.getComponent())).dispose();
+            }
+        });
 
     }
 

@@ -18,11 +18,9 @@ public class Driver {
             Connection connection = databasePostgresConnection.getDatabaseConnection();
             mainFrame mainFrame = new mainFrame();
             Controller controller = new Controller(mainFrame, connection);
-            connection.close();
         }
         else {
             System.out.println("CONNECTION FAILED");
         }
-        databasePostgresConnection.closeConnection();
     }
 }

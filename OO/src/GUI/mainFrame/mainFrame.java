@@ -7,7 +7,7 @@ public class mainFrame extends JFrame {
     private mainFrameContentPane mainFrameContentPane;
 
     public mainFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         mainFrameContentPane = new mainFrameContentPane();
         setContentPane(mainFrameContentPane);
