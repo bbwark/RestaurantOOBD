@@ -10,6 +10,7 @@ public interface SalaDAO {
 
     Sala getSalaByNome(String nomeSala);
     Sala getSalaById(int id);
+    Sala getSalaByTavolo(Tavolo tavolo);
 
     ArrayList<Sala> getAllSale();
     ArrayList<Sala> getAllSaleByRistorante(String nomeRistorante);

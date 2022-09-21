@@ -10,7 +10,7 @@ import java.awt.*;
 public class mainPanelTavolo extends JPanel {
 
     private JButton buttonAddPrenotazione;
-    private JButton buttonModificaElemento;
+    private JButton buttonMostraSottoelemento;
     private JButton buttonEditCamerieri;
 
     private JButton buttonAdd;
@@ -43,7 +43,7 @@ public class mainPanelTavolo extends JPanel {
         listaSelezione.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
         buttonAddPrenotazione = new JButtonGrey("+ Prenotazione a Tavolo");
-        buttonModificaElemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
+        buttonMostraSottoelemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Tavolo Selezionato");
 
         buttonIndietro = new JButtonGrey("Indietro");
@@ -113,7 +113,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 0, 10);
-        add(buttonModificaElemento, gbc);
+        add(buttonMostraSottoelemento, gbc);
 
         //button Edit Camerieri
         gbc = new GridBagConstraints();
@@ -155,8 +155,8 @@ public class mainPanelTavolo extends JPanel {
         return buttonAddPrenotazione;
     }
 
-    public JButton getButtonModificaElemento() {
-        return buttonModificaElemento;
+    public JButton getButtonMostraSottoelemento() {
+        return buttonMostraSottoelemento;
     }
 
     public JButton getButtonEditCamerieri() {

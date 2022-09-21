@@ -32,7 +32,6 @@ public class editPanelPrenotazioni extends JPanel {
     private JButton buttonConferma;
     private JButton buttonAnnulla;
 
-    private JButton buttonIndietro;
 
     public editPanelPrenotazioni() {
         setLayout(new GridBagLayout());
@@ -62,8 +61,6 @@ public class editPanelPrenotazioni extends JPanel {
 
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
-
-        buttonIndietro = new JButtonGrey("Indietro");
 
         //Aggiunta Elementi a Layout
         //Label Data
@@ -201,15 +198,6 @@ public class editPanelPrenotazioni extends JPanel {
         gbc.insets = new Insets(10,10,10,0);
         add(buttonAnnulla, gbc);
 
-        //button Indietro
-        gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=5;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(10,10,10,0);
-        add(buttonIndietro, gbc);
     }
 
     public JButton getButtonModificaSelezionatoCliente() {
@@ -230,10 +218,6 @@ public class editPanelPrenotazioni extends JPanel {
 
     public JButton getButtonAnnulla() {
         return buttonAnnulla;
-    }
-
-    public JButton getButtonIndietro() {
-        return buttonIndietro;
     }
 
     public JButton getButtonAddSelezioneCameriere() {

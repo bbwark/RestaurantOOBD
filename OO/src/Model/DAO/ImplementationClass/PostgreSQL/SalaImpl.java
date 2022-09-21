@@ -66,6 +66,24 @@ public class SalaImpl implements SalaDAO {
     }
 
     @Override
+    public Sala getSalaByTavolo(Tavolo tavolo) {
+        try{
+            PreparedStatement st = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Tavolo\" WHERE \"Codice_Tavolo\" = ?");
+            st.setInt(1, tavolo.getCodiceTavolo());
+            ResultSet rs = st.executeQuery();
+
+            rs.next();
+            Sala tempSala = getSalaById(rs.getInt(1));
+            st.close();
+            rs.close();
+            return tempSala;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Sala> getAllSale() {
         ArrayList<Sala> result = new ArrayList<>();
             try{

@@ -9,6 +9,7 @@ public interface RistoranteDAO {
 
     Ristorante getRistoranteByNome(String nomeRistorante);
     Ristorante getRistoranteById(int id);
+    Ristorante getRistoranteBySala(Sala sala);
 
     ArrayList<Ristorante> getAllRistoranti();
 

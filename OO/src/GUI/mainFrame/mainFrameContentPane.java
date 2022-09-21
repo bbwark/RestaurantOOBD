@@ -13,6 +13,7 @@ public class mainFrameContentPane extends JPanel {
     private mainPanelCliente mainPanelCliente;
     private mainPanelPrenotazioni mainPanelPrenotazioni;
     private mainPanelSelezionaTavolo mainPanelSelezionaTavolo;
+    private mainPanelCamerieri mainPanelCamerieri;
     public mainFrameContentPane(){
         setBorder(
                 BorderFactory.createEmptyBorder(3, 3, 3, 3));
@@ -25,6 +26,7 @@ public class mainFrameContentPane extends JPanel {
         mainPanelCliente = new mainPanelCliente();
         mainPanelPrenotazioni = new mainPanelPrenotazioni();
         mainPanelSelezionaTavolo = new mainPanelSelezionaTavolo();
+        mainPanelCamerieri = new mainPanelCamerieri();
 
         add(mainPanelRistorante, "Panel Ristorante");
         add(mainPanelSala, "Panel Sala");
@@ -32,6 +34,7 @@ public class mainFrameContentPane extends JPanel {
         add(mainPanelCliente, "Panel Cliente");
         add(mainPanelPrenotazioni, "Panel Prenotazioni");
         add(mainPanelSelezionaTavolo, "Panel Seleziona Tavolo");
+        add(mainPanelCamerieri, "Panel Camerieri");
     }
 
     public GUI.mainFrame.mainPanels.mainPanelRistorante getMainPanelRistorante() {
@@ -48,5 +51,17 @@ public class mainFrameContentPane extends JPanel {
 
     public GUI.mainFrame.mainPanels.mainPanelCliente getMainPanelCliente() {
         return mainPanelCliente;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelPrenotazioni getMainPanelPrenotazioni() {
+        return mainPanelPrenotazioni;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelSelezionaTavolo getMainPanelSelezionaTavolo() {
+        return mainPanelSelezionaTavolo;
+    }
+
+    public GUI.mainFrame.mainPanels.mainPanelCamerieri getMainPanelCamerieri() {
+        return mainPanelCamerieri;
     }
 }

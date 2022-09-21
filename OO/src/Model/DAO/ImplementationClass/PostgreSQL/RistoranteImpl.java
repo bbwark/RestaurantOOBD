@@ -67,6 +67,24 @@ public class RistoranteImpl implements RistoranteDAO {
     }
 
     @Override
+    public Ristorante getRistoranteBySala(Sala sala) {
+        try{
+            PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Sala\" WHERE \"ID_Sala\" = ?");
+            st.setInt(1, sala.getIdSala());
+            ResultSet rs = st.executeQuery();
+
+            rs.next();
+            Ristorante tempRistorante = getRistoranteById(rs.getInt(1));
+            st.close();
+            rs.close();
+            return tempRistorante;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Ristorante> getAllRistoranti() {
         ArrayList<Ristorante> result = new ArrayList<>();
             try{

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public interface TavoloDAO {
 
     Tavolo getTavoloById(int id);
+    Tavolo getTavoloByTavolata(Tavolata tavolata);
 
     ArrayList<Tavolo> getAllTavoli();
     ArrayList<Tavolo> getAllTavoliByRistorante(String nomeRistorante);

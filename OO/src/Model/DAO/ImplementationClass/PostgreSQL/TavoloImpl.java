@@ -67,6 +67,24 @@ public class TavoloImpl implements TavoloDAO {
     }
 
     @Override
+    public Tavolo getTavoloByTavolata(Tavolata tavolata) {
+        try{
+            PreparedStatement st = connection.prepareStatement("SELECT \"Codice_Tavolo\" FROM \"Tavolata\" WHERE \"Codice_Prenotazione\" = ?");
+            st.setInt(1, tavolata.getCodicePrenotazione());
+            ResultSet rs = st.executeQuery();
+
+            rs.next();
+            Tavolo tempTavolo = getTavoloById(rs.getInt(1));
+            st.close();
+            rs.close();
+            return tempTavolo;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Tavolo> getAllTavoli() {
         ArrayList<Tavolo> tempTavoli = new ArrayList<>();
             try {
