@@ -10,7 +10,7 @@ public class editFrameContentPane extends JPanel {
     private editPanelRistorante editPanelRistorante;
     private editPanelSala editPanelSala;
     private editPanelTavolo editPanelTavolo;
-    private editPanelPrenotazioni editPanelPrenotazioni;
+    private editPanelPrenotazione editPanelPrenotazione;
     private editPanelCliente editPanelCliente;
     private editPanelCameriere editPanelCameriere;
 
@@ -23,14 +23,14 @@ public class editFrameContentPane extends JPanel {
         editPanelRistorante = new editPanelRistorante();
         editPanelSala = new editPanelSala();
         editPanelTavolo = new editPanelTavolo();
-        editPanelPrenotazioni = new editPanelPrenotazioni();
+        editPanelPrenotazione = new editPanelPrenotazione();
         editPanelCliente = new editPanelCliente();
         editPanelCameriere = new editPanelCameriere();
 
         add(editPanelRistorante, "Panel Ristorante");
         add(editPanelSala, "Panel Sala");
         add(editPanelTavolo, "Panel Tavolo");
-        add(editPanelPrenotazioni, "Panel Prenotazioni");
+        add(editPanelPrenotazione, "Panel Prenotazione");
         add(editPanelCliente, "Panel Cliente");
         add(editPanelCameriere, "Panel Cameriere");
     }
@@ -47,8 +47,8 @@ public class editFrameContentPane extends JPanel {
         return editPanelTavolo;
     }
 
-    public GUI.editFrame.editPanels.editPanelPrenotazioni getEditPanelPrenotazioni() {
-        return editPanelPrenotazioni;
+    public editPanelPrenotazione getEditPanelPrenotazioni() {
+        return editPanelPrenotazione;
     }
 
     public GUI.editFrame.editPanels.editPanelCliente getEditPanelCliente() {

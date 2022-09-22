@@ -11,6 +11,7 @@ import Model.DAO.ImplementationClass.PostgreSQL.TavoloImpl;
 import Model.DAO.Interfaces.*;
 import Model.DTO.Ristorante;
 import Model.DTO.Sala;
+import Model.DTO.Tavolata;
 import Model.DTO.Tavolo;
 
 import javax.swing.*;
@@ -593,7 +594,7 @@ public class Controller {
         /*
          * Istanzia addFrame ad addPanel Tavolo per aggiungere un nuovo Tavolo all'elenco
          *
-         * BUTTON ADD SALA
+         * BUTTON ADD TAVOLO
          * */
         listenerButtonAdd = new ActionListener() {
             @Override
@@ -650,6 +651,213 @@ public class Controller {
         mainFrame.getMainFrameContentPane().getMainPanelTavolo().getButtonIndietro().addActionListener(listenerButtonIndietro);
     }
 
+    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Ristorante ristorante) {
+        ActionListener listenerButtonIndietro;
+        ActionListener listenerButtonEdit;
+        DefaultListModel<Object> modelListaSelezione = new DefaultListModel<>();
+        modelListaSelezione.clear(); //Pulisce la lista di selezione per evitare che si riempia con prenotazioni di altri pannelli
+
+        /*
+        * Rimuove i listener precedentemente aggiunti al bottone indietro per far rimanere
+        * presente solo quello che verrà aggiunto dal pannello chiamante
+        * */
+        ActionListener[] listeners = mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().getActionListeners();
+        for (ActionListener listener : listeners) {
+            mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().removeActionListener(listener);
+        }
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+
+        ArrayList<Tavolata> tavolateRistorante = tavolataDAO.getAllTavolateByRistorante(ristorante.getNome());
+        ArrayList<String> codiciPrenotazioni = new ArrayList<>();
+        for (Tavolata t : tavolateRistorante) {
+            codiciPrenotazioni.add(Integer.toString(t.getCodicePrenotazione()));
+        }
+        modelListaSelezione.addAll(codiciPrenotazioni);
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().setModel(modelListaSelezione);
+
+        /*
+         * Estrazione della tavolata selezionata dalla lista al click del bottone per aprire
+         * il frame di edit della tavolata selezionata
+         *
+         * BUTTON EDIT TAVOLATA
+         * */
+        listenerButtonEdit = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editFrame editFrame = new editFrame();
+                CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+
+                int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
+                Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+
+                listenerEditPanelPrenotazione(editFrame, tempTavolata);
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonEdit().addActionListener(listenerButtonEdit);
+
+        /*
+         * Bottone che riporta al pannello precedente rispetto al pannello attuale
+         *
+         * Ristorante <- Prenotazioni
+         *
+         * BUTTON INDIETRO
+         * */
+        listenerButtonIndietro = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) mainFrame.getContentPane().getLayout();
+                cardLayout.show(mainFrame.getContentPane(), "Panel Ristorante");
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().addActionListener(listenerButtonIndietro);
+    }
+
+    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Sala sala) {
+
+        ActionListener listenerButtonIndietro;
+        ActionListener listenerButtonEdit;
+        DefaultListModel<Object> modelListaSelezione = new DefaultListModel<>();
+        modelListaSelezione.clear(); //Pulisce la lista di selezione per evitare che si riempia con prenotazioni di altri pannelli
+
+        /*
+         * Rimuove i listener precedentemente aggiunti al bottone indietro per far rimanere
+         * presente solo quello che verrà aggiunto dal pannello chiamante
+         * */
+        ActionListener[] listeners = mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().getActionListeners();
+        for (ActionListener listener : listeners) {
+            mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().removeActionListener(listener);
+        }
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+
+        ArrayList<Tavolata> tavolateSala = tavolataDAO.getAllTavolateBySala(sala.getIdSala());
+        ArrayList<String> codiciPrenotazioni = new ArrayList<>();
+        for (Tavolata t : tavolateSala) {
+            codiciPrenotazioni.add(Integer.toString(t.getCodicePrenotazione()));
+        }
+        modelListaSelezione.addAll(codiciPrenotazioni);
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().setModel(modelListaSelezione);
+
+        /*
+         * Estrazione della tavolata selezionata dalla lista al click del bottone per aprire
+         * il frame di edit della tavolata selezionata
+         *
+         * BUTTON EDIT TAVOLATA
+         * */
+        listenerButtonEdit = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editFrame editFrame = new editFrame();
+                CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+
+                int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
+                Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+
+                listenerEditPanelPrenotazione(editFrame, tempTavolata);
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonEdit().addActionListener(listenerButtonEdit);
+
+        /*
+         * Bottone che riporta al pannello precedente rispetto al pannello attuale
+         *
+         * Sala <- Prenotazioni
+         *
+         * BUTTON INDIETRO
+         * */
+        listenerButtonIndietro = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) mainFrame.getContentPane().getLayout();
+                cardLayout.show(mainFrame.getContentPane(), "Panel Sala");
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().addActionListener(listenerButtonIndietro);    }
+
+    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Tavolo tavolo) {
+
+        ActionListener listenerButtonIndietro;
+        ActionListener listenerButtonEdit;
+        DefaultListModel<Object> modelListaSelezione = new DefaultListModel<>();
+        modelListaSelezione.clear(); //Pulisce la lista di selezione per evitare che si riempia con prenotazioni di altri pannelli
+
+        /*
+         * Rimuove i listener precedentemente aggiunti al bottone indietro per far rimanere
+         * presente solo quello che verrà aggiunto dal pannello chiamante
+         * */
+        ActionListener[] listeners = mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().getActionListeners();
+        for (ActionListener listener : listeners) {
+            mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().removeActionListener(listener);
+        }
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+
+        ArrayList<Tavolata> tavolateTavolo = tavolataDAO.getAllTavolateByTavolo(tavolo.getCodiceTavolo());
+        ArrayList<String> codiciPrenotazioni = new ArrayList<>();
+        for (Tavolata t : tavolateTavolo) {
+            codiciPrenotazioni.add(Integer.toString(t.getCodicePrenotazione()));
+        }
+        modelListaSelezione.addAll(codiciPrenotazioni);
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().setModel(modelListaSelezione);
+
+        /*
+         * Estrazione della tavolata selezionata dalla lista al click del bottone per aprire
+         * il frame di edit della tavolata selezionata
+         *
+         * BUTTON EDIT TAVOLATA
+         * */
+        listenerButtonEdit = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editFrame editFrame = new editFrame();
+                CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+
+                int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
+                Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+
+                listenerEditPanelPrenotazione(editFrame, tempTavolata);
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonEdit().addActionListener(listenerButtonEdit);
+
+        /*
+         * Bottone che riporta al pannello precedente rispetto al pannello attuale
+         *
+         * Tavolo <- Prenotazioni
+         *
+         * BUTTON INDIETRO
+         * */
+        listenerButtonIndietro = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) mainFrame.getContentPane().getLayout();
+                cardLayout.show(mainFrame.getContentPane(), "Panel Tavolo");
+            }
+        };
+        mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getButtonIndietro().addActionListener(listenerButtonIndietro);    }
+
+    private void listenerMainPanelCamerieri(mainFrame mainFrame, Ristorante ristorante) {
+        //TODO button edit camerieri - Ristorante
+    }
+
+
+    private void listenerMainPanelCamerieri(mainFrame mainFrame, Sala sala) {
+        //TODO button edit camerieri - Sala
+    }
+
+
+    private void listenerMainPanelCamerieri(mainFrame mainFrame, Tavolo tavolo) {
+        //TODO button edit camerieri - Tavolo
+    }
+
+    private void listenerEditPanelPrenotazione(editFrame editFrame, Tavolata tempTavolata) {
+        //TODO editPanel Prenotazione
+    }
+
     private void listenerEditPanelTavolo(editFrame editFrame, Tavolo tempTavolo) {
         //TODO editPanel Tavolo
     }
@@ -678,42 +886,12 @@ public class Controller {
         //TODO addPanel Ristorante
     }
 
-    private void listenerMainPanelCamerieri(mainFrame mainFrame, Ristorante ristorante) {
-        //TODO button edit camerieri - Ristorante
-    }
-
-
-    private void listenerMainPanelCamerieri(mainFrame mainFrame, Sala sala) {
-        //TODO button edit camerieri - Sala
-    }
-
-
-    private void listenerMainPanelCamerieri(mainFrame mainFrame, Tavolo tavolo) {
-        //TODO button edit camerieri - Tavolo
-    }
-
     private void listenerMainPanelSelezionaTavolo(mainFrame mainFrame, Ristorante ristorante) {
         //TODO button add prenotazione - Ristorante
     }
 
     private void listenerMainPanelSelezionaTavolo(mainFrame mainFrame, Sala sala){
         //TODO button add prenotazione - Sala
-    }
-
-    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Ristorante ristorante) {
-        //TODO mainPanel Prenotazioni - Ristorante
-    }
-
-    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Sala sala) {
-        //TODO mainPanel Prenotazioni - Sala
-    }
-
-    private void listenerMainPanelPrenotazioni(mainFrame mainFrame, Tavolo tavolo) {
-        //TODO mainPanel Prenotazioni - Tavolo
-    }
-
-    private void listenerEditPanelPrenotazioni(editFrame editFrame, Ristorante ristorante) {
-        //TODO editPanel Prenotazioni
     }
 
     private void listenerStatisticPanel(statisticFrame statisticFrame, Ristorante ristorante) {

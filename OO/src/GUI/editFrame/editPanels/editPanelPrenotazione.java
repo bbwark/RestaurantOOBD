@@ -8,10 +8,8 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class editPanelPrenotazioni extends JPanel {
+public class editPanelPrenotazione extends JPanel {
 
     private JLabel labelData;
     private JDatePanelImpl datePanel;
@@ -33,7 +31,7 @@ public class editPanelPrenotazioni extends JPanel {
     private JButton buttonAnnulla;
 
 
-    public editPanelPrenotazioni() {
+    public editPanelPrenotazione() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Prenotazione");

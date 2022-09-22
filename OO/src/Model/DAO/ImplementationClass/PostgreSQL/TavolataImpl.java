@@ -23,6 +23,7 @@ public class TavolataImpl implements TavolataDAO {
                 st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
 
+                rs.next();
                 Date dataArrivo = rs.getDate(1);
                 int codicePrenotazione = rs.getInt(2);
                 CameriereImpl tempCameriere = new CameriereImpl(connection);
