@@ -5,146 +5,199 @@ import GUI.CustomButtons.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class editPanelTavolo extends JPanel {
 
-    private JLabel labelMaxAvventori;
+    private JLabel labelData;
     private JTextField textFieldMaxAvventori;
 
-    private JButton buttonAddSelezione;
-    private JButton buttonRemoveSelezionato;
-    private JList listaSelezione;
+    private JButton buttonAddSelezionePrenotazione;
+    private JButton buttonRemoveSelezionatoPrenotazione;
+    private JList listaSelezionePrenotazione;
 
-    private JButton buttonModificaSelezionato;
+    private JButton buttonAddSelezioneTavoloAdiacente;
+    private JButton buttonRemoveSelezionatoTavoloAdiacente;
+    private JList listaSelezioneTavoloAdiacente;
+
+    private JButton buttonModificaSelezionatoPrenotazione;
+    private JButton buttonModificaSelezionatoTavoloAdiacente;
 
     private JButton buttonElimina;
     private JButton buttonConferma;
     private JButton buttonAnnulla;
 
-    public editPanelTavolo(){
 
+    public editPanelTavolo() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Modifica Tavolo");
-        Border bordoEsterno = BorderFactory.createEmptyBorder(15,15,15,15);
+        Border bordoEsterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
         setBorder(bordoFinale);
 
         //Dichiarazione Componenti
-        labelMaxAvventori = new JLabel("Max Avventori: ");
+        labelData = new JLabel("Max Avventori: ");
         textFieldMaxAvventori = new JTextField(20);
 
-        buttonAddSelezione = new JButtonBlue("+ Prenotazione");
-        buttonRemoveSelezionato = new JButtonGrey("Rimuovi Prenotazione Selezionata");
-        listaSelezione = new JList();
+        buttonAddSelezionePrenotazione = new JButtonBlue(" + ");
+        buttonRemoveSelezionatoPrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
+        listaSelezionePrenotazione = new JList();
+
+        buttonAddSelezioneTavoloAdiacente = new JButtonBlue(" + ");
+        buttonRemoveSelezionatoTavoloAdiacente = new JButtonGrey("Rimuovi Tavolo Adiacente");
+        listaSelezioneTavoloAdiacente = new JList();
 
         buttonElimina = new JButtonRed("ELIMINA Tavolo");
-        buttonModificaSelezionato = new JButtonGrey("Modifica Prenotazione Selezionata");
+        buttonModificaSelezionatoPrenotazione = new JButtonGrey("Modifica Prenotazione Selezionata");
+        buttonModificaSelezionatoTavoloAdiacente = new JButtonGrey("Modifica Tavolo Adiacente Selezionato");
 
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-
         //Aggiunta Elementi a Layout
-        //Label Max Avventori
+        //Label Data
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=0;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.anchor= GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(10,10,5,0);
-        add(labelMaxAvventori, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(10, 10, 5, 0);
+        add(labelData, gbc);
 
-        //textField Max Avventori
+        //textField Data
         gbc = new GridBagConstraints();
-        gbc.gridx=1;
-        gbc.gridy=0;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.insets=new Insets(10,0,5,10);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(10, 0, 5, 10);
         add(textFieldMaxAvventori, gbc);
 
-        //buttonAdd Selezione
+        //button Add Selezione Cliente
         gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=1;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.insets= new Insets(5, 10, 0, 0);
-        add(buttonAddSelezione, gbc);
-
-        //buttonRemove Selezionato
-        gbc = new GridBagConstraints();
-        gbc.gridx=1;
-        gbc.gridy=1;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill=GridBagConstraints.HORIZONTAL;
-        gbc.insets= new Insets(5,0,0,10);
-        add(buttonRemoveSelezionato, gbc);
-
-        //Lista Selezione
-        gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=2;
-        gbc.gridwidth=2;
-        gbc.gridheight=3;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets= new Insets(0,10,10,10);
-        add(new JScrollPane(listaSelezione), gbc);
-
-        //button Modifica Selezionato
-        gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=2;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.anchor = GridBagConstraints.PAGE_END;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets= new Insets(0,10,0,10);
-        add(buttonModificaSelezionato, gbc);
+        gbc.insets = new Insets(5, 10, 0, 0);
+        add(buttonAddSelezionePrenotazione, gbc);
+
+        //button Remove Cliente Selezionato
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 0, 0, 10);
+        add(buttonRemoveSelezionatoPrenotazione, gbc);
+
+        //Lista Selezione Cliente
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 10, 0, 10);
+        add(new JScrollPane(listaSelezionePrenotazione), gbc);
+
+        //button Modifica Cliente Selezionato
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 10, 10);
+        add(buttonModificaSelezionatoPrenotazione, gbc);
+
+        //button Add Selezione Cameriere
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 10, 0, 0);
+        add(buttonAddSelezioneTavoloAdiacente, gbc);
+
+        //button Remove Cameriere Selezionato
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 0, 0, 10);
+        add(buttonRemoveSelezionatoTavoloAdiacente, gbc);
+
+        //Lista Selezione Cameriere
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 10, 0, 10);
+        add(new JScrollPane(listaSelezioneTavoloAdiacente), gbc);
+
+        //button Modifica Cameriere Selezionato
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 10, 10);
+        add(buttonModificaSelezionatoTavoloAdiacente, gbc);
+
+        //button Elimina Prenotazione
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        add(buttonElimina, gbc);
 
         //button Conferma
         gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=4;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-        gbc.insets = new Insets(0, 10, 10, 10);
+        gbc.gridx = 4;
+        gbc.gridy = 5;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(10,0,10,10);
         add(buttonConferma, gbc);
 
         //button Annulla
         gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=3;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 10);
+        gbc.gridx=3;
+        gbc.gridy=5;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(10,10,10,0);
         add(buttonAnnulla, gbc);
-
-        //button Elimina Tavolo
-        gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=1;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        gbc.insets = new Insets(10, 10, 5, 10);
-        add(buttonElimina, gbc);
 
     }
 
-    public JButton getButtonModificaSelezionato() {
-        return buttonModificaSelezionato;
+    public JButton getButtonModificaSelezionatoPrenotazione() {
+        return buttonModificaSelezionatoPrenotazione;
+    }
+
+    public JButton getButtonModificaSelezionatoTavoloAdiacente() {
+        return buttonModificaSelezionatoTavoloAdiacente;
     }
 
     public JButton getButtonElimina() {
@@ -159,24 +212,31 @@ public class editPanelTavolo extends JPanel {
         return buttonAnnulla;
     }
 
-    public JButton getButtonAddSelezione() {
-        return buttonAddSelezione;
+    public JButton getButtonAddSelezioneTavoloAdiacente() {
+        return buttonAddSelezioneTavoloAdiacente;
     }
 
-    public JButton getButtonRemoveSelezionato() {
-        return buttonRemoveSelezionato;
+    public JButton getButtonRemoveSelezionatoTavoloAdiacente() {
+        return buttonRemoveSelezionatoTavoloAdiacente;
     }
 
-    public void setModelListaSeleziona(DefaultListModel defaultListModel){
-        listaSelezione.setModel(defaultListModel);
+    public JButton getButtonAddSelezionePrenotazione() {
+        return buttonAddSelezionePrenotazione;
     }
 
-
-    public String getTextFieldMaxAvventori() {
-        return textFieldMaxAvventori.getText();
+    public JButton getButtonRemoveSelezionatoPrenotazione() {
+        return buttonRemoveSelezionatoPrenotazione;
     }
 
-    public void setTextFieldMaxAvventori(String maxAvventori) {
-        this.textFieldMaxAvventori.setText(maxAvventori);
+    public void setTextFieldMaxAvventori(String string) {
+        this.textFieldMaxAvventori.setText(string);
+    }
+
+    public void setModelListaSelezionaCliente(DefaultListModel defaultListModel){
+        listaSelezionePrenotazione.setModel(defaultListModel);
+    }
+
+    public void setModelListaSelezionaCameriere(DefaultListModel defaultListModel){
+        listaSelezioneTavoloAdiacente.setModel(defaultListModel);
     }
 }

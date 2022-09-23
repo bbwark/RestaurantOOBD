@@ -24,6 +24,7 @@ public class CameriereImpl implements CameriereDAO {
                 st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
 
+                rs.next();
                 int codiceCameriere = rs.getInt(1);
                 String nome = rs.getString(2);
                 String cognome = rs.getString(3);
@@ -73,9 +74,10 @@ public class CameriereImpl implements CameriereDAO {
                 PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
                 st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
+                rs.next();
                 int idRistorante = rs.getInt(1);
 
-                st = connection.prepareStatement("SELECT * FROM \"Ristorante\" WHERE \"ID_Ristorante\" = ?");
+                st = connection.prepareStatement("SELECT * FROM \"Cameriere\" WHERE \"ID_Ristorante\" = ?");
                 st.setInt(1, idRistorante);
                 rs = st.executeQuery();
 

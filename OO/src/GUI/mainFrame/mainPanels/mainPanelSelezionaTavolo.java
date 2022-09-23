@@ -14,7 +14,7 @@ public class mainPanelSelezionaTavolo extends JPanel {
 
     private JButton buttonIndietro;
 
-    private JButton buttonEdit;
+    private JButton buttonAddPrenotazione;
 
     public mainPanelSelezionaTavolo(){
 
@@ -26,7 +26,7 @@ public class mainPanelSelezionaTavolo extends JPanel {
         setBorder(bordoFinale);
 
         //Definizione Attributi
-        buttonEdit = new JButtonGreen("Seleziona Tavolo per Prenotazione");
+        buttonAddPrenotazione = new JButtonGreen("Seleziona Tavolo per Prenotazione");
         labelListaSelezione = new JLabel("Lista Tavoli");
         listaSelezione = new JList();
 
@@ -64,7 +64,7 @@ public class mainPanelSelezionaTavolo extends JPanel {
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.insets = new Insets(20, 20, 10, 5);
-        add(buttonEdit, gbc);
+        add(buttonAddPrenotazione, gbc);
 
         //Button indietro
         gbc = new GridBagConstraints();
@@ -81,8 +81,8 @@ public class mainPanelSelezionaTavolo extends JPanel {
         return buttonIndietro;
     }
 
-    public JButton getButtonEdit() {
-        return buttonEdit;
+    public JButton getButtonAddPrenotazione() {
+        return buttonAddPrenotazione;
     }
 
     public JList getListaSelezione() {

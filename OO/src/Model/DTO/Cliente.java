@@ -53,4 +53,9 @@ public class Cliente {
 	public void setNumeroTelefono(String numeroTelefono) {
 		this.numeroTelefono = numeroTelefono;
 	}
+
+	@Override
+	public String toString() {
+		return numeroIdCard + "# " + nome + " " + cognome;
+	}
 }

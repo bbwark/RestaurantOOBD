@@ -70,10 +70,10 @@ public class ClienteImpl implements ClienteDAO {
     public ArrayList<Cliente> getAllClientiByRistorante(String nomeRistorante) {
         ArrayList<Cliente> result = new ArrayList<Cliente>();
             try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
+                PreparedStatement st = connection.prepareStatement("SELECT DISTINCT \"Cliente\".\"Nome\", \"Cliente\".\"Cognome\", " +
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON (\"Ristorante\".\"ID_Ristorante\" = \"Sala\".\"ID_Ristorante\") " +
                         "INNER JOIN \"Tavolo\" ON (\"Sala\".\"ID_Sala\" = \"Tavolo\".\"ID_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
-                        "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" " +
+                        "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID\" " +
                         "= \"Cliente\".\"Numero_ID_Card\") WHERE \"Ristorante\".\"Nome_Ristorante\" = ?");
                 st.setString(1, nomeRistorante);
                 ResultSet rs = st.executeQuery();
@@ -105,7 +105,7 @@ public class ClienteImpl implements ClienteDAO {
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM  \"Sala\" INNER JOIN \"Tavolo\" ON (\"Sala\".\"ID_Sala\" " +
                         "= \"Tavolo\".\"ID_Sala\") INNER JOIN \"Tavolata\" ON (\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") " +
                         "INNER JOIN \"Prenotazione\" ON (\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") " +
-                        "INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"ID_Sala\" = ?");
+                        "INNER JOIN \"Cliente\" ON (\"Prenotazione\".\"Numero_ID\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Sala\".\"ID_Sala\" = ?");
                 st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {
@@ -136,7 +136,7 @@ public class ClienteImpl implements ClienteDAO {
                         "\"Cliente\".\"Numero_ID_Card\", \"Cliente\".\"Numero_Tel\" FROM \"Tavolo\" INNER JOIN \"Tavolata\" ON " +
                         "(\"Tavolo\".\"Codice_Tavolo\" = \"Tavolata\".\"Codice_Tavolo\") INNER JOIN \"Prenotazione\" ON " +
                         "(\"Tavolata\".\"Codice_Prenotazione\" = \"Prenotazione\".\"Codice_Prenotazione\") INNER JOIN \"Cliente\" " +
-                        "ON (\"ClienteTavolata\".\"Numero_ID_Card\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolo\".\"Codice_Tavolo\" = ?");
+                        "ON (\"Prenotazione\".\"Numero_ID\" = \"Cliente\".\"Numero_ID_Card\") WHERE \"Tavolo\".\"Codice_Tavolo\" = ?");
                 st.setInt(1, id);
                 ResultSet rs = st.executeQuery();
                 while (rs.next()) {

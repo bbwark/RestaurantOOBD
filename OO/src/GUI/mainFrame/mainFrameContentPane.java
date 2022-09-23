@@ -10,7 +10,7 @@ public class mainFrameContentPane extends JPanel {
     private mainPanelRistorante mainPanelRistorante;
     private mainPanelSala mainPanelSala;
     private mainPanelTavolo mainPanelTavolo;
-    private mainPanelCliente mainPanelCliente;
+    private mainPanelClienti mainPanelClienti;
     private mainPanelPrenotazioni mainPanelPrenotazioni;
     private mainPanelSelezionaTavolo mainPanelSelezionaTavolo;
     private mainPanelCamerieri mainPanelCamerieri;
@@ -23,7 +23,7 @@ public class mainFrameContentPane extends JPanel {
         mainPanelRistorante = new mainPanelRistorante();
         mainPanelSala = new mainPanelSala();
         mainPanelTavolo = new mainPanelTavolo();
-        mainPanelCliente = new mainPanelCliente();
+        mainPanelClienti = new mainPanelClienti();
         mainPanelPrenotazioni = new mainPanelPrenotazioni();
         mainPanelSelezionaTavolo = new mainPanelSelezionaTavolo();
         mainPanelCamerieri = new mainPanelCamerieri();
@@ -31,7 +31,7 @@ public class mainFrameContentPane extends JPanel {
         add(mainPanelRistorante, "Panel Ristorante");
         add(mainPanelSala, "Panel Sala");
         add(mainPanelTavolo, "Panel Tavolo");
-        add(mainPanelCliente, "Panel Cliente");
+        add(mainPanelClienti, "Panel Cliente");
         add(mainPanelPrenotazioni, "Panel Prenotazioni");
         add(mainPanelSelezionaTavolo, "Panel Seleziona Tavolo");
         add(mainPanelCamerieri, "Panel Camerieri");
@@ -49,8 +49,8 @@ public class mainFrameContentPane extends JPanel {
         return mainPanelTavolo;
     }
 
-    public GUI.mainFrame.mainPanels.mainPanelCliente getMainPanelCliente() {
-        return mainPanelCliente;
+    public mainPanelClienti getMainPanelClienti() {
+        return mainPanelClienti;
     }
 
     public GUI.mainFrame.mainPanels.mainPanelPrenotazioni getMainPanelPrenotazioni() {

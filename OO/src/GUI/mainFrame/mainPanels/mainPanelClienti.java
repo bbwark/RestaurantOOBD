@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class mainPanelCliente extends JPanel {
+public class mainPanelClienti extends JPanel {
 
     private JLabel labelListaSelezione;
     private JList listaSelezione;
@@ -15,7 +15,7 @@ public class mainPanelCliente extends JPanel {
 
     private JButton buttonEdit;
 
-    public mainPanelCliente(){
+    public mainPanelClienti(){
 
         setLayout(new GridBagLayout());
 

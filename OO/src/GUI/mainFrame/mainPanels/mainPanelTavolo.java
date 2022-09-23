@@ -12,6 +12,7 @@ public class mainPanelTavolo extends JPanel {
     private JButton buttonAddPrenotazione;
     private JButton buttonMostraSottoelemento;
     private JButton buttonEditCamerieri;
+    private JButton buttonElencoClienti;
 
     private JButton buttonAdd;
     private JButton buttonEdit;
@@ -42,9 +43,10 @@ public class mainPanelTavolo extends JPanel {
         listaSelezione = new JList();
         listaSelezione.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
-        buttonAddPrenotazione = new JButtonGrey("+ Prenotazione a Tavolo");
+        buttonAddPrenotazione = new JButtonBlue("+ Prenotazione a Tavolo");
         buttonMostraSottoelemento = new JButtonGrey("Modifica Prenotazioni di Tavolo Selezionato");
         buttonEditCamerieri = new JButtonGrey("Mostra Camerieri di Tavolo Selezionato");
+        buttonElencoClienti = new JButtonGrey("Elenco Clienti");
 
         buttonIndietro = new JButtonGrey("Indietro");
 
@@ -96,7 +98,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
-        gbc.gridheight = 4;
+        gbc.gridheight = 5;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
@@ -112,6 +114,7 @@ public class mainPanelTavolo extends JPanel {
         gbc.weighty = 0.15;
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonMostraSottoelemento, gbc);
 
@@ -124,10 +127,11 @@ public class mainPanelTavolo extends JPanel {
         gbc.weighty = 0.15;
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(0, 10, 0, 10);
         add(buttonEditCamerieri, gbc);
 
-        //Add Sottoelemento
+        //button Elenco Clienti
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 5;
@@ -136,13 +140,27 @@ public class mainPanelTavolo extends JPanel {
         gbc.weighty = 0.15;
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(0, 10, 0, 10);
+        add(buttonElencoClienti, gbc);
+
+        //Add Sottoelemento
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 1000.0;
+        gbc.ipady = 15;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        gbc.insets = new Insets(0, 10, 10, 10);
         add(buttonAddPrenotazione, gbc);
 
         //Button Indietro
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         gbc.gridwidth = 1;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
@@ -179,6 +197,9 @@ public class mainPanelTavolo extends JPanel {
         return listaSelezione;
     }
 
+    public JButton getButtonElencoClienti() {
+        return buttonElencoClienti;
+    }
     public void setLabelNomeSelezionato(String string) {
         labelNomeSelezionato.setText("Nome Sala Selezionata: " + string);
     }

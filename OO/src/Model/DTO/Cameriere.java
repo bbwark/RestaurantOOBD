@@ -33,4 +33,9 @@ public class Cameriere{
     public int getCodiceCameriere() {
         return codiceCameriere;
     }
+
+    @Override
+    public String toString() {
+        return codiceCameriere + "# " + nome + " " + cognome;
+    }
 }
