@@ -15,7 +15,7 @@ public class addPanelTavolo extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelTavolo(JPanel contentPane) {
+    public addPanelTavolo() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Tavolo");

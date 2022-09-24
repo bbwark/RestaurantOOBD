@@ -17,7 +17,7 @@ public class addPanelRistorante extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelRistorante(JPanel contentPane) {
+    public addPanelRistorante() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno=BorderFactory.createTitledBorder("Aggiungi Ristorante");

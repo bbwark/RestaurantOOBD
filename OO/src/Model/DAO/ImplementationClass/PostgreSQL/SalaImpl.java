@@ -169,18 +169,11 @@ public class SalaImpl implements SalaDAO {
         }
 
     @Override
-    public void updateSala(Sala sala, Ristorante ristorante) {
+    public void updateSala(Sala sala) {
             try{
-                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                st.setString(1, ristorante.getNome());
-                ResultSet rs = st.executeQuery();
-                int idRistorante = rs.getInt(1);
-                rs.close();
-
-                st = connection.prepareStatement("UPDATE \"Sala\" SET \"Nome_Sala\" = ?, \"ID_Ristorante\" = ? WHERE \"ID_Sala\" = ?");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Sala\" SET \"Nome_Sala\" = ? WHERE \"ID_Sala\" = ?");
                 st.setString(1, sala.getNome());
-                st.setInt(2, idRistorante);
-                st.setInt(3, sala.getIdSala());
+                st.setInt(2, sala.getIdSala());
 
                 st.executeUpdate();
                 st.close();

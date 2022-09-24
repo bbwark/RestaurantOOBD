@@ -17,7 +17,7 @@ public class addPanelCameriere extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelCameriere(JPanel contentPane) {
+    public addPanelCameriere() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Cameriere");

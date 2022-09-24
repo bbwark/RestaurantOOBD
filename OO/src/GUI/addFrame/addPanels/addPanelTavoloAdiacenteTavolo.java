@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class addPanelTavoloTavoloAdiacente extends JPanel {
+public class addPanelTavoloAdiacenteTavolo extends JPanel {
 
     private JLabel labelSelezione;
     private JList listSelezione;
@@ -15,7 +15,7 @@ public class addPanelTavoloTavoloAdiacente extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonAggiungi;
 
-    public addPanelTavoloTavoloAdiacente(JPanel contentPane){
+    public addPanelTavoloAdiacenteTavolo(){
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Tavolo Adiacente");

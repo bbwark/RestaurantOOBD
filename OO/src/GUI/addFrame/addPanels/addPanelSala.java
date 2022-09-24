@@ -15,7 +15,7 @@ public class addPanelSala extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelSala(JPanel contentPane) {
+    public addPanelSala() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Sala");

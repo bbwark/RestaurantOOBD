@@ -271,18 +271,11 @@ public class TavoloImpl implements TavoloDAO {
         }
 
     @Override
-    public void updateTavolo(Tavolo tavolo, Sala sala) {
+    public void updateTavolo(Tavolo tavolo) {
             try{
-                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Sala\" FROM \"Sala\" WHERE \"Nome_Sala\" = ?");
-                st.setString(1, sala.getNome());
-                ResultSet rs = st.executeQuery();
-                int idSala = rs.getInt(1);
-                rs.close();
-
-                st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ?, \"ID_Sala\" = ? WHERE \"Codice_Tavolo\" = ?");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ? WHERE \"Codice_Tavolo\" = ?");
                 st.setInt(1, tavolo.getMaxAvventori());
-                st.setInt(2, idSala);
-                st.setInt(3, tavolo.getCodiceTavolo());
+                st.setInt(2, tavolo.getCodiceTavolo());
                 st.executeUpdate();
 
                 if(!tavolo.getTavoliAdiacenti().isEmpty()) {

@@ -1,7 +1,9 @@
 import Controller.Controller;
+import GUI.editFrame.editFrame;
 import GUI.mainFrame.mainFrame;
 import Model.DAO.ImplementationClass.PostgreSQL.Connection.DatabasePostgresConnection;
 
+import java.awt.*;
 import java.sql.Connection;
 
 

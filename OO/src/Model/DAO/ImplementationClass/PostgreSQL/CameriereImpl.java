@@ -188,15 +188,18 @@ public class CameriereImpl implements CameriereDAO {
         }
 
     @Override
-    public void createCameriere(Cameriere cameriere, Ristorante ristorante) {
+    public void createCameriere(Cameriere cameriere, Tavolata tavolata) {
             try {
                 PreparedStatement st = connection.prepareStatement("INSERT INTO \"Cameriere\" (\"Nome\", \"Cognome\", \"ID_Ristorante\",) VALUES (?, ?, ?)");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
 
-                    PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                    st2.setString(1, ristorante.getNome());
+                    PreparedStatement st2 = connection.prepareStatement("SELECT  \"Ristorante\".\"ID_Ristorante\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON " +
+                            "(\"Sala\".\"ID_Ristorante\" = “Ristorante\".\"ID_Ristorante\") INNER JOIN \"Tavolo\" ON (\"Tavolo\".\"ID_Sala\" = \"Sala\".\"ID_Sala\") " +
+                            "INNER JOIN \"Tavolata\" ON (\"Tavolata\".\"Codice_Tavolo\" = \"Tavolo\".\"Codice_Tavolo\") WHERE \"Tavolata\".\"Codice_Prenotazione\" = ?");
+                    st2.setInt(1, tavolata.getCodicePrenotazione());
                     ResultSet rs2 = st2.executeQuery();
+                    rs2.next();
                     int idRistorante = rs2.getInt(1);
 
                 st.setInt(3, idRistorante);
@@ -211,19 +214,13 @@ public class CameriereImpl implements CameriereDAO {
         }
 
     @Override
-    public void updateCameriere(Cameriere cameriere, Ristorante ristorante) {
+    public void updateCameriere(Cameriere cameriere) {
             try {
-                PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
-                st.setString(1, ristorante.getNome());
-                ResultSet rs = st.executeQuery();
-                int idRistorante = rs.getInt(1);
-                rs.close();
 
-                st = connection.prepareStatement("UPDATE \"Cameriere\" \"Nome\" = ?, \"Cognome\" = ?, \"ID_Ristorante\" = ? WHERE \"ID_Cameriere = ?\"");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Cameriere\" \"Nome\" = ?, \"Cognome\" = ? WHERE \"ID_Cameriere = ?\"");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
-                st.setInt(3, idRistorante);
-                st.setInt(4, cameriere.getCodiceCameriere());
+                st.setInt(3, cameriere.getCodiceCameriere());
                 st.executeUpdate();
 
                 TavolataImpl tavolataImpl = new TavolataImpl(connection);

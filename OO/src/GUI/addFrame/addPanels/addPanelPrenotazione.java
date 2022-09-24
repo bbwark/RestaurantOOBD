@@ -1,9 +1,7 @@
 package GUI.addFrame.addPanels;
 
 import GUI.CustomButtons.JButtonAnnulla;
-import GUI.CustomButtons.JButtonBlue;
 import GUI.CustomButtons.JButtonConferma;
-import GUI.CustomButtons.JButtonGrey;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -12,22 +10,17 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class addPanelPrenotazioni extends JPanel {
+public class addPanelPrenotazione extends JPanel {
 
     private JLabel labelData;
     private JTextField textFieldData;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
 
-    private JButton buttonAddSelezione;
-    private JButton buttonRemoveSelezionato;
-
-    private JList listaSelezione;
-
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelPrenotazioni(JPanel contentPane) {
+    public addPanelPrenotazione() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Prenotazione");
@@ -41,13 +34,8 @@ public class addPanelPrenotazioni extends JPanel {
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 
-        buttonAddSelezione = new JButtonBlue(" + ");
-        buttonRemoveSelezionato = new JButtonGrey("Rimuovi Prenotazione Selezionata");
-
         buttonAnnulla = new JButtonAnnulla();
         buttonConferma = new JButtonConferma();
-
-        listaSelezione = new JList();
 
         //Aggiunta Elementi a Layout
         //label Data
@@ -68,36 +56,6 @@ public class addPanelPrenotazioni extends JPanel {
         gbc.weighty = 0.0;
         gbc.insets = new Insets(10,0,10,10);
         add(datePicker, gbc);
-
-        //button Add Selezione
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = new Insets(10,10,0,0);
-        add(buttonAddSelezione, gbc);
-
-        //button Remove Selezionato
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = new Insets(10,0,0,10);
-        add(buttonRemoveSelezionato, gbc);
-
-        //list Selezione
-        gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=2;
-        gbc.gridwidth=2;
-        gbc.gridheight=3;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0,10,10,10);
-        add(listaSelezione, gbc);
 
         //button Annulla
         gbc = new GridBagConstraints();
@@ -120,13 +78,6 @@ public class addPanelPrenotazioni extends JPanel {
         add(buttonConferma, gbc);
     }
 
-    public JButton getButtonAddSelezione() {
-        return buttonAddSelezione;
-    }
-
-    public JButton getButtonRemoveSelezionato() {
-        return buttonRemoveSelezionato;
-    }
 
     public JButton getButtonAnnulla() {
         return buttonAnnulla;

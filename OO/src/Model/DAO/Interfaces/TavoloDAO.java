@@ -16,6 +16,6 @@ public interface TavoloDAO {
     ArrayList<Tavolo> getAllTavoliBySala(int id);
 
     void createTavolo(Tavolo tavolo, Sala sala);
-    void updateTavolo(Tavolo tavolo, Sala sala);
+    void updateTavolo(Tavolo tavolo);
     void deleteTavolo(Tavolo tavolo);
 }

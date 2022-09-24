@@ -21,7 +21,7 @@ public class addPanelCliente extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonConferma;
 
-    public addPanelCliente(JPanel contentPane) {
+    public addPanelCliente() {
         setLayout(new GridBagLayout());
 
         Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Cliente");

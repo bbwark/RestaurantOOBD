@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class addPanelServizioCameriere extends JPanel {
+public class addPanelPrenotazioneToCliente extends JPanel {
 
     private JLabel labelSelezione;
     private JList listSelezione;
@@ -15,15 +15,15 @@ public class addPanelServizioCameriere extends JPanel {
     private JButton buttonAnnulla;
     private JButton buttonAggiungi;
 
-    public addPanelServizioCameriere(JPanel contentPane){
+    public addPanelPrenotazioneToCliente(){
         setLayout(new GridBagLayout());
 
-        Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Servizio Cameriere");
+        Border bordoInterno = BorderFactory.createTitledBorder("Aggiungi Prenotazione a Cliente selezionato");
         Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
         setBorder(bordoFinale);
 
-        labelSelezione = new JLabel("Lista Servizi Disponibili");
+        labelSelezione = new JLabel("Lista Prenotazioni Disponibili");
         listSelezione = new JList();
 
         buttonAnnulla = new JButtonAnnulla();

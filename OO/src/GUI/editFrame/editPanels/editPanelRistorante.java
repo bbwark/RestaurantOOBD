@@ -175,4 +175,8 @@ public class editPanelRistorante extends JPanel {
     public void setModelListaSeleziona(DefaultListModel defaultListModel){
         listaSelezione.setModel(defaultListModel);
     }
+
+    public JList getListaSelezione() {
+        return listaSelezione;
+    }
 }

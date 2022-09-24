@@ -1063,7 +1063,7 @@ CREATE TRIGGER update_tavolata_insert_clienteprenotazione AFTER INSERT ON public
 --
 
 ALTER TABLE ONLY public."Servizio"
-    ADD CONSTRAINT "Cameriere_FK" FOREIGN KEY ("ID_Cameriere") REFERENCES public."Cameriere"("ID_Cameriere") NOT VALID;
+    ADD CONSTRAINT "Cameriere_FK" FOREIGN KEY ("ID_Cameriere") REFERENCES public."Cameriere"("ID_Cameriere") ON DELETE CASCADE;
 
 
 --
@@ -1072,7 +1072,7 @@ ALTER TABLE ONLY public."Servizio"
 --
 
 ALTER TABLE ONLY public."Cameriere"
-    ADD CONSTRAINT "Cameriere_ID_Ristorante_FK" FOREIGN KEY ("ID_Ristorante") REFERENCES public."Ristorante"("ID_Ristorante") NOT VALID;
+    ADD CONSTRAINT "Cameriere_ID_Ristorante_FK" FOREIGN KEY ("ID_Ristorante") REFERENCES public."Ristorante"("ID_Ristorante") ON DELETE CASCADE;
 
 
 --
@@ -1081,7 +1081,7 @@ ALTER TABLE ONLY public."Cameriere"
 --
 
 ALTER TABLE ONLY public."Prenotazione"
-    ADD CONSTRAINT "Codice_Prenotazione_FK" FOREIGN KEY ("Codice_Prenotazione") REFERENCES public."Tavolata"("Codice_Prenotazione");
+    ADD CONSTRAINT "Codice_Prenotazione_FK" FOREIGN KEY ("Codice_Prenotazione") REFERENCES public."Tavolata"("Codice_Prenotazione") ON DELETE CASCADE;
 
 
 --
@@ -1090,7 +1090,7 @@ ALTER TABLE ONLY public."Prenotazione"
 --
 
 ALTER TABLE ONLY public."Tavolata"
-    ADD CONSTRAINT "Codice_Tavolo" FOREIGN KEY ("Codice_Tavolo") REFERENCES public."Tavolo"("Codice_Tavolo");
+    ADD CONSTRAINT "Codice_Tavolo" FOREIGN KEY ("Codice_Tavolo") REFERENCES public."Tavolo"("Codice_Tavolo") ON DELETE CASCADE;
 
 
 --
@@ -1099,7 +1099,7 @@ ALTER TABLE ONLY public."Tavolata"
 --
 
 ALTER TABLE ONLY public."Sala"
-    ADD CONSTRAINT "ID_Ristorante" FOREIGN KEY ("ID_Ristorante") REFERENCES public."Ristorante"("ID_Ristorante");
+    ADD CONSTRAINT "ID_Ristorante" FOREIGN KEY ("ID_Ristorante") REFERENCES public."Ristorante"("ID_Ristorante") ON DELETE CASCADE;
 
 
 --
@@ -1108,7 +1108,7 @@ ALTER TABLE ONLY public."Sala"
 --
 
 ALTER TABLE ONLY public."Tavolo"
-    ADD CONSTRAINT "ID_Sala_FK" FOREIGN KEY ("ID_Sala") REFERENCES public."Sala"("ID_Sala") NOT VALID;
+    ADD CONSTRAINT "ID_Sala_FK" FOREIGN KEY ("ID_Sala") REFERENCES public."Sala"("ID_Sala") ON DELETE CASCADE;
 
 
 --
@@ -1117,7 +1117,7 @@ ALTER TABLE ONLY public."Tavolo"
 --
 
 ALTER TABLE ONLY public."Prenotazione"
-    ADD CONSTRAINT "Numero_ID_FK" FOREIGN KEY ("Numero_ID") REFERENCES public."Cliente"("Numero_ID_Card");
+    ADD CONSTRAINT "Numero_ID_FK" FOREIGN KEY ("Numero_ID") REFERENCES public."Cliente"("Numero_ID_Card") ON DELETE CASCADE;
 
 
 --
@@ -1126,7 +1126,7 @@ ALTER TABLE ONLY public."Prenotazione"
 --
 
 ALTER TABLE ONLY public."Servizio"
-    ADD CONSTRAINT "Prenotazione_FK" FOREIGN KEY ("Codice_Prenotazione") REFERENCES public."Tavolata"("Codice_Prenotazione") NOT VALID;
+    ADD CONSTRAINT "Prenotazione_FK" FOREIGN KEY ("Codice_Prenotazione") REFERENCES public."Tavolata"("Codice_Prenotazione") ON DELETE CASCADE;
 
 
 --
@@ -1135,7 +1135,7 @@ ALTER TABLE ONLY public."Servizio"
 --
 
 ALTER TABLE ONLY public."TavoliAdiacenti"
-    ADD CONSTRAINT "TavoloAD_FK" FOREIGN KEY ("ID_Tavolo_Adiacente") REFERENCES public."Tavolo"("Codice_Tavolo");
+    ADD CONSTRAINT "TavoloAD_FK" FOREIGN KEY ("ID_Tavolo_Adiacente") REFERENCES public."Tavolo"("Codice_Tavolo") ON DELETE CASCADE;
 
 
 --
@@ -1144,7 +1144,7 @@ ALTER TABLE ONLY public."TavoliAdiacenti"
 --
 
 ALTER TABLE ONLY public."TavoliAdiacenti"
-    ADD CONSTRAINT "Tavolo_FK" FOREIGN KEY ("ID_Tavolo") REFERENCES public."Tavolo"("Codice_Tavolo");
+    ADD CONSTRAINT "Tavolo_FK" FOREIGN KEY ("ID_Tavolo") REFERENCES public."Tavolo"("Codice_Tavolo") ON DELETE CASCADE;
 
 
 --

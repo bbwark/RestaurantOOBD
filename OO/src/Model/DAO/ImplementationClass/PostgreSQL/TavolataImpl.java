@@ -272,12 +272,11 @@ public class TavolataImpl implements TavolataDAO {
         }
 
     @Override
-    public void updatePrenotazione(Tavolata tavolata, Tavolo tavolo) {
+    public void updatePrenotazione(Tavolata tavolata) {
             try{
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = ?, \"Codice_Tavolo\" = ? WHERE \"Codice_Prenotazione\" = ?");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = ? WHERE \"Codice_Prenotazione\" = ?");
                 st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
-                st.setInt(2, tavolo.getCodiceTavolo());
-                st.setInt(3, tavolata.getCodicePrenotazione());
+                st.setInt(2, tavolata.getCodicePrenotazione());
                 st.executeUpdate();
 
                 if (!tavolata.getCamerieri().isEmpty()) {

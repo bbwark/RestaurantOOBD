@@ -17,6 +17,6 @@ public interface TavolataDAO {
     ArrayList<Tavolata> getAllTavolateByCliente(String id);
 
     void createPrenotazione(Tavolata tavolata, Tavolo tavolo);
-    void updatePrenotazione(Tavolata tavolata, Tavolo tavolo);
+    void updatePrenotazione(Tavolata tavolata);
     void deletePrenotazione(Tavolata tavolata);
 }

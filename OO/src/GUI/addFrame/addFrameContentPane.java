@@ -10,11 +10,13 @@ public class addFrameContentPane extends JPanel {
     private addPanelRistorante addPanelRistorante;
     private addPanelSala addPanelSala;
     private addPanelTavolo addPanelTavolo;
-    private addPanelPrenotazioni addPanelPrenotazioni;
+    private addPanelPrenotazione addPanelPrenotazione;
     private addPanelCliente addPanelCliente;
     private addPanelCameriere addPanelCameriere;
-    private addPanelServizioCameriere addPanelServizioCameriere;
-    private addPanelPrenotazioniCliente addPanelPrenotazioniCliente;
+    private addPanelCameriereToServizio addPanelCameriereToServizio;
+    private addPanelClienteToPrenotazione addPanelClienteToPrenotazione;
+    private addPanelServizioToCameriere addPanelServizioToCameriere;
+    private addPanelPrenotazioneToCliente addPanelPrenotazioneToCliente;
 
     public addFrameContentPane(){
         setBorder(
@@ -22,23 +24,29 @@ public class addFrameContentPane extends JPanel {
         setLayout(new CardLayout());
 
 
-        addPanelRistorante = new addPanelRistorante(this);
-        addPanelSala = new addPanelSala(this);
-        addPanelTavolo = new addPanelTavolo(this);
-        addPanelPrenotazioni = new addPanelPrenotazioni(this);
-        addPanelCliente = new addPanelCliente(this);
-        addPanelCameriere = new addPanelCameriere(this);
-        addPanelServizioCameriere = new addPanelServizioCameriere(this);
-        addPanelPrenotazioniCliente = new addPanelPrenotazioniCliente(this);
+        addPanelRistorante = new addPanelRistorante();
+        addPanelSala = new addPanelSala();
+        addPanelTavolo = new addPanelTavolo();
+        addPanelPrenotazione = new addPanelPrenotazione();
+        addPanelCliente = new addPanelCliente();
+        addPanelCameriere = new addPanelCameriere();
+        addPanelCameriereToServizio = new addPanelCameriereToServizio();
+        addPanelClienteToPrenotazione = new addPanelClienteToPrenotazione();
+        addPanelServizioToCameriere = new addPanelServizioToCameriere();
+        addPanelPrenotazioneToCliente = new addPanelPrenotazioneToCliente();
+
 
         add(addPanelRistorante, "Panel Ristorante");
         add(addPanelSala, "Panel Sala");
         add(addPanelTavolo, "Panel Tavolo");
-        add(addPanelPrenotazioni, "Panel Prenotazioni");
+        add(addPanelPrenotazione, "Panel Prenotazione");
         add(addPanelCliente, "Panel Cliente");
         add(addPanelCameriere, "Panel Cameriere");
-        add(addPanelServizioCameriere, "Panel Servizi Cameriere");
-        add(addPanelPrenotazioniCliente, "Panel Prenotazioni Cliente");
+        add(addPanelCameriereToServizio, "Panel Cameriere Servizio");
+        add(addPanelClienteToPrenotazione, "Panel Cliente Prenotazione");
+        add(addPanelServizioToCameriere, "Panel Servizio Cameriere");
+        add(addPanelPrenotazioneToCliente, "Panel Prenotazione Cliente");
+
     }
 
     public GUI.addFrame.addPanels.addPanelRistorante getAddPanelRistorante() {
@@ -53,8 +61,8 @@ public class addFrameContentPane extends JPanel {
         return addPanelTavolo;
     }
 
-    public GUI.addFrame.addPanels.addPanelPrenotazioni getAddPanelPrenotazioni() {
-        return addPanelPrenotazioni;
+    public addPanelPrenotazione getAddPanelPrenotazione() {
+        return addPanelPrenotazione;
     }
 
     public GUI.addFrame.addPanels.addPanelCliente getAddPanelCliente() {
@@ -65,11 +73,19 @@ public class addFrameContentPane extends JPanel {
         return addPanelCameriere;
     }
 
-    public GUI.addFrame.addPanels.addPanelServizioCameriere getAddPanelServizioCameriere() {
-        return addPanelServizioCameriere;
+    public GUI.addFrame.addPanels.addPanelCameriereToServizio getAddPanelCameriereToServizio() {
+        return addPanelCameriereToServizio;
     }
 
-    public GUI.addFrame.addPanels.addPanelPrenotazioniCliente getAddPanelPrenotazioniCliente() {
-        return addPanelPrenotazioniCliente;
+    public GUI.addFrame.addPanels.addPanelClienteToPrenotazione getAddPanelClienteToPrenotazione() {
+        return addPanelClienteToPrenotazione;
+    }
+
+    public GUI.addFrame.addPanels.addPanelServizioToCameriere getAddPanelServizioToCameriere() {
+        return addPanelServizioToCameriere;
+    }
+
+    public GUI.addFrame.addPanels.addPanelPrenotazioneToCliente getAddPanelPrenotazioneToCliente() {
+        return addPanelPrenotazioneToCliente;
     }
 }
