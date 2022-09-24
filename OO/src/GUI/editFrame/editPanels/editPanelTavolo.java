@@ -21,6 +21,7 @@ public class editPanelTavolo extends JPanel {
 
     private JButton buttonModificaSelezionatoPrenotazione;
     private JButton buttonModificaSelezionatoTavoloAdiacente;
+    private JButton buttonAddTavoloAdiacenteEsistente;
 
     private JButton buttonElimina;
     private JButton buttonConferma;
@@ -39,17 +40,18 @@ public class editPanelTavolo extends JPanel {
         labelData = new JLabel("Max Avventori: ");
         textFieldMaxAvventori = new JTextField(20);
 
-        buttonAddSelezionePrenotazione = new JButtonBlue(" + ");
+        buttonAddSelezionePrenotazione = new JButtonBlue(" + Nuova Prenotazione");
         buttonRemoveSelezionatoPrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
         listaSelezionePrenotazione = new JList();
 
-        buttonAddSelezioneTavoloAdiacente = new JButtonBlue(" + ");
+        buttonAddSelezioneTavoloAdiacente = new JButtonBlue(" + Tavolo Nuovo");
         buttonRemoveSelezionatoTavoloAdiacente = new JButtonGrey("Rimuovi Tavolo Adiacente");
         listaSelezioneTavoloAdiacente = new JList();
 
         buttonElimina = new JButtonRed("ELIMINA Tavolo");
         buttonModificaSelezionatoPrenotazione = new JButtonGrey("Modifica Prenotazione Selezionata");
         buttonModificaSelezionatoTavoloAdiacente = new JButtonGrey("Modifica Tavolo Adiacente Selezionato");
+        buttonAddTavoloAdiacenteEsistente = new JButtonBlue("+ Tavolo Esistente");
 
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
@@ -117,7 +119,7 @@ public class editPanelTavolo extends JPanel {
         gbc.insets = new Insets(0, 10, 10, 10);
         add(buttonModificaSelezionatoPrenotazione, gbc);
 
-        //button Add Selezione Cameriere
+        //button Add Tavolo Adiacente Nuovo
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
@@ -127,7 +129,7 @@ public class editPanelTavolo extends JPanel {
         gbc.insets = new Insets(5, 10, 0, 0);
         add(buttonAddSelezioneTavoloAdiacente, gbc);
 
-        //button Remove Cameriere Selezionato
+        //button Remove Tavolo Adiacente Selezionato
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
@@ -137,7 +139,7 @@ public class editPanelTavolo extends JPanel {
         gbc.insets = new Insets(5, 0, 0, 10);
         add(buttonRemoveSelezionatoTavoloAdiacente, gbc);
 
-        //Lista Selezione Cameriere
+        //Lista Selezione Tavolo Adiacente
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 2;
@@ -149,16 +151,24 @@ public class editPanelTavolo extends JPanel {
         gbc.insets = new Insets(0, 10, 0, 10);
         add(new JScrollPane(listaSelezioneTavoloAdiacente), gbc);
 
-        //button Modifica Cameriere Selezionato
+        //button Modifica Tavolo Adiacente Selezionato
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 4;
-        gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 10, 10);
+        gbc.insets = new Insets(0, 0, 10, 10);
         add(buttonModificaSelezionatoTavoloAdiacente, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 10, 0);
+        add(buttonAddTavoloAdiacenteEsistente, gbc);
 
         //button Elimina Prenotazione
         gbc = new GridBagConstraints();

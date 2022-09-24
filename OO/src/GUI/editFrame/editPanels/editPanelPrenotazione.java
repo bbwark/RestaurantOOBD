@@ -24,7 +24,9 @@ public class editPanelPrenotazione extends JPanel {
     private JList listaSelezioneCameriere;
 
     private JButton buttonModificaSelezionatoCliente;
+    private JButton buttonAddClienteEsistente;
     private JButton buttonModificaSelezionatoCameriere;
+    private JButton buttonAddCameriereEsistente;
 
     private JButton buttonElimina;
     private JButton buttonConferma;
@@ -45,17 +47,20 @@ public class editPanelPrenotazione extends JPanel {
         JDatePanelImpl datePanel = new JDatePanelImpl(model);
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 
-        buttonAddSelezioneCliente = new JButtonBlue(" + ");
+        buttonAddSelezioneCliente = new JButtonBlue(" + Nuovo Cliente");
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
         listaSelezioneCliente = new JList();
 
-        buttonAddSelezioneCameriere = new JButtonBlue(" + ");
+        buttonAddSelezioneCameriere = new JButtonBlue(" + Nuovo Cameriere");
         buttonRemoveSelezionatoCameriere = new JButtonGrey("Rimuovi Cameriere Selezionato");
         listaSelezioneCameriere = new JList();
 
         buttonElimina = new JButtonRed("ELIMINA Prenotazione");
         buttonModificaSelezionatoCliente = new JButtonGrey("Modifica Cliente Selezionato");
+        buttonAddClienteEsistente = new JButtonBlue("+ Cliente Esistente");
         buttonModificaSelezionatoCameriere = new JButtonGrey("Modifica Cameriere Selezionato");
+        buttonAddCameriereEsistente = new JButtonBlue("+ Cameriere Esistente");
+
 
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
@@ -114,14 +119,23 @@ public class editPanelPrenotazione extends JPanel {
 
         //button Modifica Cliente Selezionato
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 4;
-        gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 10, 10);
+        gbc.insets = new Insets(0, 0, 10, 10);
         add(buttonModificaSelezionatoCliente, gbc);
+
+        //button Add Cliente Esistente
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 10, 0);
+        add(buttonAddClienteEsistente, gbc);
 
         //button Add Selezione Cameriere
         gbc = new GridBagConstraints();
@@ -157,14 +171,23 @@ public class editPanelPrenotazione extends JPanel {
 
         //button Modifica Cameriere Selezionato
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 4;
-        gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 10, 10);
+        gbc.insets = new Insets(0, 0, 10, 10);
         add(buttonModificaSelezionatoCameriere, gbc);
+
+        //button Add Cameriere Esistente
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 10, 0);
+        add(buttonAddCameriereEsistente, gbc);
 
         //button Elimina Prenotazione
         gbc = new GridBagConstraints();

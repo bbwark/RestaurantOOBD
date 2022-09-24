@@ -667,7 +667,7 @@ public class Controller {
                         int tempId = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelTavolo().getListaSelezione().getSelectedValue());
                         Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
 
-                        listenersEditPanelTavolo(editFrame, tempTavolo);
+                        listenersEditPanelTavolo(editFrame, mainFrame, tempTavolo);
                     }
                 }
             };
@@ -1728,7 +1728,7 @@ public class Controller {
                         int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
                         Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
 
-                        listenersEditPanelTavolo(editFrame, tempTavolo);
+                        listenersEditPanelTavolo(editFrame, mainFrame, tempTavolo);
                     }
                 }
             };
@@ -1796,6 +1796,30 @@ public class Controller {
         }
     }
 
+    private void listenersEditPanelTavolo(editFrame editFrame, mainFrame mainFrame, Tavolo tempTavolo) {
+        ActionListener listenerButtonAddSelezionePrenotazione;
+        ActionListener listenerButtonRemoveSelezionatoPrenotazione;
+        ActionListener listenerButtonAddSelezioneTavoloAdiacente;
+        ActionListener listenerButtonRemoveSelezionatoTavoloAdiacente;
+        ActionListener listenerButtonModificaSelezionatoPrenotazione;
+        ActionListener listenerButtonModificaSelezionatoTavoloAdiacente;
+        ActionListener listenerButtonAddTavoloAdiacenteEsistente;
+        ActionListener listenerButtonElimina;
+        ActionListener listenerButtonConferma;
+        ActionListener listenerButtonAnnulla;
+        DefaultListModel modelListaSelezionePrenotazione = new DefaultListModel<>();
+        DefaultListModel modelListaSelezioneTavoloAdiacente = new DefaultListModel<>();
+
+        
+        listenerButtonAddSelezionePrenotazione = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+
+    }
+
     private void listenersStatisticPanel(statisticFrame statisticFrame, Ristorante ristorante) {
         //TODO Statistic Panel
     }
@@ -1810,10 +1834,6 @@ public class Controller {
 
     private void listenersEditPanelPrenotazione(editFrame editFrame, Tavolata tempTavolata) {
         //TODO editPanel Prenotazione
-    }
-
-    private void listenersEditPanelTavolo(editFrame editFrame, Tavolo tempTavolo) {
-        //TODO editPanel Tavolo
     }
 
     private Tavolo listenersAddPanelTavolo(addFrame addFrame, Sala sala) {
