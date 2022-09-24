@@ -16,9 +16,6 @@ public class editPanelSala extends JPanel {
     private JButton buttonAddSelezione;
     private JButton buttonRemoveSelezionato;
     private JList listaSelezione;
-
-    private JLabel labelNumeroTavoli;
-
     private JButton buttonModificaSelezionato;
 
     private JButton buttonElimina;
@@ -42,9 +39,6 @@ public class editPanelSala extends JPanel {
         buttonAddSelezione = new JButtonBlue("+ Tavolo");
         buttonRemoveSelezionato = new JButtonGrey("Rimuovi Tavolo Selezionato");
         listaSelezione = new JList();
-
-        labelNumeroTavoli = new JLabel("Numero Tavoli: "+ numTavoli);
-        labelNumeroTavoli.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         buttonElimina = new JButtonRed("ELIMINA Sala");
         buttonModificaSelezionato = new JButtonGrey("Modifica Tavolo Selezionato");
@@ -103,15 +97,6 @@ public class editPanelSala extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets= new Insets(0,10,10,10);
         add(new JScrollPane(listaSelezione), gbc);
-
-        //Label Numero Tavoli
-        gbc = new GridBagConstraints();
-        gbc.gridx=2;
-        gbc.gridy=0;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.insets= new Insets(10,10,0,10);
-        add(labelNumeroTavoli, gbc);
 
         //button Modifica Selezionato
         gbc = new GridBagConstraints();
@@ -196,5 +181,9 @@ public class editPanelSala extends JPanel {
 
     public void setTextFieldNome(String nome) {
         this.textFieldNome.setText(nome);
+    }
+
+    public JList getListaSelezione() {
+        return listaSelezione;
     }
 }

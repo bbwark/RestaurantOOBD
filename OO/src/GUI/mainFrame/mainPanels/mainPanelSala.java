@@ -26,6 +26,7 @@ public class mainPanelSala extends JPanel {
     private JList listaVisualizza;
 
     private JLabel labelNomeSelezionato;
+    private JLabel labelCapienza;
 
     private JButton buttonIndietro;
 
@@ -45,6 +46,9 @@ public class mainPanelSala extends JPanel {
 
         labelNomeSelezionato = new JLabel("Nome Ristorante Selezionato: ");
         labelNomeSelezionato.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
+
+        labelCapienza = new JLabel("Capienza Clienti: ");
+        labelCapienza.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         labelListaSelezione = new JLabel("Lista Sale");
         listaSelezione = new JList();
@@ -88,13 +92,23 @@ public class mainPanelSala extends JPanel {
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.gridwidth=2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 0, 10);
+        gbc.insets = new Insets(10, 10, 0, 0);
         add(labelNomeSelezionato, gbc);
+
+        //Label Capienza
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 0, 0, 10);
+        add(labelCapienza, gbc);
 
         //Label Lista Selezione
         gbc = new GridBagConstraints();
@@ -117,7 +131,6 @@ public class mainPanelSala extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 10, 10, 10);
         add(new JScrollPane(listaSelezione), gbc);
-
 
         //Elenco Clienti
         gbc = new GridBagConstraints();
@@ -260,6 +273,10 @@ public class mainPanelSala extends JPanel {
 
     public void setLabelNomeSelezionato(String string) {
         labelNomeSelezionato.setText("Nome Ristorante Selezionato: " + string);
+    }
+
+    public void setLabelCapienza(String string) {
+        labelCapienza.setText("Capienza Clienti: " + string);
     }
 
     public void setLabelTableVisualizza(String string) {

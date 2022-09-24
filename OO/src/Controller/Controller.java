@@ -74,6 +74,8 @@ public class Controller {
                     modelListaVisualizza.addAll(nomiSale);
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaVisualizza().setModel(modelListaVisualizza);
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelTableVisualizza(tempRistorante.getNome());
+                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelCapienza(Integer.toString(tempRistorante.getCapienza()));
+                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelNumeroCamerieri(Integer.toString(tempRistorante.getNumeroCamerieri()));
                 }
             };
             mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().addMouseListener(mouseListener);
@@ -233,7 +235,7 @@ public class Controller {
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Ristorante");
-                        listenersEditRistorante(editFrame, mainFrame, tempRistorante);
+                        listenersEditPanelRistorante(editFrame, mainFrame, tempRistorante);
                     }
                 }
             };
@@ -279,6 +281,7 @@ public class Controller {
         TavoloDAO tavoloDAO = new TavoloImpl(connection);
 
         mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelNomeSelezionato(tempRistorante.getNome());
+        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelCapienza("");
         /*
          * Estrazione nomi e id di tutte le sale e inserimento nel defaultListModel da utilizzare
          * per visualizzare tutte le sale in memoria su vista
@@ -316,7 +319,8 @@ public class Controller {
                         }
                         modelListaVisualizza.addAll(idTavoli);
                         mainFrame.getMainFrameContentPane().getMainPanelSala().getListaVisualizza().setModel(modelListaVisualizza);
-                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelTableVisualizza(tempSala.toString());
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelTableVisualizza(tempSala.toString() + " [" + Integer.toString(tempSala.getNumeroTavoli()) + "]");
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelCapienza(Integer.toString(tempSala.getCapienza()));
                     }
                 }
             };
@@ -478,7 +482,7 @@ public class Controller {
                         int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                         Sala tempSala = salaDAO.getSalaById(tempId);
 
-                        listenersEditPanelSala(editFrame, tempSala);
+                        listenersEditPanelSala(editFrame, mainFrame, tempSala);
                     }
                 }
             };
@@ -1465,7 +1469,7 @@ public class Controller {
         mainFrame.getMainFrameContentPane().getMainPanelClienti().getButtonIndietro().addActionListener(listenerButtonIndietro);
     }
 
-    private void listenersEditRistorante(editFrame editFrame, mainFrame mainFrame, Ristorante ristorante) {
+    private void listenersEditPanelRistorante(editFrame editFrame, mainFrame mainFrame, Ristorante ristorante) {
         ActionListener listenerButtonAddSelezione;
         ActionListener listenerButtonRemoveSelezionato;
         ActionListener listenerButtonModificaSelezionato;
@@ -1505,19 +1509,17 @@ public class Controller {
             listenerButtonAddSelezione = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (!editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().isSelectionEmpty()) {
-                        addFrame addFrame = new addFrame();
-                        CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
-                        cardLayout.show(addFrame.getContentPane(), "Panel Sala");
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel Sala");
 
-                        Sala tempSala = listenersAddPanelSala(addFrame, ristorante);
+                    Sala tempSala = listenersAddPanelSala(addFrame, ristorante);
 
-                        if(tempSala != null){
-                            idNomiSale.add(tempSala.toString());
-                            modelListaSelezione.clear();
-                            modelListaSelezione.addAll(idNomiSale);
-                            editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
-                        }
+                    if (tempSala != null) {
+                        idNomiSale.add(tempSala.toString());
+                        modelListaSelezione.clear();
+                        modelListaSelezione.addAll(idNomiSale);
+                        editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
                     }
                 }
             };
@@ -1564,7 +1566,7 @@ public class Controller {
                         int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                         Sala tempSala = salaDAO.getSalaById(tempId);
 
-                        listenersEditPanelSala(editFrame, tempSala);
+                        listenersEditPanelSala(editFrame, mainFrame, tempSala);
                     }
                 }
             };
@@ -1627,6 +1629,170 @@ public class Controller {
                     editFrame.dispose();
                 }
             };
+            editFrame.getEditFrameContentPane().getEditPanelRistorante().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+        }
+    }
+
+    private void listenersEditPanelSala(editFrame editFrame, mainFrame mainFrame, Sala sala) {
+        ActionListener listenerButtonAddSelezione;
+        ActionListener listenerButtonRemoveSelezionato;
+        ActionListener listenerButtonModificaSelezionato;
+        ActionListener listenerButtonElimina;
+        ActionListener listenerButtonConferma;
+        ActionListener listenerButtonAnnulla;
+        DefaultListModel modelListaSelezione = new DefaultListModel<>();
+        modelListaSelezione.clear();
+
+        editFrame.getEditFrameContentPane().getEditPanelSala().setTextFieldNome(sala.getNome());
+
+        RistoranteDAO ristoranteDAO = new RistoranteImpl(connection);
+        SalaDAO salaDAO = new SalaImpl(connection);
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
+
+        /*
+         * Estrazione id di tutti i tavoli e inserimento nel defaultListModel da utilizzare
+         * per visualizzare tutti i tavoli di sala su vista
+         *
+         * LISTA SELEZIONE
+         * */
+        ArrayList<String> idTavoli = new ArrayList<>();
+        for (Tavolo t : sala.getTavoli()) {
+            idTavoli.add(Integer.toString(t.getCodiceTavolo()));
+        }
+        modelListaSelezione.addAll(idTavoli);
+        editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().setModel(modelListaSelezione);
+
+        if (Arrays.asList(editFrame.getEditFrameContentPane().getEditPanelSala().getButtonConferma().getActionListeners()).isEmpty()) {
+
+            /*
+             * Istanzia addFrame su Panel Tavolo per inserire un nuovo tavolo nella sala.
+             * se il tavolo viene creato correttamente allora la lista selezione in editPanel si aggiorna
+             *
+             * BUTTON ADD TAVOLO
+             * */
+            listenerButtonAddSelezione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel Tavolo");
+
+                    Tavolo tempTavolo = listenersAddPanelTavolo(addFrame, sala);
+
+                    if(tempTavolo != null){
+                        idTavoli.add(Integer.toString(tempTavolo.getCodiceTavolo()));
+                        modelListaSelezione.clear();
+                        modelListaSelezione.addAll(idTavoli);
+                        editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().setModel(modelListaSelezione);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonAddSelezione().addActionListener(listenerButtonAddSelezione);
+
+            /*
+            * Estrae il tavolo selezionato dalla lista di selezione per effettuare il delete su database.
+            * Dopo il delete del tavolo elimina anche l'elemento corrispondente della lista selezione
+            *
+            * BUTTON ELIMINA TAVOLO
+            * */
+            listenerButtonRemoveSelezionato = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().isSelectionEmpty()) {
+                        int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
+                        Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
+
+                        tavoloDAO.deleteTavolo(tempTavolo);
+
+                        idTavoli.remove(Integer.toString(tempId));
+                        modelListaSelezione.clear();
+                        modelListaSelezione.addAll(idTavoli);
+                        editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().setModel(modelListaSelezione);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonRemoveSelezionato().addActionListener(listenerButtonRemoveSelezionato);
+
+            /*
+            * Estrae l'elemento selezionato dalla lista di selezione per aprire il panel di modifica dell'elemento
+            *
+            * BUTTON MODIFICA SELEZIONATO
+            * */
+            listenerButtonModificaSelezionato = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(!editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().isSelectionEmpty()){
+                        CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Tavolo");
+
+                        int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
+                        Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
+
+                        listenersEditPanelTavolo(editFrame, tempTavolo);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonModificaSelezionato().addActionListener(listenerButtonModificaSelezionato);
+
+            /*
+            * Elimina la sala di cui si sta facendo l'edit e aggiorna la lista selezione di mainPanel Sala
+            *
+            * BUTTON ELIMINA
+            * */
+            listenerButtonElimina = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    editFrame.dispose();
+                    Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
+                    DefaultListModel tempModel = new DefaultListModel();
+
+                    ArrayList<String> idNomiSale = new ArrayList<>();
+                    for (Sala s : tempRistorante.getSale()) {
+                        idNomiSale.add(s.toString());
+                    }
+                    tempModel.addAll(idNomiSale);
+                    mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
+                    salaDAO.deleteSala(sala);
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonElimina().addActionListener(listenerButtonElimina);
+
+            /*
+            * Aggiorna in database la sala di cui si sta facendo l'edit e aggiorna la lista selezione di mainPanel Sala
+            *
+            * BUTTON CONFERMA
+            * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    sala.setNome(editFrame.getEditFrameContentPane().getEditPanelSala().getTextFieldNome());
+                    editFrame.dispose();
+                    salaDAO.updateSala(sala);
+                    Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
+                    DefaultListModel tempModel = new DefaultListModel();
+
+                    ArrayList<String> idNomiSale = new ArrayList<>();
+                    for (Sala s : tempRistorante.getSale()) {
+                        idNomiSale.add(s.toString());
+                    }
+                    tempModel.addAll(idNomiSale);
+                    mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonConferma().addActionListener(listenerButtonConferma);
+
+            /*
+            * Chiude editFrame senza effettuare nessun cambiamento
+            *
+            * BUTTON ANNULLA
+            * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    editFrame.dispose();
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelSala().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
         }
     }
 
@@ -1658,10 +1824,6 @@ public class Controller {
     private Tavolata listenersAddPanelPrenotazione(addFrame addFrame, Tavolo tavolo) {
         //TODO addPanel Prenotazione - Tavolo - SelezionaTavolo
         return null;
-    }
-
-    private void listenersEditPanelSala(editFrame editFrame, Sala sala) {
-        //TODO editPanel Sala - Sala
     }
 
     private Sala listenersAddPanelSala(addFrame addFrame, Ristorante ristorante) {

@@ -28,6 +28,9 @@ public class mainPanelRistorante extends JPanel{
     private JLabel labelTableVisualizza;
     private JList listaVisualizza;
 
+    private JLabel labelCapienza;
+    private JLabel labelNumeroCamerieri;
+
     public mainPanelRistorante() {
 
         setLayout(new GridBagLayout());
@@ -40,6 +43,12 @@ public class mainPanelRistorante extends JPanel{
         //Definizione Attributi
         buttonAdd = new JButtonBlue("+ Ristorante");
         buttonEdit = new JButtonGrey("Modifica Ristorante");
+
+        labelCapienza = new JLabel("Capienza Clienti: ");
+        labelCapienza.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
+
+        labelNumeroCamerieri = new JLabel("Numero Camerieri: ");
+        labelNumeroCamerieri.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
 
         labelListaSelezione = new JLabel("Lista Ristoranti");
         listaSelezione = new JList();
@@ -78,6 +87,26 @@ public class mainPanelRistorante extends JPanel{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 0, 0, 10);
         add(buttonEdit, gbc);
+
+        //Label Capienza
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        add(labelCapienza, gbc);
+
+        //Label Numero Camerieri
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 0, 10);
+        add(labelNumeroCamerieri, gbc);
 
         //Label Lista Selezione
         gbc = new GridBagConstraints();
@@ -242,5 +271,13 @@ public class mainPanelRistorante extends JPanel{
 
     public void setLabelTableVisualizza(String string) {
         labelTableVisualizza.setText("Preview Sale di " + string);
+    }
+
+    public void setLabelCapienza(String string) {
+        this.labelCapienza.setText("Capienza Clienti: " + string);
+    }
+
+    public void setLabelNumeroCamerieri(String string) {
+        this.labelNumeroCamerieri.setText("Numero Camerieri: " + string);
     }
 }

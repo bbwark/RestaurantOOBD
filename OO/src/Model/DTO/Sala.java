@@ -6,7 +6,7 @@ public class Sala {
 	
 	private String nome;
 	private int idSala;
-	private int numero_tavoli;
+	private int numeroTavoli;
 	private int capienza;
 	private ArrayList<Tavolo> Tavoli;
 
@@ -16,10 +16,10 @@ public class Sala {
 		Tavoli = tavoli;
 	}
 
-	public Sala(int id, String nome, int numero_tavoli, ArrayList<Tavolo> tavoli) {
+	public Sala(int id, String nome, int numeroTavoli, ArrayList<Tavolo> tavoli) {
 		this.idSala = id;
 		this.nome = nome;
-		this.numero_tavoli = numero_tavoli;
+		this.numeroTavoli = numeroTavoli;
 		Tavoli = tavoli;
 	}
 
@@ -30,15 +30,15 @@ public class Sala {
 		this.capienza = capienza;
 	}
 
-	public Sala(int id, String nome, int numero_tavoli, ArrayList<Tavolo> tavoli, int capienza) {
+	public Sala(int id, String nome, int numeroTavoli, ArrayList<Tavolo> tavoli, int capienza) {
 		this.idSala = id;
 		this.nome = nome;
-		this.numero_tavoli = numero_tavoli;
+		this.numeroTavoli = numeroTavoli;
 		Tavoli = tavoli;
 		this.capienza = capienza;
 	}
 
-	public int getNumero_tavoli() {return numero_tavoli;}
+	public int getNumeroTavoli() {return numeroTavoli;}
 
 	public int getCapienza() {return capienza;}
 
