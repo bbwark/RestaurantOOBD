@@ -1,16 +1,18 @@
 package Model.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class Tavolata {
 
-	private Date DataArrivo = new Date();
+	private LocalDate DataArrivo;
 	private ArrayList<Cameriere> camerieri;
 	private ArrayList<Cliente> clienti;
 	private final int codicePrenotazione;
 
-	public Tavolata(Date dataArrivo, ArrayList<Cameriere> camerieri, ArrayList<Cliente> clienti, int codicePrenotazione) {
+	public Tavolata(LocalDate dataArrivo, ArrayList<Cameriere> camerieri, ArrayList<Cliente> clienti, int codicePrenotazione) {
 		DataArrivo = dataArrivo;
 		this.camerieri = camerieri;
 		this.clienti = clienti;
@@ -33,11 +35,11 @@ public class Tavolata {
 		this.clienti = clienti;
 	}
 
-	public Date getDataArrivo() {
+	public LocalDate getDataArrivo() {
 		return DataArrivo;
 	}
 
-	public void setDataArrivo(Date dataArrivo) {
+	public void setDataArrivo(LocalDate dataArrivo) {
 		DataArrivo = dataArrivo;
 	}
 

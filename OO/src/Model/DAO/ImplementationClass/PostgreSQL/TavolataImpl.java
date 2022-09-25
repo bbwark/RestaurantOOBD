@@ -5,6 +5,8 @@ import Model.DAO.Interfaces.TavolataDAO;
 import Model.DTO.*;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -24,7 +26,7 @@ public class TavolataImpl implements TavolataDAO {
                 ResultSet rs = st.executeQuery();
 
                 rs.next();
-                Date dataArrivo = rs.getDate(1);
+                LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                 int codicePrenotazione = rs.getInt(2);
                 CameriereImpl tempCameriere = new CameriereImpl(connection);
                 ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -50,7 +52,7 @@ public class TavolataImpl implements TavolataDAO {
                 ResultSet rs = st.executeQuery("SELECT * FROM \"Tavolata\" ORDER BY \"Codice_Prenotazione\" ASC");
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -84,7 +86,7 @@ public class TavolataImpl implements TavolataDAO {
 
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -118,7 +120,7 @@ public class TavolataImpl implements TavolataDAO {
 
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -151,7 +153,7 @@ public class TavolataImpl implements TavolataDAO {
 
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -185,7 +187,7 @@ public class TavolataImpl implements TavolataDAO {
 
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -219,7 +221,7 @@ public class TavolataImpl implements TavolataDAO {
 
                 while (rs.next()){
 
-                    Date dataArrivo = rs.getDate(1);
+                    LocalDate dataArrivo = rs.getDate(1).toLocalDate();
                     int codicePrenotazione = rs.getInt(2);
                     CameriereImpl tempCameriere = new CameriereImpl(connection);
                     ArrayList<Cameriere> tempCamerieri = tempCameriere.getAllCamerieriByTavolata(codicePrenotazione);
@@ -244,7 +246,7 @@ public class TavolataImpl implements TavolataDAO {
     public void createPrenotazione(Tavolata tavolata, Tavolo tavolo) {
             try{
                 PreparedStatement st = connection.prepareStatement("INSERT INTO \"Tavolata\" (\"Data_Arrivo\", \"Codice_Tavolo\") VALUES (?, ?)");
-                st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
+                st.setDate(1, java.sql.Date.valueOf(tavolata.getDataArrivo()));
                 st.setInt(2, tavolo.getCodiceTavolo());
                 st.executeUpdate();
 
@@ -275,7 +277,7 @@ public class TavolataImpl implements TavolataDAO {
     public void updatePrenotazione(Tavolata tavolata) {
             try{
                 PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolata\" SET \"Data_Arrivo\" = ? WHERE \"Codice_Prenotazione\" = ?");
-                st.setDate(1, (java.sql.Date)tavolata.getDataArrivo());
+                st.setDate(1, java.sql.Date.valueOf(tavolata.getDataArrivo()));
                 st.setInt(2, tavolata.getCodicePrenotazione());
                 st.executeUpdate();
 

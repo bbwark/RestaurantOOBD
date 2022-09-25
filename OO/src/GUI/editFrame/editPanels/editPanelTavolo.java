@@ -249,4 +249,20 @@ public class editPanelTavolo extends JPanel {
     public void setModelListaSelezionaCameriere(DefaultListModel defaultListModel){
         listaSelezioneTavoloAdiacente.setModel(defaultListModel);
     }
+
+    public String getTextFieldMaxAvventori() {
+        return textFieldMaxAvventori.getText();
+    }
+
+    public JList getListaSelezionePrenotazione() {
+        return listaSelezionePrenotazione;
+    }
+
+    public JList getListaSelezioneTavoloAdiacente() {
+        return listaSelezioneTavoloAdiacente;
+    }
+
+    public JButton getButtonAddTavoloAdiacenteEsistente() {
+        return buttonAddTavoloAdiacenteEsistente;
+    }
 }

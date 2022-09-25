@@ -13,8 +13,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class Controller {
 
@@ -738,7 +741,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
                 }
             }
         };
@@ -809,7 +812,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
                 }
             }
         };
@@ -880,7 +883,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getSelectedValue());
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
                 }
             }
         };
@@ -1539,12 +1542,16 @@ public class Controller {
                         int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                         Sala tempSala = salaDAO.getSalaById(tempId);
 
-                        salaDAO.deleteSala(tempSala);
+                        if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"" + tempSala.toString() + "\"?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-                        idNomiSale.remove(tempString);
-                        modelListaSelezione.clear();
-                        modelListaSelezione.addAll(idNomiSale);
-                        editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
+                            salaDAO.deleteSala(tempSala);
+
+                            idNomiSale.remove(tempString);
+                            modelListaSelezione.clear();
+                            modelListaSelezione.addAll(idNomiSale);
+                            editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().setModel(modelListaSelezione);
+                        }
                     }
                 }
             };
@@ -1559,14 +1566,17 @@ public class Controller {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().isSelectionEmpty()) {
-                        CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
-                        cardLayout.show(editFrame.getContentPane(), "Panel Sala");
+                        if (JOptionPane.showConfirmDialog(null, "Le modifiche apportate andranno perse, sei sicuro di voler continuare?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Sala");
 
-                        String tempString = (String) editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().getSelectedValue();
-                        int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
-                        Sala tempSala = salaDAO.getSalaById(tempId);
+                            String tempString = (String) editFrame.getEditFrameContentPane().getEditPanelRistorante().getListaSelezione().getSelectedValue();
+                            int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
+                            Sala tempSala = salaDAO.getSalaById(tempId);
 
-                        listenersEditPanelSala(editFrame, mainFrame, tempSala);
+                            listenersEditPanelSala(editFrame, mainFrame, tempSala);
+                        }
                     }
                 }
             };
@@ -1580,16 +1590,19 @@ public class Controller {
             listenerButtonElimina = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    editFrame.dispose();
-                    ristoranteDAO.deleteRistorante(ristorante);
-                    DefaultListModel tempModel = new DefaultListModel<>();
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"" + ristorante.getNome() + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                        ristoranteDAO.deleteRistorante(ristorante);
+                        DefaultListModel tempModel = new DefaultListModel<>();
 
-                    ArrayList<String> nomiRistoranti = new ArrayList<>();
-                    for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
-                        nomiRistoranti.add(i.getNome());
+                        ArrayList<String> nomiRistoranti = new ArrayList<>();
+                        for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
+                            nomiRistoranti.add(i.getNome());
+                        }
+                        tempModel.addAll(nomiRistoranti);
+                        mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
                     }
-                    tempModel.addAll(nomiRistoranti);
-                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelRistorante().getButtonElimina().addActionListener(listenerButtonElimina);
@@ -1602,18 +1615,27 @@ public class Controller {
             listenerButtonConferma = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ristorante.setNome(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome());
-                    editFrame.dispose();
-                    ristoranteDAO.updateRistorante(ristorante, oldName);
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler modificare \"" + ristorante.getNome() + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        ArrayList<String> nomiRistoranti = new ArrayList<>();
+                        for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
+                            nomiRistoranti.add(i.getNome());
+                        }
 
-                    DefaultListModel tempModel = new DefaultListModel<>();
+                        if (!nomiRistoranti.contains(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome())) {
+                            ristorante.setNome(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome());
+                            editFrame.dispose();
+                            ristoranteDAO.updateRistorante(ristorante, oldName);
 
-                    ArrayList<String> nomiRistoranti = new ArrayList<>();
-                    for (Ristorante i : ristoranteDAO.getAllRistoranti()) {
-                        nomiRistoranti.add(i.getNome());
+                            DefaultListModel tempModel = new DefaultListModel<>();
+
+
+                            tempModel.addAll(nomiRistoranti);
+                            mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
+                        } else {
+                            JOptionPane.showMessageDialog(editFrame, "Il nome selezionato è già in uso");
+                        }
                     }
-                    tempModel.addAll(nomiRistoranti);
-                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelRistorante().getButtonConferma().addActionListener(listenerButtonConferma);
@@ -1626,7 +1648,10 @@ public class Controller {
             listenerButtonAnnulla = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    editFrame.dispose();
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                    }
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelRistorante().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
@@ -1701,13 +1726,16 @@ public class Controller {
                     if (!editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().isSelectionEmpty()) {
                         int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
                         Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
+                        if (JOptionPane.showConfirmDialog(null, "Sicuro di voler eliminare \"Tavolo " + tempId + "\"?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-                        tavoloDAO.deleteTavolo(tempTavolo);
+                            tavoloDAO.deleteTavolo(tempTavolo);
 
-                        idTavoli.remove(Integer.toString(tempId));
-                        modelListaSelezione.clear();
-                        modelListaSelezione.addAll(idTavoli);
-                        editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().setModel(modelListaSelezione);
+                            idTavoli.remove(Integer.toString(tempId));
+                            modelListaSelezione.clear();
+                            modelListaSelezione.addAll(idTavoli);
+                            editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().setModel(modelListaSelezione);
+                        }
                     }
                 }
             };
@@ -1721,14 +1749,17 @@ public class Controller {
             listenerButtonModificaSelezionato = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(!editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().isSelectionEmpty()){
-                        CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
-                        cardLayout.show(editFrame.getContentPane(), "Panel Tavolo");
+                    if(!editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().isSelectionEmpty()) {
+                        if (JOptionPane.showConfirmDialog(null, "Le modifiche apportate andranno perse, sei sicuro di voler continuare?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Tavolo");
 
-                        int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
-                        Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
+                            int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelSala().getListaSelezione().getSelectedValue());
+                            Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
 
-                        listenersEditPanelTavolo(editFrame, mainFrame, tempTavolo);
+                            listenersEditPanelTavolo(editFrame, mainFrame, tempTavolo);
+                        }
                     }
                 }
             };
@@ -1742,17 +1773,20 @@ public class Controller {
             listenerButtonElimina = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    editFrame.dispose();
-                    Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
-                    DefaultListModel tempModel = new DefaultListModel();
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"" + sala + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                        Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
+                        DefaultListModel tempModel = new DefaultListModel();
 
-                    ArrayList<String> idNomiSale = new ArrayList<>();
-                    for (Sala s : tempRistorante.getSale()) {
-                        idNomiSale.add(s.toString());
+                        ArrayList<String> idNomiSale = new ArrayList<>();
+                        for (Sala s : tempRistorante.getSale()) {
+                            idNomiSale.add(s.toString());
+                        }
+                        tempModel.addAll(idNomiSale);
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
+                        salaDAO.deleteSala(sala);
                     }
-                    tempModel.addAll(idNomiSale);
-                    mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
-                    salaDAO.deleteSala(sala);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelSala().getButtonElimina().addActionListener(listenerButtonElimina);
@@ -1765,18 +1799,21 @@ public class Controller {
             listenerButtonConferma = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    sala.setNome(editFrame.getEditFrameContentPane().getEditPanelSala().getTextFieldNome());
-                    editFrame.dispose();
-                    salaDAO.updateSala(sala);
-                    Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
-                    DefaultListModel tempModel = new DefaultListModel();
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler modificare \"" + sala + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        sala.setNome(editFrame.getEditFrameContentPane().getEditPanelSala().getTextFieldNome());
+                        editFrame.dispose();
+                        salaDAO.updateSala(sala);
+                        Ristorante tempRistorante = ristoranteDAO.getRistoranteBySala(sala);
+                        DefaultListModel tempModel = new DefaultListModel();
 
-                    ArrayList<String> idNomiSale = new ArrayList<>();
-                    for (Sala s : tempRistorante.getSale()) {
-                        idNomiSale.add(s.toString());
+                        ArrayList<String> idNomiSale = new ArrayList<>();
+                        for (Sala s : tempRistorante.getSale()) {
+                            idNomiSale.add(s.toString());
+                        }
+                        tempModel.addAll(idNomiSale);
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
                     }
-                    tempModel.addAll(idNomiSale);
-                    mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelSala().getButtonConferma().addActionListener(listenerButtonConferma);
@@ -1789,17 +1826,20 @@ public class Controller {
             listenerButtonAnnulla = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    editFrame.dispose();
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                    }
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelSala().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
         }
     }
 
-    private void listenersEditPanelTavolo(editFrame editFrame, mainFrame mainFrame, Tavolo tempTavolo) {
+    private void listenersEditPanelTavolo(editFrame editFrame, mainFrame mainFrame, Tavolo tavolo) {
         ActionListener listenerButtonAddSelezionePrenotazione;
-        ActionListener listenerButtonRemoveSelezionatoPrenotazione;
         ActionListener listenerButtonAddSelezioneTavoloAdiacente;
+        ActionListener listenerButtonRemoveSelezionatoPrenotazione;
         ActionListener listenerButtonRemoveSelezionatoTavoloAdiacente;
         ActionListener listenerButtonModificaSelezionatoPrenotazione;
         ActionListener listenerButtonModificaSelezionatoTavoloAdiacente;
@@ -1809,15 +1849,320 @@ public class Controller {
         ActionListener listenerButtonAnnulla;
         DefaultListModel modelListaSelezionePrenotazione = new DefaultListModel<>();
         DefaultListModel modelListaSelezioneTavoloAdiacente = new DefaultListModel<>();
+        modelListaSelezioneTavoloAdiacente.clear();
+        modelListaSelezionePrenotazione.clear();
 
-        
-        listenerButtonAddSelezionePrenotazione = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        editFrame.getEditFrameContentPane().getEditPanelTavolo().setTextFieldMaxAvventori(Integer.toString(tavolo.getMaxAvventori()));
 
-            }
-        };
+        SalaDAO salaDAO = new SalaImpl(connection);
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
 
+        /*
+        * Estrazione dei codici di tutte le prenotazioni del tavolo e inserimento nel defaultListModel da utilizzare
+        * per visualizzare tutte le prenotazioni di tavolo su vista
+        *
+        * LISTA SELEZIONE PRENOTAZIONI
+        * */
+        ArrayList<String> codiciPrenotazioni = new ArrayList<>();
+        for (Tavolata t : tavolo.getTavolate()) {
+            codiciPrenotazioni.add(Integer.toString(t.getCodicePrenotazione()));
+        }
+        modelListaSelezionePrenotazione.addAll(codiciPrenotazioni);
+
+        /*
+         * Estrazione dei codici dei tavoli adiacenti al tavolo e inserimento nel defaultListModel da utilizzare
+         * per visualizzare tutti i tavoli adiacenti di tavolo su vista
+         *
+         * LISTA SELEZIONE TAVOLI ADIACENTI
+         * */
+        ArrayList<String> codiciTavoliAdiacenti = new ArrayList<>();
+        for (Tavolo t : tavolo.getTavoliAdiacenti()) {
+            codiciTavoliAdiacenti.add(Integer.toString(t.getCodiceTavolo()));
+        }
+        modelListaSelezioneTavoloAdiacente.addAll(codiciTavoliAdiacenti);
+
+        editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().setModel(modelListaSelezionePrenotazione);
+        editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().setModel(modelListaSelezioneTavoloAdiacente);
+
+        if (Arrays.asList(editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonConferma().getActionListeners()).isEmpty()) {
+
+
+            /*
+            * Istanzia addFrame su Panel Prenotazione per inserire una nuova prenotazione al tavolo.
+            * Se la prenotazione viene creata correttamente allora la lista selezione in editPanel si aggiorna
+            *
+            * BUTTON ADD PRENOTAZIONE
+            * */
+            listenerButtonAddSelezionePrenotazione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel Prenotazione");
+
+                    Tavolata tempTavolata = listenersAddPanelPrenotazione(addFrame, tavolo);
+
+                    if(tempTavolata != null){
+                        codiciPrenotazioni.add(Integer.toString(tempTavolata.getCodicePrenotazione()));
+                        modelListaSelezionePrenotazione.clear();
+                        modelListaSelezionePrenotazione.addAll(codiciPrenotazioni);
+                        editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().setModel(modelListaSelezionePrenotazione);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonAddSelezionePrenotazione().addActionListener(listenerButtonAddSelezionePrenotazione);
+
+
+            /*
+             * Istanzia addFrame su Panel Tavolo per inserire un nuovo tavolo adiacente al tavolo.
+             * Se il tavolo viene creato correttamente allora la lista selezione in editPanel si aggiorna
+             *
+             * BUTTON ADD TAVOLO ADIACENTE
+             * */
+            listenerButtonAddSelezioneTavoloAdiacente = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel Tavolo");
+
+                    Sala tempSala = salaDAO.getSalaByTavolo(tavolo);
+                    Tavolo tempTavolo = listenersAddPanelTavolo(addFrame, tempSala);
+
+                    if(tempTavolo != null){
+                        codiciTavoliAdiacenti.add(Integer.toString(tempTavolo.getCodiceTavolo()));
+                        modelListaSelezioneTavoloAdiacente.clear();
+                        modelListaSelezioneTavoloAdiacente.addAll(codiciTavoliAdiacenti);
+                        editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().setModel(modelListaSelezioneTavoloAdiacente);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonAddSelezioneTavoloAdiacente().addActionListener(listenerButtonAddSelezioneTavoloAdiacente);
+
+            /*
+            * Estrae la prenotazione selezionata dalla lista di selezione per effettuare il delete su database.
+            * Dopo il delete della prenotazione elimina anche l'elemento corrispondente dalla lista selezione
+            *
+            * BUTTON ELIMINA PRENOTAZIONE
+            * */
+            listenerButtonRemoveSelezionatoPrenotazione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().isSelectionEmpty()) {
+                        int tempCodice = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().getSelectedValue());
+                        Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+                        if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"Prenotazione " + tempCodice + "\"?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                            tavolataDAO.deletePrenotazione(tempTavolata);
+
+                            codiciPrenotazioni.remove(Integer.toString(tempTavolata.getCodicePrenotazione()));
+                            modelListaSelezionePrenotazione.clear();
+                            modelListaSelezionePrenotazione.addAll(codiciPrenotazioni);
+                            editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().setModel(modelListaSelezionePrenotazione);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonRemoveSelezionatoPrenotazione().addActionListener(listenerButtonRemoveSelezionatoPrenotazione);
+
+
+            /*
+             * Estrae il tavolo selezionato dalla lista di selezione per effettuare il delete su database.
+             * Dopo il delete del tavolo elimina anche l'elemento corrispondente dalla lista selezione
+             *
+             * BUTTON ELIMINA TAVOLO ADIACENTE
+             * */
+            listenerButtonRemoveSelezionatoTavoloAdiacente = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().isSelectionEmpty()) {
+                        int tempCodice = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().getSelectedValue());
+                        Tavolo tempTavolo = tavoloDAO.getTavoloById(tempCodice);
+                        if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"Tavolo " + tempCodice + "\"?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                            tavoloDAO.deleteTavolo(tempTavolo);
+
+                            codiciTavoliAdiacenti.remove(Integer.toString(tempTavolo.getCodiceTavolo()));
+                            modelListaSelezioneTavoloAdiacente.clear();
+                            modelListaSelezioneTavoloAdiacente.addAll(codiciTavoliAdiacenti);
+                            editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().setModel(modelListaSelezioneTavoloAdiacente);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonRemoveSelezionatoTavoloAdiacente().addActionListener(listenerButtonRemoveSelezionatoTavoloAdiacente);
+
+            /*
+            * Estrae l'elemento selezionato dalla lista di selezione per aprire il panel di modifica dell'elemento
+            *
+            * BUTTON MODIFICA SELEZIONATO PRENOTAZIONE
+            * */
+            listenerButtonModificaSelezionatoPrenotazione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().isSelectionEmpty()) {
+                        if (JOptionPane.showConfirmDialog(null, "Le modifiche apportate andranno perse, sei sicuro di voler continuare?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+
+                            int tempCodicePrenotazione = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezionePrenotazione().getSelectedValue());
+                            Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodicePrenotazione);
+
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonModificaSelezionatoPrenotazione().addActionListener(listenerButtonModificaSelezionatoPrenotazione);
+
+            /*
+             * Estrae l'elemento selezionato dalla lista di selezione per aprire il panel di modifica dell'elemento
+             *
+             * BUTTON MODIFICA SELEZIONATO TAVOLO ADIACENTE
+             * */
+            listenerButtonModificaSelezionatoTavoloAdiacente = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().isSelectionEmpty()) {
+                        if (JOptionPane.showConfirmDialog(null, "Le modifiche apportate andranno perse, sei sicuro di voler continuare?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            int tempId = Integer.parseInt((String) editFrame.getEditFrameContentPane().getEditPanelTavolo().getListaSelezioneTavoloAdiacente().getSelectedValue());
+                            Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
+                            editFrame.dispose();
+
+                            editFrame tempEditFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) tempEditFrame.getEditFrameContentPane().getLayout();
+                            cardLayout.show(tempEditFrame.getContentPane(), "Panel Tavolo");
+
+                            listenersEditPanelTavolo(tempEditFrame, mainFrame, tempTavolo);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonModificaSelezionatoTavoloAdiacente().addActionListener(listenerButtonModificaSelezionatoTavoloAdiacente);
+
+
+            /*
+            * Istanzia un addFrame a panel TavoloAdiacente Tavolo per aggiungere un tavolo già esistente come tavolo adiacente
+            *
+            * BUTTON ADD TAVOLOADIACENTE ESISTENTE
+            * */
+            listenerButtonAddTavoloAdiacenteEsistente = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel Tavolo Adiacente Tavolo");
+
+                    Sala tempSala = salaDAO.getSalaByTavolo(tavolo);
+
+                    listenersAddPanelTavoloAdiacenteTavolo(addFrame, tempSala, tavolo);
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonAddTavoloAdiacenteEsistente().addActionListener(listenerButtonAddTavoloAdiacenteEsistente);
+
+            /*
+            * Elimina il tavolo di cui si sta facendo l'edit e aggiorna la lista selezione di mainPanel Tavolo
+            *
+            * BUTTON ELIMINA
+            * */
+            listenerButtonElimina = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"Tavolo " + tavolo.getCodiceTavolo() + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                        Sala tempSala = salaDAO.getSalaByTavolo(tavolo);
+                        DefaultListModel tempModel = new DefaultListModel();
+
+                        ArrayList<String> codiceTavoli = new ArrayList<>();
+                        for (Tavolo t : tempSala.getTavoli()) {
+                            codiceTavoli.add(Integer.toString(t.getCodiceTavolo()));
+                        }
+                        tempModel.addAll(codiceTavoli);
+                        mainFrame.getMainFrameContentPane().getMainPanelTavolo().getListaSelezione().setModel(tempModel);
+                        tavoloDAO.deleteTavolo(tavolo);
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonElimina().addActionListener(listenerButtonElimina);
+
+            /*
+            * Aggiorna in database il tavolo di cui si sta facendo l'edit
+            * se il numero di MaxAvventori nella textField non è inferiore ad 1
+            * o inferiore al numero di avventori più alto nelle prenotazioni future
+            * e aggiorna la lista selezione di mainPanel Tavolo
+            *
+            * BUTTON CONFERMA
+            * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler modificare \"Tavolo " + tavolo.getCodiceTavolo() + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (Integer.parseInt(editFrame.getEditFrameContentPane().getEditPanelTavolo().getTextFieldMaxAvventori()) < 1) {
+                            JOptionPane.showMessageDialog(editFrame, "Non puoi inserire un numero inferiore ad 1 come numero massimo di avventori per il tavolo");
+                        }
+                        else {
+                            int max = 0;
+                            for (Tavolata t : tavolo.getTavolate()) {
+                                if (t.getDataArrivo().isAfter(LocalDate.now(ZoneId.systemDefault())))
+                                    if(t.getClienti().size() > max)
+                                        max = t.getClienti().size();
+                            }
+
+                            if (Integer.parseInt(editFrame.getEditFrameContentPane().getEditPanelTavolo().getTextFieldMaxAvventori()) > max) {
+
+                                tavolo.setMaxAvventori(Integer.parseInt(editFrame.getEditFrameContentPane().getEditPanelTavolo().getTextFieldMaxAvventori()));
+                                editFrame.dispose();
+
+                                tavoloDAO.updateTavolo(tavolo);
+
+                                Sala tempSala = salaDAO.getSalaByTavolo(tavolo);
+                                DefaultListModel tempModel = new DefaultListModel<>();
+
+                                ArrayList<String> codiciTavoli = new ArrayList<>();
+                                for(Tavolo t : tempSala.getTavoli()){
+                                    codiciTavoli.add(Integer.toString(t.getCodiceTavolo()));
+                                }
+                                tempModel.addAll(codiciTavoli);
+                                mainFrame.getMainFrameContentPane().getMainPanelTavolo().getListaSelezione().setModel(tempModel);
+                            } else {
+                                JOptionPane.showMessageDialog(editFrame, "Non puoi abbassare il numero di avventori massimi " +
+                                        "che possono sedersi al tavolo sotto il numero: " + max + "\nEsiste almeno una prenotazione dopo "+ LocalDate.now() +" con numero di avventori pari a " + max);
+                            }
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonConferma().addActionListener(listenerButtonConferma);
+
+
+            /*
+            *
+            * Chiude editFrame senza effettuare nessun cambiamento
+            *
+            * BUTTON ANNULLA
+            * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+        }
+    }
+
+    private void listenersAddPanelTavoloAdiacenteTavolo(addFrame addFrame, Sala tempSala, Tavolo tavolo) {
+        //TODO addPanel TavoloAdiacente Tavolo - editPanel Tavolo
     }
 
     private void listenersStatisticPanel(statisticFrame statisticFrame, Ristorante ristorante) {
@@ -1832,7 +2177,7 @@ public class Controller {
         //TODO editPanel Cameriere
     }
 
-    private void listenersEditPanelPrenotazione(editFrame editFrame, Tavolata tempTavolata) {
+    private void listenersEditPanelPrenotazione(editFrame editFrame, mainFrame mainFrame, Tavolata tempTavolata) {
         //TODO editPanel Prenotazione
     }
 
