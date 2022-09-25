@@ -1,13 +1,18 @@
 package GUI.editFrame.editPanels;
 
 import GUI.CustomButtons.*;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import GUI.DateLabelFormatter.DateLabelFormatter;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Properties;
 
 public class editPanelPrenotazione extends JPanel {
 
@@ -44,8 +49,12 @@ public class editPanelPrenotazione extends JPanel {
         //Dichiarazione Componenti
         labelData = new JLabel("Data: ");
         UtilDateModel model = new UtilDateModel();
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        datePanel = new JDatePanelImpl(model, p);
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         buttonAddSelezioneCliente = new JButtonBlue(" + Nuovo Cliente");
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
@@ -257,8 +266,9 @@ public class editPanelPrenotazione extends JPanel {
         return buttonRemoveSelezionatoCliente;
     }
 
-    public String getDate(){
-        return (String) datePicker.getModel().getValue();
+    public LocalDate getDate(){
+        Date result = (Date) datePicker.getModel().getValue();
+        return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public void setModelListaSelezionaCliente(DefaultListModel defaultListModel){

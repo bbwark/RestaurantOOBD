@@ -2,18 +2,22 @@ package GUI.addFrame.addPanels;
 
 import GUI.CustomButtons.JButtonAnnulla;
 import GUI.CustomButtons.JButtonConferma;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import GUI.DateLabelFormatter.DateLabelFormatter;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Properties;
 
 public class addPanelPrenotazione extends JPanel {
 
     private JLabel labelData;
-    private JTextField textFieldData;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
 
@@ -31,8 +35,12 @@ public class addPanelPrenotazione extends JPanel {
         //Dichiarazione Componenti
         labelData = new JLabel("Data: ");
         UtilDateModel model = new UtilDateModel();
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        datePanel = new JDatePanelImpl(model, p);
+        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         buttonAnnulla = new JButtonAnnulla();
         buttonConferma = new JButtonConferma();
@@ -87,11 +95,8 @@ public class addPanelPrenotazione extends JPanel {
         return buttonConferma;
     }
 
-    public String getTextFieldData() {
-        return textFieldData.getText();
-    }
-
-    public String getDate(){
-        return (String) datePicker.getModel().getValue();
+    public LocalDate getDate(){
+        Date result = (Date) datePicker.getModel().getValue();
+        return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }
