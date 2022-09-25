@@ -8,7 +8,7 @@ import java.sql.Connection;
 public class Driver {
     public static void main(String[] args){
 
-        DatabasePostgresConnection databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "Restaurant", "postgres", "postgres");
+        DatabasePostgresConnection databasePostgresConnection = new DatabasePostgresConnection("localhost", "5432", "RestaurantOO", "postgres", "admin");
         boolean connectionSucceeded = databasePostgresConnection.openConnection();
         if (connectionSucceeded){
             Connection connection = databasePostgresConnection.getDatabaseConnection();

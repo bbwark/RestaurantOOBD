@@ -51,6 +51,7 @@ public class TavoloImpl implements TavoloDAO {
                     rs = st.executeQuery();
                     rs.next();
                     Tavolo tempTavolo = new Tavolo(rs.getInt(2), tempTavolate.getAllTavolateByTavolo(rs.getInt(1)), rs.getInt(1));
+                    tavoliAdiacenti.add(tempTavolo);
                     i++;
                 }
 
@@ -118,6 +119,7 @@ public class TavoloImpl implements TavoloDAO {
                         rs2 = st2.executeQuery();
                         rs2.next();
                         Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        tavoliAdiacenti.add(tempTavolo);
                         i++;
                     }
 
@@ -174,6 +176,7 @@ public class TavoloImpl implements TavoloDAO {
                         rs2 = st2.executeQuery();
                         rs2.next();
                         Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        tavoliAdiacenti.add(tempTavolo);
                         i++;
                     }
 
@@ -230,6 +233,7 @@ public class TavoloImpl implements TavoloDAO {
                         rs2 = st2.executeQuery();
                         rs2.next();
                         Tavolo tempTavolo = new Tavolo(rs2.getInt(2), tempTavolate.getAllTavolateByTavolo(rs2.getInt(1)), rs2.getInt(1));
+                        tavoliAdiacenti.add(tempTavolo);
                         i++;
                     }
 

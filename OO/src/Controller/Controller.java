@@ -1629,7 +1629,8 @@ public class Controller {
 
                             DefaultListModel tempModel = new DefaultListModel<>();
 
-
+                            nomiRistoranti.remove(oldName);
+                            nomiRistoranti.add(ristorante.getNome());
                             tempModel.addAll(nomiRistoranti);
                             mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
                         } else {
