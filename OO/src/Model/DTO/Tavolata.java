@@ -46,4 +46,9 @@ public class Tavolata {
 	public int getCodicePrenotazione() {
 		return codicePrenotazione;
 	}
+
+	@Override
+	public String toString() {
+		return codicePrenotazione + "# " + DataArrivo.toString();
+	}
 }

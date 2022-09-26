@@ -271,11 +271,32 @@ public class editPanelPrenotazione extends JPanel {
         return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
+    public void setDate(LocalDate localDate){
+        datePicker.getModel().setDate(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
+        datePicker.getModel().setSelected(true);
+    }
+
     public void setModelListaSelezionaCliente(DefaultListModel defaultListModel){
         listaSelezioneCliente.setModel(defaultListModel);
     }
 
     public void setModelListaSelezionaCameriere(DefaultListModel defaultListModel){
         listaSelezioneCameriere.setModel(defaultListModel);
+    }
+
+    public JList getListaSelezioneCliente() {
+        return listaSelezioneCliente;
+    }
+
+    public JList getListaSelezioneCameriere() {
+        return listaSelezioneCameriere;
+    }
+
+    public JButton getButtonAddClienteEsistente() {
+        return buttonAddClienteEsistente;
+    }
+
+    public JButton getButtonAddCameriereEsistente() {
+        return buttonAddCameriereEsistente;
     }
 }

@@ -44,11 +44,11 @@ public class addFrameContentPane extends JPanel {
         add(addPanelPrenotazione, "Panel Prenotazione");
         add(addPanelCliente, "Panel Cliente");
         add(addPanelCameriere, "Panel Cameriere");
-        add(addPanelCameriereToServizio, "Panel Cameriere Servizio");
-        add(addPanelClienteToPrenotazione, "Panel Cliente Prenotazione");
-        add(addPanelServizioToCameriere, "Panel Servizio Cameriere");
-        add(addPanelPrenotazioneToCliente, "Panel Prenotazione Cliente");
-        add(addPanelTavoloAdiacenteToTavolo, "Panel Tavolo Adiacente Tavolo");
+        add(addPanelCameriereToServizio, "Panel CameriereToServizio");
+        add(addPanelClienteToPrenotazione, "Panel ClienteToPrenotazione");
+        add(addPanelServizioToCameriere, "Panel ServizioToCameriere");
+        add(addPanelPrenotazioneToCliente, "Panel PrenotazioneToCliente");
+        add(addPanelTavoloAdiacenteToTavolo, "Panel TavoloAdiacenteToTavolo");
 
     }
 
