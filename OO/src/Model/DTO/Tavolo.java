@@ -1,6 +1,7 @@
 package Model.DTO;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Tavolo{
 
@@ -49,5 +50,13 @@ public class Tavolo{
 
 	public int getCodiceTavolo() {
 		return codiceTavolo;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Tavolo tavolo = (Tavolo) o;
+		return codiceTavolo == tavolo.codiceTavolo;
 	}
 }

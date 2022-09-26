@@ -22,12 +22,10 @@ public class editPanelCliente extends JPanel {
     private JButton buttonConferma;
     private JButton buttonAnnulla;
 
-    private JLabel labelPrenotazioni;
     private JList listPrenotazioni;
     private JButton buttonAddPrenotazione;
     private JButton buttonRemovePrenotazione;
-
-    private JButton buttonIndietro;
+    private JButton buttonModificaPrenotazioneSelezionata;
 
     public editPanelCliente(){
         setLayout(new GridBagLayout());
@@ -51,13 +49,11 @@ public class editPanelCliente extends JPanel {
         buttonConferma = new JButtonConferma();
         buttonAnnulla = new JButtonAnnulla();
 
-        labelPrenotazioni = new JLabel("Prenotazioni a cui siede:");
         listPrenotazioni = new JList();
 
         buttonAddPrenotazione = new JButtonBlue("+ Prenotazione");
         buttonRemovePrenotazione = new JButtonGrey("Rimuovi Prenotazione Selezionata");
-
-        buttonIndietro = new JButtonGrey("Indietro");
+        buttonModificaPrenotazioneSelezionata = new JButtonGrey("Modifica Prenotazione Selezionata");
 
         //label Nome
         GridBagConstraints gbc = new GridBagConstraints();
@@ -157,22 +153,12 @@ public class editPanelCliente extends JPanel {
         gbc.gridx=0;
         gbc.gridy=5;
         gbc.gridwidth=2;
-        gbc.gridheight=2;
+        gbc.gridheight=3;
         gbc.weightx=0.0;
         gbc.weighty=0.0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(10,0,0,10);
+        gbc.insets = new Insets(0,0,20,10);
         add(new JScrollPane(listPrenotazioni), gbc);
-
-        //button Indietro
-        gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=7;
-        gbc.weightx=0.0;
-        gbc.weighty=0.0;
-        gbc.anchor=GridBagConstraints.LAST_LINE_START;
-        gbc.insets = new Insets(10,0,0,0);
-        add(buttonIndietro, gbc);
 
         //button Elimina
         gbc = new GridBagConstraints();
@@ -184,13 +170,24 @@ public class editPanelCliente extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(buttonElimina, gbc);
 
-        //button Annulla
+        //button modifica prenotazione selezionata
         gbc = new GridBagConstraints();
         gbc.gridx=2;
         gbc.gridy=5;
         gbc.weightx=0.0;
         gbc.weighty=0.0;
-        gbc.insets = new Insets(100,10,5,10);
+        gbc.insets = new Insets(100,10,10,10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor=GridBagConstraints.LAST_LINE_START;
+        add(buttonModificaPrenotazioneSelezionata, gbc);
+
+        //button Annulla
+        gbc = new GridBagConstraints();
+        gbc.gridx=2;
+        gbc.gridy=6;
+        gbc.weightx=0.0;
+        gbc.weighty=0.0;
+        gbc.insets = new Insets(0,10,10,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor=GridBagConstraints.LAST_LINE_START;
         add(buttonAnnulla, gbc);
@@ -198,10 +195,10 @@ public class editPanelCliente extends JPanel {
         //button Conferma
         gbc = new GridBagConstraints();
         gbc.gridx=2;
-        gbc.gridy=6;
+        gbc.gridy=7;
         gbc.weightx=0.0;
         gbc.weighty=0.0;
-        gbc.insets = new Insets(0,10,0,10);
+        gbc.insets = new Insets(0,10,20,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor=GridBagConstraints.LAST_LINE_START;
         add(buttonConferma, gbc);
@@ -259,11 +256,15 @@ public class editPanelCliente extends JPanel {
         return buttonRemovePrenotazione;
     }
 
-    public JButton getButtonIndietro() {
-        return buttonIndietro;
-    }
-
     public void setModelListaPrenotazioni(DefaultListModel defaultListModel){
         listPrenotazioni.setModel(defaultListModel);
+    }
+
+    public JList getListPrenotazioni() {
+        return listPrenotazioni;
+    }
+
+    public JButton getButtonModificaPrenotazioneSelezionata() {
+        return buttonModificaPrenotazioneSelezionata;
     }
 }

@@ -1,6 +1,7 @@
 package Model.DTO;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Cameriere{
 
@@ -37,5 +38,13 @@ public class Cameriere{
     @Override
     public String toString() {
         return codiceCameriere + "# " + nome + " " + cognome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cameriere cameriere = (Cameriere) o;
+        return codiceCameriere == cameriere.codiceCameriere;
     }
 }

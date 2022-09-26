@@ -24,6 +24,7 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(1, id);
                 ResultSet rs = st.executeQuery();
 
+                rs.next();
                 String nome = rs.getString(1);
                 String cognome = rs.getString(2);
                 String numeroIdCard = rs.getString(3);
@@ -237,6 +238,15 @@ public class ClienteImpl implements ClienteDAO {
     @Override
     public void updateCliente(Cliente cliente, String oldIdCard) {
             try {
+                TavolataImpl tavolataImpl = new TavolataImpl(connection);
+                ArrayList<Tavolata> tavolateCliente = tavolataImpl.getAllTavolateByCliente(oldIdCard);
+
+                if(!tavolateCliente.isEmpty()) {
+                    PreparedStatement st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = ?");
+                    st.setString(1, oldIdCard);
+                    st.executeUpdate();
+                }
+
                 PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Nome\" = ?, \"Cognome\" = ?, \"Numero_ID_Card\" = ?, \"Numero_Tel\" = ? WHERE \"Numero_ID_Card\" = ?");
                 st.setString(1, cliente.getNome());
                 st.setString(2, cliente.getCognome());
@@ -245,13 +255,7 @@ public class ClienteImpl implements ClienteDAO {
                 st.setString(5, oldIdCard);
                 st.executeUpdate();
 
-                TavolataImpl tavolataImpl = new TavolataImpl(connection);
-                ArrayList<Tavolata> tavolateCliente = tavolataImpl.getAllTavolateByCliente(cliente.getNumeroIdCard());
-
-                if(!tavolateCliente.isEmpty()) {
-                    st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = ?");
-                    st.setString(1, cliente.getNumeroIdCard());
-                    st.executeUpdate();
+                if(!tavolateCliente.isEmpty()){
                     for (Tavolata t : tavolateCliente) {
                         st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
                         st.setString(1, cliente.getNumeroIdCard());

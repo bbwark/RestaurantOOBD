@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Tavolata {
 
@@ -50,5 +51,13 @@ public class Tavolata {
 	@Override
 	public String toString() {
 		return codicePrenotazione + "# " + DataArrivo.toString();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Tavolata tavolata = (Tavolata) o;
+		return codicePrenotazione == tavolata.codicePrenotazione;
 	}
 }

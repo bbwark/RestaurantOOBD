@@ -1,6 +1,7 @@
 package Model.DTO;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Cliente {
 
@@ -57,5 +58,13 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return numeroIdCard + "# " + nome + " " + cognome;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Cliente cliente = (Cliente) o;
+		return numeroIdCard.equals(cliente.numeroIdCard);
 	}
 }

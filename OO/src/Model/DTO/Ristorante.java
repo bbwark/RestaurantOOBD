@@ -1,6 +1,7 @@
 package Model.DTO;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Ristorante {
 
@@ -56,4 +57,12 @@ public class Ristorante {
 	public int getCapienza() {return capienza;}
 
 	public void setCapienza(int capienza) {this.capienza = capienza;}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Ristorante that = (Ristorante) o;
+		return nome.equals(that.nome);
+	}
 }
