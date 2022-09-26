@@ -1112,7 +1112,7 @@ public class Controller {
                     int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Cameriere tempCameriere = cameriereDAO.getCameriereById(tempId);
 
-                    listenersEditPanelCameriere(editFrame, tempCameriere);
+                    listenersEditPanelCameriere(editFrame, mainFrame, tempCameriere);
                 }
             }
         };
@@ -1183,7 +1183,7 @@ public class Controller {
                     int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Cameriere tempCameriere = cameriereDAO.getCameriereById(tempId);
 
-                    listenersEditPanelCameriere(editFrame, tempCameriere);
+                    listenersEditPanelCameriere(editFrame, mainFrame, tempCameriere);
                 }
             }
         };
@@ -1254,7 +1254,7 @@ public class Controller {
                     int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Cameriere tempCameriere = cameriereDAO.getCameriereById(tempId);
 
-                    listenersEditPanelCameriere(editFrame, tempCameriere);
+                    listenersEditPanelCameriere(editFrame, mainFrame, tempCameriere);
                 }
             }
         };
@@ -2523,7 +2523,7 @@ public class Controller {
                             int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                             Cameriere tempCameriere = cameriereDAO.getCameriereById(tempId);
 
-                            listenersEditPanelCameriere(editFrame, tempCameriere);
+                            listenersEditPanelCameriere(editFrame, mainFrame, tempCameriere);
                         }
                     }
                 }
@@ -2824,11 +2824,13 @@ public class Controller {
                                     tempArrayString.add((String) tempModel.getElementAt(i));
                                 }
 
-                                tempArrayString.set(tempArrayString.indexOf(oldToString), cliente.toString());
+                                if(tempArrayString.contains(oldToString)) {
+                                    tempArrayString.set(tempArrayString.indexOf(oldToString), cliente.toString());
 
-                                tempModel.clear();
-                                tempModel.addAll(tempArrayString);
-                                mainFrame.getMainFrameContentPane().getMainPanelClienti().getListaSelezione().setModel(tempModel);
+                                    tempModel.clear();
+                                    tempModel.addAll(tempArrayString);
+                                    mainFrame.getMainFrameContentPane().getMainPanelClienti().getListaSelezione().setModel(tempModel);
+                                }
                             } else {
                                 JOptionPane.showMessageDialog(editFrame, "Il numero di Carta d'Identità " + nuovoId + " è già in uso");
                             }
@@ -2860,6 +2862,202 @@ public class Controller {
         }
     }
 
+    private void listenersEditPanelCameriere(editFrame editFrame, mainFrame mainFrame, Cameriere cameriere) {
+        ActionListener listenerButtonAddPrenotazione;
+        ActionListener listenerButtonRemovePrenotazione;
+        ActionListener listenerButtonModificaPrenotazioneSelezionata;
+        ActionListener listenerButtonElimina;
+        ActionListener listenerButtonConferma;
+        ActionListener listenerButtonAnnulla;
+        DefaultListModel modelListaSeleziona = new DefaultListModel();
+        modelListaSeleziona.clear();
+
+        editFrame.getEditFrameContentPane().getEditPanelCameriere().setTextFieldNome(cameriere.getNome());
+        editFrame.getEditFrameContentPane().getEditPanelCameriere().setTextFieldCognome(cameriere.getCognome());
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+        CameriereDAO cameriereDAO = new CameriereImpl(connection);
+
+        /*
+         * Estrazione dei codici di tutte i servizi operati dal cameriere
+         * e inserimento nel defaultListModel da utilizzare per
+         * visualizzare tutti i servizi del cameriere su vista
+         *
+         * LISTA SELEZIONE PRENOTAZIONI/SERVIZI
+         * */
+        ArrayList<Tavolata> tavolateCameriere = tavolataDAO.getAllTavolateByCameriere(cameriere.getCodiceCameriere());
+        ArrayList<String> codiciPrenotazioni = new ArrayList<>();
+        for (Tavolata t : tavolateCameriere)
+            codiciPrenotazioni.add(t.toString());
+        modelListaSeleziona.addAll(codiciPrenotazioni);
+        editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().setModel(modelListaSeleziona);
+
+        if (Arrays.asList(editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonConferma().getActionListeners()).isEmpty()) {
+
+            /*
+             * Istanzia addFrame su Panel ServizioToCameriere per inserire un nuovo servizio (già esistente) al cameriere
+             *
+             * BUTTON ADD PRENOTAZIONE/SERVIZIO ESISTENTE
+             * */
+            listenerButtonAddPrenotazione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    editFrame.dispose();
+                    addFrame addFrame = new addFrame();
+                    CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
+                    cardLayout.show(addFrame.getContentPane(), "Panel ServizioToCameriere");
+                    listenersAddPanelServizioToCameriere(addFrame, cameriere);
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonAddPrenotazione().addActionListener(listenerButtonAddPrenotazione);
+
+            /*
+             * Estrae la prenotazione selezionata dalla lista di selezione per rimuoverla dai servizi del cameriere.
+             * Dopo la rimozione del servizio elimina anche l'elemento corrispondente dalla lista selezione
+             *
+             * BUTTON RIMUOVI PRENOTAZIONE
+             * */
+            listenerButtonRemovePrenotazione = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().isSelectionEmpty()) {
+                        String tempString = (String) editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().getSelectedValue();
+                        int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
+                        Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+
+                        if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler rimuovere \"Servizio " + tempCodice +
+                                        "\" dai servizi di \"" + cameriere + "\"?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            tempTavolata.getCamerieri().remove(cameriere);
+                            tavolataDAO.updatePrenotazione(tempTavolata);
+                            codiciPrenotazioni.remove(tempTavolata.toString());
+                            modelListaSeleziona.clear();
+                            modelListaSeleziona.addAll(codiciPrenotazioni);
+                            editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().setModel(modelListaSeleziona);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonRemovePrenotazione().addActionListener(listenerButtonRemovePrenotazione);
+
+            /*
+             * Estrae l'elemento selezionato dalla lista di selezione per aprire il panel di modifica dell'elemento
+             *
+             * BUTTON MODIFICA SELEZIONATO PRENOTAZIONE/SERVIZIO
+             * */
+            listenerButtonModificaPrenotazioneSelezionata = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().isSelectionEmpty()) {
+                        if (JOptionPane.showConfirmDialog(null, "Le modifiche apportate andranno perse, sei sicuro di voler continuare?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            CardLayout cardLayout = (CardLayout) editFrame.getEditFrameContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+
+                            String tempString = (String) editFrame.getEditFrameContentPane().getEditPanelCameriere().getListPrenotazioni().getSelectedValue();
+                            int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
+                            Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
+
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonModificaPrenotazioneSelezionata().addActionListener(listenerButtonModificaPrenotazioneSelezionata);
+
+            /*
+             * Elimina il cameriere di cui si sta facendo l'edit e aggiorna la lista selezione in mainPanelCamerieri
+             *
+             * BUTTON ELIMINA
+             * */
+            listenerButtonElimina = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare \"" + cameriere + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                        cameriereDAO.deleteCameriere(cameriere);
+
+                        DefaultListModel tempModel = (DefaultListModel) mainFrame.getMainFrameContentPane().getMainPanelCamerieri().getListaSelezione().getModel();
+
+                        ArrayList<String> tempArrayString = new ArrayList<>();
+                        for (int i = 0; i < tempModel.getSize(); i++)
+                            tempArrayString.add((String) tempModel.getElementAt(i));
+
+                        if (tempArrayString.contains(cameriere.toString())) {
+                            tempArrayString.remove(cameriere.toString());
+
+                            tempModel.clear();
+                            tempModel.addAll(tempArrayString);
+                            mainFrame.getMainFrameContentPane().getMainPanelClienti().getListaSelezione().setModel(tempModel);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonElimina().addActionListener(listenerButtonElimina);
+
+            /*
+             * Aggiorna in database le credenziali del cameriere di cui si sta facendo l'edit
+             * se il nuovo codice cameriere è diverso da qualsiasi altro in database.
+             * Aggiorna la lista selezione di mainPanel Camerieri
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler modificare \"" + cameriere + "\"?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+
+                        String oldToString = cameriere.toString();
+
+                        cameriere.setNome(editFrame.getEditFrameContentPane().getEditPanelCameriere().getTextFieldNome());
+                        cameriere.setCognome(editFrame.getEditFrameContentPane().getEditPanelCameriere().getTextFieldCognome());
+                        editFrame.dispose();
+
+                        DefaultListModel tempModel = (DefaultListModel) mainFrame.getMainFrameContentPane().getMainPanelCamerieri().getListaSelezione().getModel();
+
+                        ArrayList<String> tempArrayString = new ArrayList<>();
+                        for (int i = 0; i < tempModel.getSize(); i++) {
+                            tempArrayString.add((String) tempModel.getElementAt(i));
+                        }
+
+                        if(tempArrayString.contains(oldToString)) {
+                            tempArrayString.set(tempArrayString.indexOf(oldToString), cameriere.toString());
+
+                            tempModel.clear();
+                            tempModel.addAll(tempArrayString);
+                            mainFrame.getMainFrameContentPane().getMainPanelClienti().getListaSelezione().setModel(tempModel);
+                        }
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonConferma().addActionListener(listenerButtonConferma);
+
+            /*
+             * Chiude editFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestr?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        editFrame.dispose();
+                    }
+                }
+            };
+            editFrame.getEditFrameContentPane().getEditPanelCameriere().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+        }
+    }
+
+    private void listenersAddPanelServizioToCameriere(addFrame addFrame, Cameriere cameriere) {
+        //TODO addPanel ServizioToCameriere - Cameriere
+    }
+
     private void listenersAddPanelClienteToPrenotazione(addFrame addFrame, Tavolata tavolata) {
         //TODO addPanel ClienteToPrenotazione - Prenotazione
     }
@@ -2886,10 +3084,6 @@ public class Controller {
 
     private void listenersStatisticPanel(statisticFrame statisticFrame, Ristorante ristorante) {
         //TODO Statistic Panel
-    }
-
-    private void listenersEditPanelCameriere(editFrame editFrame, Cameriere tempCameriere) {
-        //TODO editPanel Cameriere
     }
 
     private void listenersAddPanelTavolo(addFrame addFrame, mainFrame mainFrame, Sala sala) {
