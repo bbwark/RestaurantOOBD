@@ -190,12 +190,12 @@ public class CameriereImpl implements CameriereDAO {
     @Override
     public void createCameriere(Cameriere cameriere, Tavolata tavolata) {
             try {
-                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Cameriere\" (\"Nome\", \"Cognome\", \"ID_Ristorante\",) VALUES (?, ?, ?)");
+                PreparedStatement st = connection.prepareStatement("INSERT INTO \"Cameriere\" (\"Nome\", \"Cognome\", \"ID_Ristorante\") VALUES (?, ?, ?)");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
 
-                    PreparedStatement st2 = connection.prepareStatement("SELECT  \"Ristorante\".\"ID_Ristorante\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON " +
-                            "(\"Sala\".\"ID_Ristorante\" = “Ristorante\".\"ID_Ristorante\") INNER JOIN \"Tavolo\" ON (\"Tavolo\".\"ID_Sala\" = \"Sala\".\"ID_Sala\") " +
+                    PreparedStatement st2 = connection.prepareStatement("SELECT \"Ristorante\".\"ID_Ristorante\" FROM \"Ristorante\" INNER JOIN \"Sala\" ON " +
+                            "(\"Sala\".\"ID_Ristorante\" = \"Ristorante\".\"ID_Ristorante\") INNER JOIN \"Tavolo\" ON (\"Tavolo\".\"ID_Sala\" = \"Sala\".\"ID_Sala\") " +
                             "INNER JOIN \"Tavolata\" ON (\"Tavolata\".\"Codice_Tavolo\" = \"Tavolo\".\"Codice_Tavolo\") WHERE \"Tavolata\".\"Codice_Prenotazione\" = ?");
                     st2.setInt(1, tavolata.getCodicePrenotazione());
                     ResultSet rs2 = st2.executeQuery();
@@ -203,8 +203,18 @@ public class CameriereImpl implements CameriereDAO {
                     int idRistorante = rs2.getInt(1);
 
                 st.setInt(3, idRistorante);
-
                 st.executeUpdate();
+
+                Statement statement = connection.createStatement();
+                rs2 = statement.executeQuery("SELECT MAX(\"ID_Cameriere\") FROM \"Cameriere\"");
+
+                rs2.next();
+                Cameriere tempCameriere = getCameriereById(rs2.getInt(1));
+                tavolata.getCamerieri().add(tempCameriere);
+                TavolataImpl tempTavolata = new TavolataImpl(connection);
+                tempTavolata.updatePrenotazione(tavolata);
+
+                statement.close();
                 st2.close();
                 rs2.close();
                 st.close();
@@ -217,7 +227,7 @@ public class CameriereImpl implements CameriereDAO {
     public void updateCameriere(Cameriere cameriere) {
             try {
 
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cameriere\" \"Nome\" = ?, \"Cognome\" = ? WHERE \"ID_Cameriere = ?\"");
+                PreparedStatement st = connection.prepareStatement("UPDATE \"Cameriere\" SET \"Nome\" = ?, \"Cognome\" = ? WHERE \"ID_Cameriere\" = ?");
                 st.setString(1, cameriere.getNome());
                 st.setString(2, cameriere.getCognome());
                 st.setInt(3, cameriere.getCodiceCameriere());

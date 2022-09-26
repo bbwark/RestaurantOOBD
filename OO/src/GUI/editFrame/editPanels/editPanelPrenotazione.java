@@ -28,6 +28,8 @@ public class editPanelPrenotazione extends JPanel {
     private JButton buttonRemoveSelezionatoCameriere;
     private JList listaSelezioneCameriere;
 
+    private JLabel labelCodiceTavolo;
+
     private JButton buttonModificaSelezionatoCliente;
     private JButton buttonAddClienteEsistente;
     private JButton buttonModificaSelezionatoCameriere;
@@ -60,6 +62,10 @@ public class editPanelPrenotazione extends JPanel {
         buttonRemoveSelezionatoCliente = new JButtonGrey("Rimuovi Cliente Selezionato");
         listaSelezioneCliente = new JList();
 
+
+        labelCodiceTavolo = new JLabel("Codice Tavolo: ");
+        labelCodiceTavolo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createEmptyBorder(3,10,3,10)));
+
         buttonAddSelezioneCameriere = new JButtonBlue(" + Nuovo Cameriere");
         buttonRemoveSelezionatoCameriere = new JButtonGrey("Rimuovi Cameriere Selezionato");
         listaSelezioneCameriere = new JList();
@@ -85,7 +91,7 @@ public class editPanelPrenotazione extends JPanel {
         gbc.insets = new Insets(10, 10, 5, 0);
         add(labelData, gbc);
 
-        //textField Data
+        //Field Data
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -145,6 +151,15 @@ public class editPanelPrenotazione extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 10, 10, 0);
         add(buttonAddClienteEsistente, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 5, 0);
+        add(labelCodiceTavolo, gbc);
 
         //button Add Selezione Cameriere
         gbc = new GridBagConstraints();
@@ -298,5 +313,9 @@ public class editPanelPrenotazione extends JPanel {
 
     public JButton getButtonAddCameriereEsistente() {
         return buttonAddCameriereEsistente;
+    }
+
+    public void setLabelCodiceTavolo(String string) {
+        this.labelCodiceTavolo.setText("Codice Tavolo: " + string);
     }
 }

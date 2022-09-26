@@ -7,12 +7,17 @@ public class Cameriere{
 
     private String nome;
     private String cognome;
-    private final int codiceCameriere;
+    private int codiceCameriere;
 
     public Cameriere(String nome, String cognome, int codiceCameriere) {
         this.nome = nome;
         this.cognome = cognome;
         this.codiceCameriere = codiceCameriere;
+    }
+
+    public Cameriere(String nome, String cognome) {
+        this.nome = nome;
+        this.cognome = cognome;
     }
 
     public String getNome() {
