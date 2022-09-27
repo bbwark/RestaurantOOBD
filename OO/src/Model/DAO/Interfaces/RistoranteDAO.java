@@ -1,5 +1,6 @@
 package Model.DAO.Interfaces;
 
+import Model.DTO.Cameriere;
 import Model.DTO.Ristorante;
 import Model.DTO.Sala;
 
@@ -10,6 +11,7 @@ public interface RistoranteDAO {
     Ristorante getRistoranteByNome(String nomeRistorante);
     Ristorante getRistoranteById(int id);
     Ristorante getRistoranteBySala(Sala sala);
+    Ristorante getRistoranteByCameriere(Cameriere cameriere);
 
     ArrayList<Ristorante> getAllRistoranti();
 

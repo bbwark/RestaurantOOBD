@@ -34,6 +34,10 @@ public class Ristorante {
 		this.capienza = capienza;
 	}
 
+	public Ristorante(String nome) {
+		this.nome = nome;
+	}
+
 	public String getNome() {
 		return nome;
 	}

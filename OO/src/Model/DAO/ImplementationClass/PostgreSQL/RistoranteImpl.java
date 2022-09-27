@@ -2,6 +2,7 @@ package Model.DAO.ImplementationClass.PostgreSQL;
 
 import Model.DAO.ImplementationClass.PostgreSQL.Connection.DatabasePostgresConnection;
 import Model.DAO.Interfaces.RistoranteDAO;
+import Model.DTO.Cameriere;
 import Model.DTO.Ristorante;
 import Model.DTO.Sala;
 import java.sql.*;
@@ -85,6 +86,24 @@ public class RistoranteImpl implements RistoranteDAO {
     }
 
     @Override
+    public Ristorante getRistoranteByCameriere(Cameriere cameriere) {
+        try{
+            PreparedStatement st = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Cameriere\" WHERE \"ID_Cameriere\" = ?");
+            st.setInt(1, cameriere.getCodiceCameriere());
+            ResultSet rs = st.executeQuery();
+
+            rs.next();
+            Ristorante tempRistorante = getRistoranteById(rs.getInt(1));
+            st.close();
+            rs.close();
+            return  tempRistorante;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Ristorante> getAllRistoranti() {
         ArrayList<Ristorante> result = new ArrayList<>();
             try{
@@ -118,7 +137,6 @@ public class RistoranteImpl implements RistoranteDAO {
                 st.setString(1, ristorante.getNome());
                 st.executeUpdate();
                 st.close();
-                connection.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }

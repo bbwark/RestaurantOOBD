@@ -50,7 +50,7 @@ public class addPanelPrenotazioneToCliente extends JPanel {
         gbc.weighty = 0.0;
         gbc.fill=GridBagConstraints.BOTH;
         gbc.insets=new Insets(0,10,10,10);
-        add(listSelezione, gbc);
+        add(new JScrollPane(listSelezione), gbc);
 
         //button Annulla
         gbc = new GridBagConstraints();
@@ -83,5 +83,9 @@ public class addPanelPrenotazioneToCliente extends JPanel {
 
     public void setModelListaSeleziona(DefaultListModel defaultListModel){
         listSelezione.setModel(defaultListModel);
+    }
+
+    public JList getListSelezione() {
+        return listSelezione;
     }
 }

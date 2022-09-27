@@ -91,4 +91,8 @@ public class addFrameContentPane extends JPanel {
     public GUI.addFrame.addPanels.addPanelPrenotazioneToCliente getAddPanelPrenotazioneToCliente() {
         return addPanelPrenotazioneToCliente;
     }
+
+    public GUI.addFrame.addPanels.addPanelTavoloAdiacenteToTavolo getAddPanelTavoloAdiacenteToTavolo() {
+        return addPanelTavoloAdiacenteToTavolo;
+    }
 }

@@ -11,13 +11,17 @@ public class Tavolata {
 	private LocalDate DataArrivo;
 	private ArrayList<Cameriere> camerieri;
 	private ArrayList<Cliente> clienti;
-	private final int codicePrenotazione;
+	private int codicePrenotazione;
 
 	public Tavolata(LocalDate dataArrivo, ArrayList<Cameriere> camerieri, ArrayList<Cliente> clienti, int codicePrenotazione) {
 		DataArrivo = dataArrivo;
 		this.camerieri = camerieri;
 		this.clienti = clienti;
 		this.codicePrenotazione = codicePrenotazione;
+	}
+
+	public Tavolata(LocalDate dataArrivo) {
+		DataArrivo = dataArrivo;
 	}
 
 	public ArrayList<Cameriere> getCamerieri() {
