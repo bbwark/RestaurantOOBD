@@ -158,10 +158,10 @@ ALTER FUNCTION public.commutazione_adiacenza() OWNER TO postgres;
 
 --
 -- TOC entry 247 (class 1255 OID 58297)
--- Name: conta_posti_1sala_delete_tavolo(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: conta_posti_1sala_delete_update_tavolo(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.conta_posti_1sala_delete_tavolo() RETURNS trigger
+CREATE FUNCTION public.conta_posti_1sala_delete_update_tavolo() RETURNS trigger
     LANGUAGE plpgsql
     AS $$DECLARE x integer;
 BEGIN
@@ -175,7 +175,7 @@ RETURN NEW;
 END$$;
 
 
-ALTER FUNCTION public.conta_posti_1sala_delete_tavolo() OWNER TO postgres;
+ALTER FUNCTION public.conta_posti_1sala_delete_update_tavolo() OWNER TO postgres;
 
 --
 -- TOC entry 248 (class 1255 OID 58296)
@@ -200,10 +200,10 @@ ALTER FUNCTION public.conta_posti_1sala_insert_tavolo() OWNER TO postgres;
 
 --
 -- TOC entry 244 (class 1255 OID 58301)
--- Name: conta_posti_2ristorante_delete_tavolo(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: conta_posti_2ristorante_delete_update_tavolo(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.conta_posti_2ristorante_delete_tavolo() RETURNS trigger
+CREATE FUNCTION public.conta_posti_2ristorante_delete_update_tavolo() RETURNS trigger
     LANGUAGE plpgsql
     AS $$DECLARE x integer;
 DECLARE idRist integer;
@@ -224,7 +224,7 @@ RETURN NEW;
 END$$;
 
 
-ALTER FUNCTION public.conta_posti_2ristorante_delete_tavolo() OWNER TO postgres;
+ALTER FUNCTION public.conta_posti_2ristorante_delete_update_tavolo() OWNER TO postgres;
 
 --
 -- TOC entry 245 (class 1255 OID 58300)
@@ -979,10 +979,10 @@ CREATE TRIGGER commutazione AFTER INSERT ON public."TavoliAdiacenti" FOR EACH RO
 
 --
 -- TOC entry 3260 (class 2620 OID 58299)
--- Name: Tavolo conta_posti_1sala_delete_tavolo; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: Tavolo conta_posti_1sala_delete_update_tavolo; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER conta_posti_1sala_delete_tavolo AFTER DELETE ON public."Tavolo" FOR EACH ROW EXECUTE FUNCTION public.conta_posti_1sala_delete_tavolo();
+CREATE TRIGGER conta_posti_1sala_delete_update_tavolo AFTER DELETE OR UPDATE ON public."Tavolo" FOR EACH ROW EXECUTE FUNCTION public.conta_posti_1sala_delete_update_tavolo();
 
 
 --
@@ -995,10 +995,10 @@ CREATE TRIGGER conta_posti_1sala_insert_tavolo AFTER INSERT ON public."Tavolo" F
 
 --
 -- TOC entry 3258 (class 2620 OID 58303)
--- Name: Tavolo conta_posti_2ristorante_delete_tavolo; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: Tavolo conta_posti_2ristorante_delete_update_tavolo; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER conta_posti_2ristorante_delete_tavolo AFTER DELETE ON public."Tavolo" FOR EACH ROW EXECUTE FUNCTION public.conta_posti_2ristorante_delete_tavolo();
+CREATE TRIGGER conta_posti_2ristorante_delete_update_tavolo AFTER DELETE ON public."Tavolo" FOR EACH ROW EXECUTE FUNCTION public.conta_posti_2ristorante_delete_update_tavolo();
 
 
 --

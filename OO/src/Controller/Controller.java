@@ -78,7 +78,13 @@ public class Controller {
                     modelListaVisualizza.addAll(nomiSale);
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaVisualizza().setModel(modelListaVisualizza);
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelTableVisualizza(tempRistorante.getNome());
-                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelCapienza(Integer.toString(tempRistorante.getCapienza()));
+
+                    int capienza = 0;
+                    for (Sala s : tempRistorante.getSale())
+                        for (Tavolo t : s.getTavoli())
+                            capienza = capienza + t.getMaxAvventori();
+
+                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelCapienza(Integer.toString(capienza));
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelNumeroCamerieri(Integer.toString(tempRistorante.getNumeroCamerieri()));
                 }
             };
@@ -324,7 +330,13 @@ public class Controller {
                         modelListaVisualizza.addAll(idTavoli);
                         mainFrame.getMainFrameContentPane().getMainPanelSala().getListaVisualizza().setModel(modelListaVisualizza);
                         mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelTableVisualizza(tempSala.toString() + " [" + Integer.toString(tempSala.getNumeroTavoli()) + "]");
-                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelCapienza(Integer.toString(tempSala.getCapienza()));
+
+                        int capienza = 0;
+
+                        for (Tavolo t : tempSala.getTavoli())
+                            capienza = capienza + t.getMaxAvventori();
+
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelCapienza(Integer.toString(capienza));
                     }
                 }
             };
@@ -2401,7 +2413,7 @@ public class Controller {
                     addFrame addFrame = new addFrame();
                     CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
                     cardLayout.show(addFrame.getContentPane(), "Panel ClienteToPrenotazione");
-                    listenersAddPanelClienteToPrenotazione(addFrame, tavolata);
+                    listenersAddPanelClienteToPrenotazione(addFrame, mainFrame, tavolata);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelPrenotazioni().getButtonAddClienteEsistente().addActionListener(listenerButtonAddClienteEsistente);
@@ -3062,54 +3074,55 @@ public class Controller {
 
         CameriereDAO cameriereDAO = new CameriereImpl(connection);
 
-        /*
-         * Chiude addFrame senza effettuare nessun cambiamento
-         *
-         * BUTTON ANNULLA
-         * */
-        listenerButtonAnnulla = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
-                        "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    addFrame.dispose();
-                    editFrame editFrame = new editFrame();
-                    CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
-                    cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                    listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonConferma().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
                 }
-            }
-        };
-        addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
-        /*
-        * Estrae i valori inseriti nelle TextField e aggiunge il nuovo cameriere al database.
-        * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
-        *
-        * BUTTON CONFERMA
-        * */
-        listenerButtonConferma = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nuovoNome = addFrame.getAddFrameContentPane().getAddPanelCameriere().getTextFieldNome();
-                String nuovoCognome = addFrame.getAddFrameContentPane().getAddPanelCameriere().getTextFieldCognome();
-                if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cameriere " + nuovoNome + " " + nuovoCognome + " al sistema?",
-                        "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Cameriere cameriere = new Cameriere(nuovoNome, nuovoCognome);
-                    cameriereDAO.createCameriere(cameriere, tavolata);
-                    addFrame.dispose();
-                    editFrame editFrame = new editFrame();
-                    CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
-                    cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                    listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+            /*
+             * Estrae i valori inseriti nelle TextField e aggiunge il nuovo cameriere al database.
+             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String nuovoNome = addFrame.getAddFrameContentPane().getAddPanelCameriere().getTextFieldNome();
+                    String nuovoCognome = addFrame.getAddFrameContentPane().getAddPanelCameriere().getTextFieldCognome();
+                    if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cameriere " + nuovoNome + " " + nuovoCognome + " al sistema?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        Cameriere cameriere = new Cameriere(nuovoNome, nuovoCognome);
+                        cameriereDAO.createCameriere(cameriere, tavolata);
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
                 }
-            }
-        };
-        addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonConferma().addActionListener(listenerButtonConferma);
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonConferma().addActionListener(listenerButtonConferma);
+        }
     }
 
     private void listenersAddPanelCameriereToServizio(addFrame addFrame, mainFrame mainFrame, Tavolata tavolata) {
-        //TODO addPanel CameriereToServizio - Prenotazione
         ActionListener listenerButtonAnnulla;
         ActionListener listenerButtonAggiungi;
         DefaultListModel modelListaSelezione = new DefaultListModel();
@@ -3153,6 +3166,12 @@ public class Controller {
             };
             addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
+            /*
+            * Estrae il cameriere selezionato dalla lista e lo aggiunge alla tavolata di cui poi fa l'update.
+            * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+            *
+            * BUTTON CONFERMA
+            * */
             listenerButtonAggiungi = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -3177,20 +3196,143 @@ public class Controller {
         }
     }
 
+    private void listenersAddPanelCliente(addFrame addFrame, mainFrame mainFrame, Tavolata tavolata) {
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonConferma;
+
+        ClienteDAO clienteDAO = new ClienteImpl(connection);
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelCliente().getButtonConferma().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCliente().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            /*
+             * Estrae i valori inseriti nelle TextField e aggiunge il nuovo cameriere al database.
+             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String nuovoNome = addFrame.getAddFrameContentPane().getAddPanelCliente().getTextFieldNome();
+                    String nuovoCognome = addFrame.getAddFrameContentPane().getAddPanelCliente().getTextFieldCognome();
+                    String nuovoIdCard = addFrame.getAddFrameContentPane().getAddPanelCliente().getTextFieldCartaID();
+                    String nuovoNumTel = addFrame.getAddFrameContentPane().getAddPanelCliente().getTextFieldNumerotel();
+                    if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cliente " + nuovoNome + " " + nuovoCognome + " al sistema?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        Cliente cliente = new Cliente(nuovoNome, nuovoCognome, nuovoIdCard, nuovoNumTel);
+                        clienteDAO.createCliente(cliente);
+                        tavolata.getClienti().add(cliente);
+                        tavolataDAO.updatePrenotazione(tavolata);
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCliente().getButtonConferma().addActionListener(listenerButtonConferma);
+        }
+    }
+
+    private void listenersAddPanelClienteToPrenotazione(addFrame addFrame, mainFrame mainFrame, Tavolata tavolata) {
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonAggiungi;
+        DefaultListModel modelListaSelezione = new DefaultListModel();
+        modelListaSelezione.clear();
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+        ClienteDAO clienteDAO = new ClienteImpl(connection);
+
+        ArrayList<Cliente> clientiDisponibili = clienteDAO.getAllClienti();
+        ArrayList<String> idCardsNomiCognomi = new ArrayList<>();
+        for (Cliente c : clientiDisponibili)
+            idCardsNomiCognomi.add(c.toString());
+        for (Cliente c : tavolata.getClienti())
+            idCardsNomiCognomi.remove(c.toString());
+        modelListaSelezione.addAll(idCardsNomiCognomi);
+        addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().setModelListaSeleziona(modelListaSelezione);
+
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().getButtonAggiungi().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessun cameriere al servizio, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            /*
+             * Estrae il cameriere selezionato dalla lista e lo aggiunge alla tavolata di cui poi fa l'update.
+             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonAggiungi = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().getListSelezione().isSelectionEmpty()) {
+
+                        String tempString = (String) addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().getListSelezione().getSelectedValue();
+                        tempString = tempString.substring(0, tempString.indexOf("#"));
+                        Cliente tempCliente = clienteDAO.getClienteById(tempString);
+
+                        if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cliente " + tempCliente.getNome() + " " + tempCliente.getCognome() + " alla prenotazione?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            tavolata.getClienti().add(tempCliente);
+                            tavolataDAO.updatePrenotazione(tavolata);
+                            addFrame.dispose();
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelClienteToPrenotazione().getButtonAggiungi().addActionListener(listenerButtonAggiungi);
+        }
+    }
+
     private void listenersAddPanelServizioToCameriere(addFrame addFrame, Cameriere cameriere) {
         //TODO addPanel ServizioToCameriere - Cameriere
     }
 
-    private void listenersAddPanelClienteToPrenotazione(addFrame addFrame, Tavolata tavolata) {
-        //TODO addPanel ClienteToPrenotazione - Prenotazione
-    }
 
     private void listenersAddPanelPrenotazioneToCliente(addFrame addFrame, Cliente cliente) {
-        //TODO addPanel PrenotazineToCliente - Cliente
-    }
-
-    private void listenersAddPanelCliente(addFrame addFrame, mainFrame mainFrame, Tavolata tavolata) {
-        //TODO addPanel Cliente - Tavolata
+        //TODO addPanel PrenotazioneToCliente - Cliente
     }
 
     private void listenersAddPanelTavoloAdiacenteTavolo(addFrame addFrame, Sala tempSala, Tavolo tavolo) {
