@@ -2418,7 +2418,7 @@ public class Controller {
                     addFrame addFrame = new addFrame();
                     CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
                     cardLayout.show(addFrame.getContentPane(), "Panel CameriereToServizio");
-                    listenersAddPanelCameriereToServizio(addFrame, tavolata);
+                    listenersAddPanelCameriereToServizio(addFrame, mainFrame, tavolata);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelPrenotazioni().getButtonAddCameriereEsistente().addActionListener(listenerButtonAddCameriereEsistente);
@@ -3082,6 +3082,12 @@ public class Controller {
         };
         addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
+        /*
+        * Estrae i valori inseriti nelle TextField e aggiunge il nuovo cameriere al database.
+        * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+        *
+        * BUTTON CONFERMA
+        * */
         listenerButtonConferma = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -3102,16 +3108,81 @@ public class Controller {
         addFrame.getAddFrameContentPane().getAddPanelCameriere().getButtonConferma().addActionListener(listenerButtonConferma);
     }
 
+    private void listenersAddPanelCameriereToServizio(addFrame addFrame, mainFrame mainFrame, Tavolata tavolata) {
+        //TODO addPanel CameriereToServizio - Prenotazione
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonAggiungi;
+        DefaultListModel modelListaSelezione = new DefaultListModel();
+        modelListaSelezione.clear();
+
+        RistoranteDAO ristoranteDAO = new RistoranteImpl(connection);
+        SalaDAO salaDAO = new SalaImpl(connection);
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+        CameriereDAO cameriereDAO = new CameriereImpl(connection);
+
+        Ristorante ristorante = ristoranteDAO.getRistoranteBySala(salaDAO.getSalaByTavolo(tavoloDAO.getTavoloByTavolata(tavolata)));
+
+        ArrayList<Cameriere> camerieriDisponibili = cameriereDAO.getAllCamerieriByRistorante(ristorante.getNome());
+        ArrayList<String> codiciNomiCamerieri = new ArrayList<>();
+        for (Cameriere c : camerieriDisponibili)
+            codiciNomiCamerieri.add(c.toString());
+        for (Cameriere c : tavolata.getCamerieri())
+            codiciNomiCamerieri.remove(c.toString());
+        modelListaSelezione.addAll(codiciNomiCamerieri);
+        addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().setModelListaSeleziona(modelListaSelezione);
+
+        if(Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getButtonAggiungi().getActionListeners()).isEmpty()){
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessun cameriere al servizio, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            listenerButtonAggiungi = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getListSelezione().isSelectionEmpty()) {
+                        String tempString = (String) addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getListSelezione().getSelectedValue();
+                        int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
+                        Cameriere tempCameriere = cameriereDAO.getCameriereById(tempId);
+                        if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cameriere " + tempCameriere.getNome() + " " + tempCameriere.getCognome() + " al servizio?",
+                                "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            tavolata.getCamerieri().add(tempCameriere);
+                            tavolataDAO.updatePrenotazione(tavolata);
+                            addFrame.dispose();
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelCameriereToServizio().getButtonAggiungi().addActionListener(listenerButtonAggiungi);
+        }
+    }
+
     private void listenersAddPanelServizioToCameriere(addFrame addFrame, Cameriere cameriere) {
         //TODO addPanel ServizioToCameriere - Cameriere
     }
 
     private void listenersAddPanelClienteToPrenotazione(addFrame addFrame, Tavolata tavolata) {
         //TODO addPanel ClienteToPrenotazione - Prenotazione
-    }
-
-    private void listenersAddPanelCameriereToServizio(addFrame addFrame, Tavolata tavolata) {
-        //TODO addPanel CameriereToServizio - Prenotazione
     }
 
     private void listenersAddPanelPrenotazioneToCliente(addFrame addFrame, Cliente cliente) {
