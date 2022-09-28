@@ -2,11 +2,14 @@ package Controller;
 
 import GUI.addFrame.addFrame;
 import GUI.editFrame.editFrame;
+import GUI.loginFrame.loginFrame;
 import GUI.mainFrame.mainFrame;
 import GUI.statisticFrame.statisticFrame;
 import Model.DAO.ImplementationClass.PostgreSQL.*;
+import Model.DAO.ImplementationClass.PostgreSQL.Connection.DatabasePostgresConnection;
 import Model.DAO.Interfaces.*;
 import Model.DTO.*;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,16 +20,69 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 public class Controller {
 
-    Connection connection;
+    private Connection connection;
+    private mainFrame mainFrame;
 
-    public Controller(mainFrame mainFrame, Connection connection) {
-        this.connection = connection;
-        RistoranteDAO ristoranteDAO = new RistoranteImpl(connection);
-        listenersMainPanelRistorante(mainFrame);
+    public Controller() {
+        loginFrame loginFrame = new loginFrame();
+        listenersLoginFrame(loginFrame);
+    }
+
+    private void listenersLoginFrame(loginFrame loginFrame) {
+        ActionListener listenerButtonConferma;
+        ActionListener listenerButtonAnnulla;
+
+        loginFrame.getLoginFrameContentPane().getLoginPanel().setTextFieldHost("localhost");
+        loginFrame.getLoginFrameContentPane().getLoginPanel().setTextFieldPort("5432");
+        loginFrame.getLoginFrameContentPane().getLoginPanel().setTextFieldDatabaseName("Restaurant");
+        loginFrame.getLoginFrameContentPane().getLoginPanel().setTextFieldUsername("postgres");
+        loginFrame.getLoginFrameContentPane().getLoginPanel().setTextFieldPassword("postgres");
+
+        /*
+        * Alla pressione del bottone conferma vengono estratte le credenziali inserite nella textField
+        * e si tenta una connessione con il database, se questa fallisce appare un Message Dialog che informa dell'avvenuto errore,
+        * altrimenti viene stabilita la connessione e aperto il mainFrame, viene chiamato il metodo per aggiungere i listeners al
+        * primo pannello del frame principale da cui segue l'esecuzione del programma
+        *
+        * BUTTON CONFERMA
+        * */
+        listenerButtonConferma = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String host = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldHost();
+                String port = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldPort();
+                String databaseName = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldDatabaseName();
+                String username = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldUsername();
+                String password = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldPassword();
+                DatabasePostgresConnection databasePostgresConnection = new DatabasePostgresConnection(host, port, databaseName, username, password);
+                if(databasePostgresConnection.open()){
+                    loginFrame.dispose();
+                    connection = databasePostgresConnection.getConnection();
+                    mainFrame = new mainFrame();
+                    listenersMainPanelRistorante(mainFrame);
+                }
+                else{
+                    JOptionPane.showMessageDialog(loginFrame, "Il database non esiste o le credenziali sono incorrette");
+                }
+            }
+        };
+        loginFrame.getLoginFrameContentPane().getLoginPanel().getButtonConferma().addActionListener(listenerButtonConferma);
+
+        /*
+        * Chiude il frame senza eseguire nulla, rilasciando le risorse e terminando il programma
+        *
+        * BUTTON ANNULLA
+        * */
+        listenerButtonAnnulla = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginFrame.dispose();
+            }
+        };
+        loginFrame.getLoginFrameContentPane().getLoginPanel().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
     }
 
     private void listenersMainPanelRistorante(mainFrame mainFrame) {
@@ -260,6 +316,12 @@ public class Controller {
                         ex.printStackTrace();
                     } finally {
                         ((JFrame) (e.getComponent())).dispose();
+                        try {
+                            if(connection.isClosed())
+                                System.exit(0);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -467,7 +529,7 @@ public class Controller {
                     int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Sala tempSala = salaDAO.getSalaById(tempId);
 
-                    listenersAddPanelSala(addFrame, mainFrame, ristoranteDAO.getRistoranteBySala(tempSala));
+                    listenersAddPanelSala(addFrame, mainFrame, ristoranteDAO.getRistoranteBySala(tempSala), true);
                 }
             };
             mainFrame.getMainFrameContentPane().getMainPanelSala().getButtonAdd().addActionListener(listenerButtonAdd);
@@ -648,7 +710,7 @@ public class Controller {
                     int tempId = Integer.parseInt((String) mainFrame.getMainFrameContentPane().getMainPanelTavolo().getListaSelezione().getSelectedValue());
                     Tavolo tempTavolo = tavoloDAO.getTavoloById(tempId);
 
-                    listenersAddPanelTavolo(addFrame, mainFrame, salaDAO.getSalaByTavolo(tempTavolo));
+                    listenersAddPanelTavolo(addFrame, mainFrame, salaDAO.getSalaByTavolo(tempTavolo), true);
                 }
             };
             mainFrame.getMainFrameContentPane().getMainPanelTavolo().getButtonAdd().addActionListener(listenerButtonAdd);
@@ -755,7 +817,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, true);
                 }
             }
         };
@@ -879,7 +941,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, true);
                 }
             }
         };
@@ -1003,7 +1065,7 @@ public class Controller {
                     int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                     Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                    listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, true);
                 }
             }
         };
@@ -1678,7 +1740,7 @@ public class Controller {
                     CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
                     cardLayout.show(addFrame.getContentPane(), "Panel Sala");
 
-                    listenersAddPanelSala(addFrame, mainFrame, ristorante);
+                    listenersAddPanelSala(addFrame, mainFrame, ristorante, false);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelRistorante().getButtonAddSelezione().addActionListener(listenerButtonAddSelezione);
@@ -1779,16 +1841,18 @@ public class Controller {
                         }
 
                         if (!nomiRistoranti.contains(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome())) {
-                            ristorante.setNome(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome());
-                            editFrame.dispose();
-                            ristoranteDAO.updateRistorante(ristorante, oldName);
+                            if(!editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome().equals(ristorante.getNome())) {
+                                ristorante.setNome(editFrame.getEditFrameContentPane().getEditPanelRistorante().getTextFieldNome());
+                                editFrame.dispose();
+                                ristoranteDAO.updateRistorante(ristorante, oldName);
 
-                            DefaultListModel tempModel = new DefaultListModel<>();
+                                DefaultListModel tempModel = new DefaultListModel<>();
 
-                            nomiRistoranti.remove(oldName);
-                            nomiRistoranti.add(ristorante.getNome());
-                            tempModel.addAll(nomiRistoranti);
-                            mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
+                                nomiRistoranti.remove(oldName);
+                                nomiRistoranti.add(ristorante.getNome());
+                                tempModel.addAll(nomiRistoranti);
+                                mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaSelezione().setModel(tempModel);
+                            }
                         } else {
                             JOptionPane.showMessageDialog(editFrame, "Il nome selezionato è già in uso");
                         }
@@ -1860,7 +1924,7 @@ public class Controller {
                     CardLayout cardLayout = (CardLayout) addFrame.getContentPane().getLayout();
                     cardLayout.show(addFrame.getContentPane(), "Panel Tavolo");
 
-                    listenersAddPanelTavolo(addFrame, mainFrame, sala);
+                    listenersAddPanelTavolo(addFrame, mainFrame, sala, false);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelSala().getButtonAddSelezione().addActionListener(listenerButtonAddSelezione);
@@ -1935,6 +1999,7 @@ public class Controller {
                         for (Sala s : tempRistorante.getSale()) {
                             idNomiSale.add(s.toString());
                         }
+                        idNomiSale.remove(sala.toString());
                         tempModel.addAll(idNomiSale);
                         mainFrame.getMainFrameContentPane().getMainPanelSala().getListaSelezione().setModel(tempModel);
                         salaDAO.deleteSala(sala);
@@ -2075,7 +2140,7 @@ public class Controller {
                     cardLayout.show(addFrame.getContentPane(), "Panel Tavolo");
 
                     Sala tempSala = salaDAO.getSalaByTavolo(tavolo);
-                    listenersAddPanelTavolo(addFrame, mainFrame, tempSala);
+                    listenersAddPanelTavoloAdiacente(addFrame, mainFrame, tempSala, tavolo);
                 }
             };
             editFrame.getEditFrameContentPane().getEditPanelTavolo().getButtonAddSelezioneTavoloAdiacente().addActionListener(listenerButtonAddSelezioneTavoloAdiacente);
@@ -2160,7 +2225,7 @@ public class Controller {
                             int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                             Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, false);
                         }
                     }
                 }
@@ -2309,7 +2374,7 @@ public class Controller {
         }
     }
 
-    private void listenersEditPanelPrenotazione(editFrame editFrame, mainFrame mainFrame, Tavolata tavolata) {
+    private void listenersEditPanelPrenotazione(editFrame editFrame, mainFrame mainFrame, Tavolata tavolata, boolean fromMain) {
         ActionListener listenerButtonAddSelezioneCliente;
         ActionListener listenerButtonAddSelezioneCameriere;
         ActionListener listenerButtonAddClienteEsistente;
@@ -2617,24 +2682,25 @@ public class Controller {
                                 } else {
                                     JOptionPane.showMessageDialog(editFrame, "Il tavolo è già occupato per la data scelta");
                                 }
-                            }
-                            else {
+                            } else {
                                 editFrame.dispose();
                                 tavolataDAO.updatePrenotazione(tavolata);
                             }
 
-                            DefaultListModel tempModel = (DefaultListModel) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getModel();
+                            if (fromMain) {
+                                DefaultListModel tempModel = (DefaultListModel) mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().getModel();
 
-                            ArrayList<String> tempArrayString = new ArrayList<>();
-                            for (int i = 0; i < tempModel.getSize(); i++){
-                                tempArrayString.add((String) tempModel.getElementAt(i));
+                                ArrayList<String> tempArrayString = new ArrayList<>();
+                                for (int i = 0; i < tempModel.getSize(); i++) {
+                                    tempArrayString.add((String) tempModel.getElementAt(i));
+                                }
+
+                                tempArrayString.set(tempArrayString.indexOf(oldToString), tavolata.toString());
+
+                                tempModel.clear();
+                                tempModel.addAll(tempArrayString);
+                                mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().setModel(tempModel);
                             }
-
-                            tempArrayString.set(tempArrayString.indexOf(oldToString), tavolata.toString());
-
-                            tempModel.clear();
-                            tempModel.addAll(tempArrayString);
-                            mainFrame.getMainFrameContentPane().getMainPanelPrenotazioni().getListaSelezione().setModel(tempModel);
                         }
                     }
                     else {
@@ -2761,7 +2827,7 @@ public class Controller {
                             int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                             Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, false);
                         }
                     }
                 }
@@ -2975,7 +3041,7 @@ public class Controller {
                             int tempCodice = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                             Tavolata tempTavolata = tavolataDAO.getTavolataById(tempCodice);
 
-                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata);
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tempTavolata, false);
                         }
                     }
                 }
@@ -3095,7 +3161,7 @@ public class Controller {
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                     }
                 }
             };
@@ -3120,7 +3186,7 @@ public class Controller {
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                     }
                 }
             };
@@ -3166,7 +3232,7 @@ public class Controller {
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                     }
                 }
             };
@@ -3193,7 +3259,7 @@ public class Controller {
                             editFrame editFrame = new editFrame();
                             CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                             cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                         }
                     }
                 }
@@ -3224,7 +3290,7 @@ public class Controller {
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                     }
                 }
             };
@@ -3245,15 +3311,26 @@ public class Controller {
                     String nuovoNumTel = addFrame.getAddFrameContentPane().getAddPanelCliente().getTextFieldNumerotel();
                     if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Cliente " + nuovoNome + " " + nuovoCognome + " al sistema?",
                             "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        Cliente cliente = new Cliente(nuovoNome, nuovoCognome, nuovoIdCard, nuovoNumTel);
-                        clienteDAO.createCliente(cliente);
-                        tavolata.getClienti().add(cliente);
-                        tavolataDAO.updatePrenotazione(tavolata);
-                        addFrame.dispose();
-                        editFrame editFrame = new editFrame();
-                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
-                        cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+
+                        boolean checkDisponibile = true;
+                        for (Cliente c : clienteDAO.getAllClienti())
+                            if (c.getNumeroIdCard().equals(nuovoIdCard))
+                                checkDisponibile = false;
+
+                        if (checkDisponibile) {
+                            Cliente cliente = new Cliente(nuovoNome, nuovoCognome, nuovoIdCard, nuovoNumTel);
+                            clienteDAO.createCliente(cliente);
+                            tavolata.getClienti().add(cliente);
+                            tavolataDAO.updatePrenotazione(tavolata);
+                            addFrame.dispose();
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(addFrame, "Esiste già un cliente con questa carta d'identità");
                     }
                 }
             };
@@ -3288,13 +3365,13 @@ public class Controller {
             listenerButtonAnnulla = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessun cameriere al servizio, sicuro di voler chiudere la finestra?",
+                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessun cliente alla prenotazione, sicuro di voler chiudere la finestra?",
                             "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         addFrame.dispose();
                         editFrame editFrame = new editFrame();
                         CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                         cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                        listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                     }
                 }
             };
@@ -3323,7 +3400,7 @@ public class Controller {
                             editFrame editFrame = new editFrame();
                             CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
                             cardLayout.show(editFrame.getContentPane(), "Panel Prenotazione");
-                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata);
+                            listenersEditPanelPrenotazione(editFrame, mainFrame, tavolata, false);
                         }
                     }
                 }
@@ -3336,6 +3413,7 @@ public class Controller {
         ActionListener listenerButtonAnnulla;
         ActionListener listenerButtonConferma;
 
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
         TavolataDAO tavolataDAO = new TavolataImpl(connection);
 
         if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelPrenotazione().getButtonConferma().getActionListeners()).isEmpty()) {
@@ -3411,7 +3489,6 @@ public class Controller {
 
         RistoranteDAO ristoranteDAO = new RistoranteImpl(connection);
         TavolataDAO tavolataDAO = new TavolataImpl(connection);
-        CameriereDAO cameriereDAO = new CameriereImpl(connection);
 
         Ristorante ristorante = ristoranteDAO.getRistoranteByCameriere(cameriere);
 
@@ -3447,8 +3524,8 @@ public class Controller {
             addFrame.getAddFrameContentPane().getAddPanelServizioToCameriere().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
             /*
-             * Estrae il cameriere selezionato dalla lista e lo aggiunge alla tavolata di cui poi fa l'update.
-             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             * Estrae il servizio selezionato dalla lista e lo aggiunge al cameriere, poi fa l'update della tavolata.
+             * Istanzia un nuovo editFrame per ritornare a PanelCameriere del cameriere aggiornato con il nuovo valore
              *
              * BUTTON CONFERMA
              * */
@@ -3485,7 +3562,6 @@ public class Controller {
         modelListaSelezione.clear();
 
         TavolataDAO tavolataDAO = new TavolataImpl(connection);
-        ClienteDAO clienteDAO = new ClienteImpl(connection);
 
         ArrayList<Tavolata> serviziDisponibili = tavolataDAO.getAllTavolate();
         ArrayList<String> codiciServizi = new ArrayList<>();
@@ -3506,7 +3582,7 @@ public class Controller {
             listenerButtonAnnulla = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessun servizio al cameriere, sicuro di voler chiudere la finestra?",
+                    if (JOptionPane.showConfirmDialog(null, "Non verrà aggiunto nessuna prenotazione al cliente, sicuro di voler chiudere la finestra?",
                             "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         addFrame.dispose();
                         editFrame editFrame = new editFrame();
@@ -3519,8 +3595,8 @@ public class Controller {
             addFrame.getAddFrameContentPane().getAddPanelPrenotazioneToCliente().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
             /*
-             * Estrae il cameriere selezionato dalla lista e lo aggiunge alla tavolata di cui poi fa l'update.
-             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             * Estrae la prenotazione selezionata dalla lista e lo aggiunge al cliente, poi fa l'update della tavolata.
+             * Istanzia un nuovo editFrame per ritornare a PanelCliente del cliente aggiornato con il nuovo valore
              *
              * BUTTON CONFERMA
              * */
@@ -3533,7 +3609,7 @@ public class Controller {
                         int tempId = Integer.parseInt(tempString.substring(0, tempString.indexOf("#")));
                         Tavolata tavolata = tavolataDAO.getTavolataById(tempId);
 
-                        if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Servizio " + tempId + " al cameriere?",
+                        if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta della Prenotazione " + tempId + " al cliente?",
                                 "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                             tavolata.getClienti().add(cliente);
                             tavolataDAO.updatePrenotazione(tavolata);
@@ -3591,8 +3667,8 @@ public class Controller {
             addFrame.getAddFrameContentPane().getAddPanelTavoloAdiacenteToTavolo().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
 
             /*
-             * Estrae il cameriere selezionato dalla lista e lo aggiunge alla tavolata di cui poi fa l'update.
-             * Istanzia un nuovo editFrame per ritornare a PanelPrenotazione della tavolata aggiornata con il nuovo valore
+             * Estrae il potenziale tavolo adiacente selezionato dalla lista e lo aggiunge al tavolo di cui poi fa l'update.
+             * Istanzia un nuovo editFrame per ritornare a PanelTavolo del tavolo aggiornato con il nuovo valore
              *
              * BUTTON CONFERMA
              * */
@@ -3654,10 +3730,21 @@ public class Controller {
                     String nuovoNome = addFrame.getAddFrameContentPane().getAddPanelRistorante().getTextFieldNome();
                     if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Ristorante " + nuovoNome + " al sistema?",
                             "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        Ristorante ristorante = new Ristorante(nuovoNome);
-                        ristoranteDAO.createRistorante(ristorante);
-                        addFrame.dispose();
-                        listenersMainPanelRistorante(mainFrame);
+
+                        boolean checkDisponibile = true;
+                        for (Ristorante r : ristoranteDAO.getAllRistoranti())
+                            if (r.getNome().equals(nuovoNome))
+                                checkDisponibile = false;
+
+                        if (checkDisponibile) {
+                            Ristorante ristorante = new Ristorante(nuovoNome);
+                            ristoranteDAO.createRistorante(ristorante);
+                            addFrame.dispose();
+                            listenersMainPanelRistorante(mainFrame);
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(addFrame, "Esiste già un ristorante con questo nome");
+                        }
                     }
                 }
             };
@@ -3665,14 +3752,389 @@ public class Controller {
         }
     }
 
-    private void listenersAddPanelSala(addFrame addFrame, mainFrame mainFrame, Ristorante ristorante) {
-        //TODO addPanel Sala
+    private void listenersAddPanelSala(addFrame addFrame, mainFrame mainFrame, Ristorante ristorante, boolean fromMain) {
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonConferma;
+
+        SalaDAO salaDAO = new SalaImpl(connection);
+
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelSala().getButtonConferma().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        if (!fromMain) {
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Ristorante");
+                            listenersEditPanelRistorante(editFrame, mainFrame, ristorante);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelSala().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            /*
+             * Estrae i valori inseriti nel TextField e aggiunge la nuova sala al database.
+             * Se la funzione è stata chiamata da editPanelRistorante istanzia un nuovo editFrame per ritornare a PanelRistorante aggiornato con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta della Sala al sistema?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                        Sala sala = new Sala(addFrame.getAddFrameContentPane().getAddPanelSala().getTextFieldNome());
+                        salaDAO.createSala(sala, ristorante);
+
+                        addFrame.dispose();
+                        if (!fromMain) {
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Ristorante");
+                            listenersEditPanelRistorante(editFrame, mainFrame, ristorante);
+                        }
+                        else {
+                            listenersMainPanelSala(mainFrame, ristorante);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelSala().getButtonConferma().addActionListener(listenerButtonConferma);
+        }
     }
-    private void listenersAddPanelTavolo(addFrame addFrame, mainFrame mainFrame, Sala sala) {
-        //TODO addPanel Tavolo
+
+    private void listenersAddPanelTavolo(addFrame addFrame, mainFrame mainFrame, Sala sala, boolean fromMain) {
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonConferma;
+
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
+
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelTavolo().getButtonConferma().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        if (!fromMain) {
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Sala");
+                            listenersEditPanelSala(editFrame, mainFrame, sala);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelTavolo().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            /*
+             * Estrae i valori inseriti nel TextField e aggiunge il nuovo tavolo al database.
+             * Se la funzione è stata chiamata da editPanelSala istanzia un nuovo editFrame per ritornare a PanelSala aggiornato con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Tavolo al sistema?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                        tavoloDAO.createTavolo(new Tavolo(Integer.parseInt(addFrame.getAddFrameContentPane().getAddPanelTavolo().getTextFieldMaxAvventori())), sala);
+
+                        addFrame.dispose();
+                        if (!fromMain) {
+                            editFrame editFrame = new editFrame();
+                            CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                            cardLayout.show(editFrame.getContentPane(), "Panel Sala");
+                            listenersEditPanelSala(editFrame, mainFrame, sala);
+                        }
+                        else {
+                            listenersMainPanelTavolo(mainFrame, sala);
+                        }
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelTavolo().getButtonConferma().addActionListener(listenerButtonConferma);
+        }
+    }
+
+    private void listenersAddPanelTavoloAdiacente(addFrame addFrame, mainFrame mainFrame, Sala sala, Tavolo tavolo) {
+        ActionListener listenerButtonAnnulla;
+        ActionListener listenerButtonConferma;
+
+        TavoloDAO tavoloDAO = new TavoloImpl(connection);
+
+        if (Arrays.asList(addFrame.getAddFrameContentPane().getAddPanelPrenotazione().getButtonConferma().getActionListeners()).isEmpty()) {
+            /*
+             * Chiude addFrame senza effettuare nessun cambiamento
+             *
+             * BUTTON ANNULLA
+             * */
+            listenerButtonAnnulla = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Le attuali modifiche andranno perse, sicuro di voler chiudere la finestra?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Tavolo");
+                        listenersEditPanelTavolo(editFrame, mainFrame, tavolo);
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelPrenotazione().getButtonAnnulla().addActionListener(listenerButtonAnnulla);
+
+            /*
+             * Estrae i valori inseriti nel TextField e aggiunge il nuovo tavolo al database.
+             * Se la funzione è stata chiamata da editPanelTavolo istanzia un nuovo editFrame per ritornare a PanelTavolo aggiornato con il nuovo valore
+             *
+             * BUTTON CONFERMA
+             * */
+            listenerButtonConferma = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (JOptionPane.showConfirmDialog(null, "Confermi l'aggiunta del Tavolo al sistema?",
+                            "Attenzione", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                        Tavolo tempTavolo = new Tavolo(Integer.parseInt(addFrame.getAddFrameContentPane().getAddPanelTavolo().getTextFieldMaxAvventori()));
+                        tavoloDAO.createTavolo(tempTavolo, sala);
+                        tavolo.getTavoliAdiacenti().add(tempTavolo);
+                        tavoloDAO.updateTavolo(tavolo);
+
+                        addFrame.dispose();
+                        editFrame editFrame = new editFrame();
+                        CardLayout cardLayout = (CardLayout) editFrame.getContentPane().getLayout();
+                        cardLayout.show(editFrame.getContentPane(), "Panel Tavolo");
+                        listenersEditPanelTavolo(editFrame, mainFrame, tavolo);
+
+                    }
+                }
+            };
+            addFrame.getAddFrameContentPane().getAddPanelTavolo().getButtonConferma().addActionListener(listenerButtonConferma);
+        }
     }
 
     private void listenersStatisticPanel(statisticFrame statisticFrame, Ristorante ristorante) {
-        //TODO Statistic Panel
+        ActionListener listenerButtonSettimana;
+        ActionListener listenerButtonMese;
+        ActionListener listenerButtonAnno;
+        DefaultCategoryDataset avventoriDataset = statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getAvventoriDataset();
+
+        TavolataDAO tavolataDAO = new TavolataImpl(connection);
+
+        if (Arrays.asList(statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getRadioSettimana().getActionListeners()).isEmpty()) {
+
+            listenerButtonSettimana = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LocalDate dataSelezionata = statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getDate();
+                    if (dataSelezionata != null) {
+                        avventoriDataset.clear();
+
+                        //estrazione dei dati per la settimana e costruzione del dataset
+                        int totAvventori = 0;
+                        int counterGiorno = 6;
+                        for (int i = 0; i < 7; i++) {
+                            int totAvventoriGiornaliero = 0;
+                            for (Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())) {
+                                if (t.getDataArrivo().isEqual(dataSelezionata.minusDays(counterGiorno)))
+                                    totAvventoriGiornaliero = totAvventoriGiornaliero + t.getClienti().size();
+                            }
+                            totAvventori = totAvventori + totAvventoriGiornaliero;
+                            String giorno = dataSelezionata.minusDays(counterGiorno).getDayOfMonth() + "/" + dataSelezionata.minusDays(counterGiorno).getMonthValue();
+                            avventoriDataset.addValue(totAvventoriGiornaliero, "Giorni", giorno);
+                            counterGiorno--;
+                        }
+
+                        float medAvventori = (float) totAvventori / 7;
+                        medAvventori = (float) Math.floor(medAvventori * 100) / 100;
+
+                        //calcolo dei dati per la settimana precedente
+                        int totAvventoriPrecedente = 0;
+                        for(int i = 0; i < 7; i++){
+                            int totAvventoriGiornaliero = 0;
+                            for (Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())){
+                                if(t.getDataArrivo().isEqual(dataSelezionata.minusDays(7).minusDays(i)))
+                                    totAvventoriGiornaliero = totAvventoriGiornaliero + t.getClienti().size();
+                            }
+                            totAvventoriPrecedente = totAvventoriPrecedente + totAvventoriGiornaliero;
+                        }
+
+                        float medAvventoriPrecedente = (float) totAvventoriPrecedente / 7;
+                        medAvventoriPrecedente = (float) Math.floor(medAvventoriPrecedente * 100) / 100;
+
+                        //calcolo delle percentuali e aggiunta dei dati di crescita se definiti
+                        if(medAvventoriPrecedente != 0) {
+                            float percentualeCrescitaMedia = (medAvventori / medAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaMedia = (float) Math.floor((percentualeCrescitaMedia * 100) /100);
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi(percentualeCrescitaMedia + "%");
+                        }
+                        else
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi("ND");
+
+                        if(totAvventoriPrecedente != 0) {
+                            float percentualeCrescitaTotale = (float) (totAvventori / totAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaTotale = (float) Math.floor(percentualeCrescitaTotale * 100) / 100;
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali(percentualeCrescitaTotale + "%");
+                        }
+                        else{
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali("ND");
+                        }
+
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriTotali(Integer.toString(totAvventori));
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriMedi(Float.toString((medAvventori)));
+                    }
+                }
+            };
+            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getRadioSettimana().addActionListener(listenerButtonSettimana);
+
+            listenerButtonMese = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LocalDate dataSelezionata = statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getDate();
+                    if (dataSelezionata != null){
+                        avventoriDataset.clear();
+
+                        //estrazione dei dati per il mese e costruzione del dataset
+                        int totAvventori = 0;
+                        int counterGiorno = 29;
+                        for (int i = 0; i < 30; i++){
+                            int totAvventoriGiornaliero = 0;
+                            for(Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())){
+                                if (t.getDataArrivo().isEqual(dataSelezionata.minusDays(counterGiorno)))
+                                    totAvventoriGiornaliero = totAvventoriGiornaliero + t.getClienti().size();
+                            }
+                            totAvventori = totAvventori + totAvventoriGiornaliero;
+                            String giorno = Integer.toString(dataSelezionata.minusDays(counterGiorno).getDayOfMonth());
+                            avventoriDataset.addValue(totAvventoriGiornaliero, "Giorni", giorno);
+                            counterGiorno--;
+                        }
+
+
+                        float medAvventori = (float) totAvventori / 30;
+                        medAvventori = (float) Math.floor(medAvventori * 100) / 100;
+
+                        //calcolo dei dati per il mese precedente
+                        int totAvventoriPrecedente = 0;
+                        for(int i = 0; i < 30; i++){
+                            int totAvventoriGiornaliero = 0;
+                            for (Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())){
+                                if(t.getDataArrivo().isEqual(dataSelezionata.minusDays(30).minusDays(i)))
+                                    totAvventoriGiornaliero = totAvventoriGiornaliero + t.getClienti().size();
+                            }
+                            totAvventoriPrecedente = totAvventoriPrecedente + totAvventoriGiornaliero;
+                        }
+
+                        float medAvventoriPrecedente = (float) totAvventoriPrecedente / 30;
+                        medAvventoriPrecedente = (float) Math.floor(medAvventoriPrecedente * 100) / 100;
+
+                        if(medAvventoriPrecedente != 0) {
+                            float percentualeCrescitaMedia = (medAvventori / medAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaMedia = (float) Math.floor((percentualeCrescitaMedia * 100) /100);
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi(percentualeCrescitaMedia + "%");
+                        }
+                        else
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi("ND");
+
+                        if(totAvventoriPrecedente != 0) {
+                            float percentualeCrescitaTotale = (float) (totAvventori / totAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaTotale = (float) Math.floor(percentualeCrescitaTotale * 100) / 100;
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali(percentualeCrescitaTotale + "%");
+                        }
+                        else{
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali("ND");
+                        }
+
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriTotali(Integer.toString(totAvventori));
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriMedi(Float.toString((medAvventori)));
+                    }
+                }
+            };
+            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getRadioMese().addActionListener(listenerButtonMese);
+
+
+            listenerButtonAnno = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LocalDate dataSelezionata = statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getDate();
+                    if (dataSelezionata != null){
+                        avventoriDataset.clear();
+
+                        //estrazione dei dati per l'anno e costruzione del dataset
+                        int totAvventori = 0;
+                        int counterMese = 11;
+                        for (int i = 0; i < 12; i++){
+                            int totAvventoriMensile = 0;
+                            for(Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())){
+                                if(t.getDataArrivo().getMonthValue() == dataSelezionata.minusMonths(counterMese).getMonthValue()
+                                        && t.getDataArrivo().getYear() == dataSelezionata.getYear()){
+                                    totAvventoriMensile = totAvventoriMensile + t.getClienti().size();
+                                }
+                            }
+                            totAvventori = totAvventori + totAvventoriMensile;
+                            String mese = Integer.toString(dataSelezionata.minusMonths(counterMese).getMonthValue());
+                            avventoriDataset.addValue(totAvventoriMensile, "Mesi", mese);
+                            counterMese--;
+                        }
+
+
+                        float medAvventori = (float) totAvventori / 12;
+                        medAvventori = (float) Math.floor(medAvventori * 100) / 100;
+
+                        //calcolo dei dati per l'anno precedente
+                        int totAvventoriPrecedente = 0;
+                        for(int i = 0; i < 12; i++){
+                            int totAvventoriMensile = 0;
+                            for (Tavolata t : tavolataDAO.getAllTavolateByRistorante(ristorante.getNome())){
+                                if(t.getDataArrivo().getMonthValue() == dataSelezionata.minusYears(1).minusMonths(i).getMonthValue()
+                                        && t.getDataArrivo().getYear() == dataSelezionata.minusYears(1).getYear())
+                                    totAvventoriMensile = totAvventoriMensile + t.getClienti().size();
+                            }
+                            totAvventoriPrecedente = totAvventoriPrecedente + totAvventoriMensile;
+                        }
+
+                        float medAvventoriPrecedente = (float) totAvventoriPrecedente / 12;
+                        medAvventoriPrecedente = (float) Math.floor(medAvventoriPrecedente * 100) / 100;
+
+                        if(medAvventoriPrecedente != 0) {
+                            float percentualeCrescitaMedia = (medAvventori / medAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaMedia = (float) Math.floor((percentualeCrescitaMedia * 100) /100);
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi(percentualeCrescitaMedia + "%");
+                        }
+                        else
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriMedi("ND");
+
+                        if(totAvventoriPrecedente != 0) {
+                            float percentualeCrescitaTotale = (float) (totAvventori / totAvventoriPrecedente) * 100 - 100;
+                            percentualeCrescitaTotale = (float) Math.floor(percentualeCrescitaTotale * 100) / 100;
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali(percentualeCrescitaTotale + "%");
+                        }
+                        else{
+                            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setCrescitaAvventoriTotali("ND");
+                        }
+
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriTotali(Integer.toString(totAvventori));
+                        statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().setNumeroAvventoriMedi(Float.toString((medAvventori)));
+                    }
+                }
+            };
+            statisticFrame.getStatisticFrameContentPane().getStatisticPanelRistorante().getRadioAnno().addActionListener(listenerButtonAnno);
+        }
     }
 }

@@ -153,13 +153,19 @@ public class SalaImpl implements SalaDAO {
                 PreparedStatement st2 = connection.prepareStatement("SELECT \"ID_Ristorante\" FROM \"Ristorante\" WHERE \"Nome_Ristorante\" = ?");
                 st2.setString(1, ristorante.getNome());
                 ResultSet rs2 = st2.executeQuery();
+                rs2.next();
                 int idRistorante = rs2.getInt(1);
 
                 PreparedStatement st = connection.prepareStatement("INSERT INTO \"Sala\" (\"Nome_Sala\", \"ID_Ristorante\") VALUES (?, ?)");
                 st.setString(1, sala.getNome());
                 st.setInt(2, idRistorante);
-
                 st.executeUpdate();
+
+                Statement statement = connection.createStatement();
+                rs2 = statement.executeQuery("SELECT MAX(\"ID_Sala\") FROM \"Sala\"");
+                rs2.next();
+                ristorante.getSale().add(getSalaById(rs2.getInt(1)));
+
                 st2.close();
                 rs2.close();
                 st.close();

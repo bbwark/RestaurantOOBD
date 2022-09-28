@@ -19,7 +19,7 @@ public class DatabasePostgresConnection {
         db = null;
     }
 
-    public boolean openConnection() {
+    public boolean open() {
         try {
             this.db = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
@@ -32,7 +32,7 @@ public class DatabasePostgresConnection {
         return true;
     }
 
-    public void closeConnection (){
+    public void close(){
         if (this.db != null){
             try{
                 this.db.close();;
@@ -43,7 +43,7 @@ public class DatabasePostgresConnection {
         }
     }
 
-    public Connection getDatabaseConnection() {
+    public Connection getConnection() {
         return db;
     }
 }

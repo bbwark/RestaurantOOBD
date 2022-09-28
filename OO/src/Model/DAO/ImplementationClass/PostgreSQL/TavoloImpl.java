@@ -276,32 +276,30 @@ public class TavoloImpl implements TavoloDAO {
 
     @Override
     public void updateTavolo(Tavolo tavolo) {
-            try{
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ? WHERE \"Codice_Tavolo\" = ?");
-                st.setInt(1, tavolo.getMaxAvventori());
-                st.setInt(2, tavolo.getCodiceTavolo());
+        try {
+            PreparedStatement st = connection.prepareStatement("UPDATE \"Tavolo\" SET \"Max_Avventori\" = ? WHERE \"Codice_Tavolo\" = ?");
+            st.setInt(1, tavolo.getMaxAvventori());
+            st.setInt(2, tavolo.getCodiceTavolo());
+            st.executeUpdate();
+
+            st = connection.prepareStatement("DELETE FROM \"TavoliAdiacenti\" WHERE \"ID_Tavolo\" = ? OR \"ID_Tavolo_Adiacente\" = ? ");
+            st.setInt(1, tavolo.getCodiceTavolo());
+            st.setInt(2, tavolo.getCodiceTavolo());
+            st.executeUpdate();
+
+            for (Tavolo tavoloAdiacente : tavolo.getTavoliAdiacenti()) {
+                st = connection.prepareStatement("INSERT INTO \"TavoliAdiacenti\" (\"ID_Tavolo\", \"ID_Tavolo_Adiacente\") VALUES (?, ?)");
+                st.setInt(1, tavolo.getCodiceTavolo());
+                st.setInt(2, tavoloAdiacente.getCodiceTavolo());
                 st.executeUpdate();
-
-                if(!tavolo.getTavoliAdiacenti().isEmpty()) {
-                    st = connection.prepareStatement("DELETE FROM \"TavoliAdiacenti\" WHERE \"ID_Tavolo\" = ? OR \"ID_Tavolo_Adiacente\" = ? ");
-                    st.setInt(1, tavolo.getCodiceTavolo());
-                    st.setInt(2, tavolo.getCodiceTavolo());
-                    st.executeUpdate();
-
-                    for (Tavolo tavoloAdiacente : tavolo.getTavoliAdiacenti()) {
-                        st = connection.prepareStatement("INSERT INTO \"TavoliAdiacenti\" (\"ID_Tavolo\", \"ID_Tavolo_Adiacente\") VALUES (?, ?)");
-                        st.setInt(1, tavolo.getCodiceTavolo());
-                        st.setInt(2, tavoloAdiacente.getCodiceTavolo());
-                        st.executeUpdate();
-                    }
-                }
-
-
-                st.close();
-            }catch (SQLException e) {
-                e.printStackTrace();
             }
+
+
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
     @Override
     public void deleteTavolo(Tavolo tavolo) {

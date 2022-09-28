@@ -14,11 +14,11 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import org.jfree.chart.*;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class statisticPanelRistorante extends JPanel {
 
-    private JLabel labelData;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
 
@@ -35,21 +35,20 @@ public class statisticPanelRistorante extends JPanel {
     private JLabel numeroAvventoriTotali;
     private JLabel crescitaAvventoriTotali;
 
-    private JFreeChart avventoriLineChart;
     private DefaultCategoryDataset avventoriDataset;
+    private JFreeChart avventoriLineChart;
+    private ChartPanel chartPanel;
 
-    private String nomeRistorante;
 
     public statisticPanelRistorante(){
         setLayout(new GridBagLayout());
 
-        Border bordoInterno = BorderFactory.createTitledBorder("Statistiche Ristorante " + nomeRistorante);
+        Border bordoInterno = BorderFactory.createTitledBorder("Statistiche Ristorante");
         Border bordoEsterno = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         Border bordoFinale = BorderFactory.createCompoundBorder(bordoEsterno, bordoInterno);
         setBorder(bordoFinale);
 
         //Dichiarazione Componenti
-        labelData = new JLabel("Data: ");
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -58,7 +57,6 @@ public class statisticPanelRistorante extends JPanel {
         datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
-        //avventoriDataset = CREARE/PASSARE UN DATASET
         avventoriDataset = new DefaultCategoryDataset();
 
         //ESEMPIO DATASET
@@ -66,8 +64,8 @@ public class statisticPanelRistorante extends JPanel {
         //avventoriDataset.addValue(120, "normal", "pino");
         //avventoriDataset.addValue(80, "normal", "lino");
 
-        //avventoriLineChart = ChartFactory.createLineChart("", "Periodo", "Numero Avventori", avventoriDataset, PlotOrientation.VERTICAL, false, false, false);
-        ChartPanel chartPanel = new ChartPanel(avventoriLineChart);
+        avventoriLineChart = ChartFactory.createLineChart("", "Periodo", "Numero Avventori", avventoriDataset, PlotOrientation.VERTICAL, false, false, false);
+        chartPanel = new ChartPanel(avventoriLineChart);
 
 
         radioSettimana = new JRadioButton("Settimana");
@@ -79,17 +77,12 @@ public class statisticPanelRistorante extends JPanel {
         dataRadioGroup.add(radioAnno);
 
         avventoriMedi = new JLabel("Avventori Medi:");
-        int numAvventoriMed = 0;
-        numeroAvventoriMedi = new JLabel(Integer.toString(numAvventoriMed));
-        int numCrescitaAvventoriMed = 0;
-        crescitaAvventoriMedi = new JLabel(Integer.toString(numCrescitaAvventoriMed) + "%");
+        numeroAvventoriMedi = new JLabel("");
+        crescitaAvventoriMedi = new JLabel("%");
 
         avventoriTotali = new JLabel("Avventori Totali:");
-        int numAvventoriTot = 0;
-        numeroAvventoriTotali = new JLabel(Integer.toString(numAvventoriTot));
-        int numCrescitaAvventoriTot = 0;
-        crescitaAvventoriTotali = new JLabel(Integer.toString(numCrescitaAvventoriTot) + "%");
-
+        numeroAvventoriTotali = new JLabel("");
+        crescitaAvventoriTotali = new JLabel("%");
 
         //Aggiunta Elementi a Layout
         //Date Picker
@@ -103,73 +96,72 @@ public class statisticPanelRistorante extends JPanel {
         gbc.insets = new Insets(10, 65, 5, 0);
         add(datePicker, gbc);
 
-
         //Line Chart
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        gbc.gridwidth = 2;
-        gbc.gridheight = 4;
+        gbc.gridwidth = 3;
+        gbc.gridheight = 7;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 10, 0, 0);
         add(chartPanel, gbc);
 
         //Settimana radio button
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 4;
         gbc.gridy = 5;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(0, 60, 0, 10);
+        gbc.insets = new Insets(40, 0, 0, 0);
         add(radioSettimana, gbc);
 
         //Mese radio button
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 4;
         gbc.gridy = 6;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(0, 60, 0, 10);
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(radioMese, gbc);
 
         //Anno radio button
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 4;
         gbc.gridy = 7;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(0, 60, 5, 10);
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(radioAnno, gbc);
 
         //Avventori Medi label
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.insets = new Insets(110, 100, 5,40);
+        gbc.insets = new Insets(110, 40, 5,40);
         add(avventoriMedi, gbc);
 
         //numero Avventori Medi label
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(5, 100, 5,0);
+        gbc.insets = new Insets(5, 40, 5,0);
         add(numeroAvventoriMedi, gbc);
 
         //crescita Avventori Medi label
         gbc = new GridBagConstraints();
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
@@ -177,31 +169,30 @@ public class statisticPanelRistorante extends JPanel {
         gbc.insets = new Insets(5, 0, 5,40);
         add(crescitaAvventoriMedi, gbc);
 
-
         //Avventori Totali label
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.insets = new Insets(70, 100, 5,40);
+        gbc.insets = new Insets(70, 40, 5,40);
         add(avventoriTotali, gbc);
 
         //numero Avventori Totali label
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 4;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.insets = new Insets(5, 100, 5,0);
+        gbc.insets = new Insets(5, 40, 5,0);
         add(numeroAvventoriTotali, gbc);
 
         //crescita Avventori Totali label
         gbc = new GridBagConstraints();
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 4;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
@@ -210,19 +201,60 @@ public class statisticPanelRistorante extends JPanel {
         add(crescitaAvventoriTotali, gbc);
     }
 
-    public String getNomeRistorante() {
-        return nomeRistorante;
-    }
-
-    public void setNomeRistorante(String nomeRistorante) {
-        this.nomeRistorante = nomeRistorante;
-    }
-
     public LocalDate getDate(){
         Date result = (Date) datePicker.getModel().getValue();
-        return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(result != null)
+            return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return null;
+    }
+
+    public void setDate(LocalDate localDate){
+        datePicker.getModel().setDate(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
+        datePicker.getModel().setSelected(true);
+    }
+
+    public JRadioButton getRadioSettimana() {
+        return radioSettimana;
+    }
+
+    public JRadioButton getRadioMese() {
+        return radioMese;
+    }
+
+    public JRadioButton getRadioAnno() {
+        return radioAnno;
+    }
+
+    public void setAvventoriLineChart(String Xaxis, String Yaxis, DefaultCategoryDataset defaultCategoryDataset) {
+        this.avventoriLineChart = ChartFactory.createLineChart("", Xaxis, Yaxis, defaultCategoryDataset, PlotOrientation.VERTICAL, false, false, false);
+        chartPanel = new ChartPanel(avventoriLineChart);
+    }
+
+    public void setNumeroAvventoriMedi(String string) {
+        this.numeroAvventoriMedi.setText(string);
+    }
+
+    public void setCrescitaAvventoriMedi(String string) {
+        this.crescitaAvventoriMedi.setText(string);
+    }
+
+    public void setNumeroAvventoriTotali(String string) {
+        this.numeroAvventoriTotali.setText(string);
+    }
+
+    public void setCrescitaAvventoriTotali(String string) {
+        this.crescitaAvventoriTotali.setText(string);
+    }
+
+    public DefaultCategoryDataset getAvventoriDataset() {
+        return avventoriDataset;
+    }
+
+    public void setAvventoriDataset(DefaultCategoryDataset avventoriDataset) {
+        this.avventoriDataset = avventoriDataset;
     }
 }
+
 
 
 

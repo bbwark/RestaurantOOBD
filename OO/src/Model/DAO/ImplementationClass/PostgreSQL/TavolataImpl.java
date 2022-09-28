@@ -2,6 +2,7 @@ package Model.DAO.ImplementationClass.PostgreSQL;
 
 import Model.DAO.ImplementationClass.PostgreSQL.Connection.DatabasePostgresConnection;
 import Model.DAO.Interfaces.TavolataDAO;
+import Model.DAO.Interfaces.TavoloDAO;
 import Model.DTO.*;
 
 import java.sql.*;
@@ -250,23 +251,12 @@ public class TavolataImpl implements TavolataDAO {
                 st.setInt(2, tavolo.getCodiceTavolo());
                 st.executeUpdate();
 
-                if(!tavolata.getCamerieri().isEmpty()) {
-                    for (Cameriere cameriere : tavolata.getCamerieri()) {
-                        st = connection.prepareStatement("INSERT INTO \"Servizio\" (\"ID_Cameriere\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
-                        st.setInt(1, cameriere.getCodiceCameriere());
-                        st.setInt(2, tavolata.getCodicePrenotazione());
-                        st.executeUpdate();
-                    }
-                }
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT MAX(\"Codice_Prenotazione\") FROM \"Tavolata\"");
+                rs.next();
+                Tavolata tempTavolata = getTavolataById(rs.getInt(1));
+                tavolo.getTavolate().add(tempTavolata);
 
-                if(!tavolata.getClienti().isEmpty()) {
-                    for (Cliente cliente : tavolata.getClienti()) {
-                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?) ON CONFLICT DO NOTHING");
-                        st.setString(1, cliente.getNumeroIdCard());
-                        st.setInt(2, tavolata.getCodicePrenotazione());
-                        st.executeUpdate();
-                    }
-                }
                 st.close();
             }catch (SQLException e) {
                 e.printStackTrace();

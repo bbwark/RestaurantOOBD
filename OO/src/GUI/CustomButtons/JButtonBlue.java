@@ -8,6 +8,7 @@ public class JButtonBlue extends JButton {
         super(text);
         setBackground(new Color(0,0,204));
         setOpaque(true);
+        setBorderPainted(false);
         setForeground(Color.white);
     }
 }

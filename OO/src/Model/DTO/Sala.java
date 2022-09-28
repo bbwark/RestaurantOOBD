@@ -11,6 +11,10 @@ public class Sala {
 	private int capienza;
 	private ArrayList<Tavolo> Tavoli;
 
+	public Sala(String nome) {
+		this.nome = nome;
+	}
+
 	public Sala(int id, String nome, ArrayList<Tavolo> tavoli) {
 		this.idSala = id;
 		this.nome = nome;

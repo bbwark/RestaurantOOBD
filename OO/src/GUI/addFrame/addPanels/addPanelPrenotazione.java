@@ -97,6 +97,8 @@ public class addPanelPrenotazione extends JPanel {
 
     public LocalDate getDate(){
         Date result = (Date) datePicker.getModel().getValue();
-        return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(result != null)
+            return result.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return null;
     }
 }

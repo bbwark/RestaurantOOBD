@@ -8,5 +8,7 @@ public class JButtonConferma extends JButton {
         super("Conferma");
         setBackground(new Color(0,204,0));
         setOpaque(true);
+        setBorderPainted(false);
+        setForeground(Color.white);
     }
 }
