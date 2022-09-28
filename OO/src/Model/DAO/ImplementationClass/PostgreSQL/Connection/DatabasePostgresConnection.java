@@ -11,12 +11,19 @@ public class DatabasePostgresConnection {
     private String username;
     private String password;
 
+    private static DatabasePostgresConnection istance = null;
 
-    public DatabasePostgresConnection(String host, String port, String databaseName, String username, String password) {
+    private DatabasePostgresConnection(String host, String port, String databaseName, String username, String password) {
         url = "jdbc:postgresql://" + host + ":" + port + "/" + databaseName;
         this.username = username;
         this.password = password;
         db = null;
+    }
+
+    public static DatabasePostgresConnection getInstance(String host, String port, String databaseName, String username, String password){
+        if (istance == null)
+            istance = new DatabasePostgresConnection(host, port, databaseName, username, password);
+        return istance;
     }
 
     public boolean open() {

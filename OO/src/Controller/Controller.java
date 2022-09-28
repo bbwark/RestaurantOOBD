@@ -57,7 +57,7 @@ public class Controller {
                 String databaseName = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldDatabaseName();
                 String username = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldUsername();
                 String password = loginFrame.getLoginFrameContentPane().getLoginPanel().getTextFieldPassword();
-                DatabasePostgresConnection databasePostgresConnection = new DatabasePostgresConnection(host, port, databaseName, username, password);
+                DatabasePostgresConnection databasePostgresConnection = DatabasePostgresConnection.getInstance(host, port, databaseName, username, password);
                 if(databasePostgresConnection.open()){
                     loginFrame.dispose();
                     connection = databasePostgresConnection.getConnection();
