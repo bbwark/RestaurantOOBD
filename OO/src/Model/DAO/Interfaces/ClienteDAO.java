@@ -15,7 +15,6 @@ public interface ClienteDAO {
     ArrayList<Cliente> getAllClientiByTavolata(int id);
 
     void createCliente(Cliente cliente);
-    void updateCliente(Cliente cliente);
     void updateCliente (Cliente cliente, String oldIdCard);
     void deleteCliente(Cliente cliente);
 }

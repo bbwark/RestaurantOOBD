@@ -2,9 +2,6 @@ package Model.DTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
 
 public class Tavolata {
 

@@ -7,8 +7,6 @@ import Model.DTO.Tavolo;
 import java.util.ArrayList;
 
 public interface SalaDAO {
-
-    Sala getSalaByNome(String nomeSala);
     Sala getSalaById(int id);
     Sala getSalaByTavolo(Tavolo tavolo);
 

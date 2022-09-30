@@ -1,0 +1,22 @@
+package Model.DAO.Interfaces;
+
+import Model.DTO.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+public interface TavolataDAO {
+
+    Tavolata getTavolataById(int id);
+
+    ArrayList<Tavolata> getAllTavolate();
+    ArrayList<Tavolata> getAllTavolateByRistorante(String nomeRistorante);
+    ArrayList<Tavolata> getAllTavolateBySala(int id);
+    ArrayList<Tavolata> getAllTavolateByTavolo(int id);
+    ArrayList<Tavolata> getAllTavolateByCameriere(int id);
+    ArrayList<Tavolata> getAllTavolateByCliente(String id);
+
+    void createPrenotazione(Tavolata tavolata, Tavolo tavolo);
+    void updatePrenotazione(Tavolata tavolata);
+    void deletePrenotazione(Tavolata tavolata);
+}

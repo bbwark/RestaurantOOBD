@@ -22,7 +22,7 @@ public class mainPanelSala extends JPanel {
     private JLabel labelListaSelezione;
     private JList listaSelezione;
 
-    private JLabel labelTableVisualizza;
+    private JLabel labelListaVisualizza;
     private JList listaVisualizza;
 
     private JLabel labelNomeSelezionato;
@@ -57,7 +57,7 @@ public class mainPanelSala extends JPanel {
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Seleziona una Sala per visualizzare la Preview dei Tavoli");
+        labelListaVisualizza = new JLabel("Seleziona una Sala per visualizzare la Preview dei Tavoli");
         listaVisualizza = new JList();
         listaVisualizza.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
@@ -174,7 +174,7 @@ public class mainPanelSala extends JPanel {
         gbc.weighty = 0.0;
         gbc.insets = new Insets(15, 10, 0, 10);
         gbc.anchor = GridBagConstraints.PAGE_END;
-        add(labelTableVisualizza, gbc);
+        add(labelListaVisualizza, gbc);
 
         //Table Sottoelementi
         gbc.gridx = 2;
@@ -279,7 +279,7 @@ public class mainPanelSala extends JPanel {
         labelCapienza.setText("Capienza Clienti: " + string);
     }
 
-    public void setLabelTableVisualizza(String string) {
-        labelTableVisualizza.setText("Preview Tavoli di Sala " + string);
+    public void setLabelListaVisualizza(String string) {
+        labelListaVisualizza.setText("Preview Tavoli di Sala " + string);
     }
 }

@@ -6,8 +6,6 @@ import GUI.CustomButtons.JButtonGrey;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class mainPanelRistorante extends JPanel{
 
@@ -25,7 +23,7 @@ public class mainPanelRistorante extends JPanel{
     private JLabel labelListaSelezione;
     private JList listaSelezione;
 
-    private JLabel labelTableVisualizza;
+    private JLabel labelListaVisualizza;
     private JList listaVisualizza;
 
     private JLabel labelCapienza;
@@ -58,7 +56,7 @@ public class mainPanelRistorante extends JPanel{
         buttonElencoClienti = new JButtonGrey("Elenco Clienti");
         buttonEditPrenotazioni = new JButtonGrey("Modifica Prenotazioni");
 
-        labelTableVisualizza = new JLabel("Seleziona un Ristorante per visualizzare la Preview delle Sale");
+        labelListaVisualizza = new JLabel("Seleziona un Ristorante per visualizzare la Preview delle Sale");
         listaVisualizza = new JList();
         listaVisualizza.setPrototypeCellValue("XXXXXXXXXXXXXXXXXXXX");
 
@@ -183,7 +181,7 @@ public class mainPanelRistorante extends JPanel{
         gbc.weighty = 0.0;
         gbc.insets = new Insets(15, 10, 0, 10);
         gbc.anchor = GridBagConstraints.PAGE_END;
-        add(labelTableVisualizza, gbc);
+        add(labelListaVisualizza, gbc);
 
         //Table Sottoelementi
         gbc.gridx = 2;
@@ -269,8 +267,8 @@ public class mainPanelRistorante extends JPanel{
         return listaVisualizza;
     }
 
-    public void setLabelTableVisualizza(String string) {
-        labelTableVisualizza.setText("Preview Sale di " + string);
+    public void setLabelListaVisualizza(String string) {
+        labelListaVisualizza.setText("Preview Sale di " + string);
     }
 
     public void setLabelCapienza(String string) {

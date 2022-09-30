@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class editPanelTavolo extends JPanel {
 
-    private JLabel labelData;
+    private JLabel labelMaxAvventori;
     private JTextField textFieldMaxAvventori;
 
     private JButton buttonAddSelezionePrenotazione;
@@ -37,7 +37,7 @@ public class editPanelTavolo extends JPanel {
         setBorder(bordoFinale);
 
         //Dichiarazione Componenti
-        labelData = new JLabel("Max Avventori: ");
+        labelMaxAvventori = new JLabel("Max Avventori: ");
         textFieldMaxAvventori = new JTextField(20);
 
         buttonAddSelezionePrenotazione = new JButtonBlue(" + Nuova Prenotazione");
@@ -65,7 +65,7 @@ public class editPanelTavolo extends JPanel {
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(10, 10, 5, 0);
-        add(labelData, gbc);
+        add(labelMaxAvventori, gbc);
 
         //textField Data
         gbc = new GridBagConstraints();

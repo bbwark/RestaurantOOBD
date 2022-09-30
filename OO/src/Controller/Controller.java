@@ -133,7 +133,7 @@ public class Controller {
                     }
                     modelListaVisualizza.addAll(nomiSale);
                     mainFrame.getMainFrameContentPane().getMainPanelRistorante().getListaVisualizza().setModel(modelListaVisualizza);
-                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelTableVisualizza(tempRistorante.getNome());
+                    mainFrame.getMainFrameContentPane().getMainPanelRistorante().setLabelListaVisualizza(tempRistorante.getNome());
 
                     int capienza = 0;
                     for (Sala s : tempRistorante.getSale())
@@ -384,7 +384,7 @@ public class Controller {
                         }
                         modelListaVisualizza.addAll(idTavoli);
                         mainFrame.getMainFrameContentPane().getMainPanelSala().getListaVisualizza().setModel(modelListaVisualizza);
-                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelTableVisualizza(tempSala.toString() + " [" + Integer.toString(tempSala.getNumeroTavoli()) + "]");
+                        mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelListaVisualizza(tempSala.toString() + " [" + Integer.toString(tempSala.getNumeroTavoli()) + "]");
 
                         int capienza = 0;
 
@@ -572,7 +572,7 @@ public class Controller {
                     CardLayout cardLayout = (CardLayout) mainFrame.getContentPane().getLayout();
                     cardLayout.show(mainFrame.getContentPane(), "Panel Ristorante");
                     modelListaVisualizza.removeAllElements();
-                    mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelTableVisualizza("");
+                    mainFrame.getMainFrameContentPane().getMainPanelSala().setLabelListaVisualizza("");
                 }
             };
             mainFrame.getMainFrameContentPane().getMainPanelSala().getButtonIndietro().addActionListener(listenerButtonIndietro);

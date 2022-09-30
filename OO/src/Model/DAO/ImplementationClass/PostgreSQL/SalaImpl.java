@@ -16,31 +16,6 @@ public class SalaImpl implements SalaDAO {
     }
 
     @Override
-    public Sala getSalaByNome(String nomeSala) {
-            try {
-                PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Sala\" WHERE \"Nome_Sala\" = ?");
-                st.setString(1, nomeSala);
-                ResultSet rs = st.executeQuery();
-
-                String nome = rs.getString(4);
-                int id = rs.getInt(5);
-                int numeroTavoli = rs.getInt(2);
-                int capienza = rs.getInt(3);
-                TavoloImpl tempTavolo = new TavoloImpl(connection);
-                ArrayList<Tavolo> tempTavoli = tempTavolo.getAllTavoliBySala(id);
-
-                Sala tempSala = new Sala(id, nome, numeroTavoli, tempTavoli, capienza);
-
-                st.close();
-                rs.close();
-                return tempSala;
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-        return null;
-    }
-
-    @Override
     public Sala getSalaById(int id) {
             try {
                 PreparedStatement st = connection.prepareStatement("SELECT * FROM \"Sala\" WHERE \"ID_Sala\" = ?");

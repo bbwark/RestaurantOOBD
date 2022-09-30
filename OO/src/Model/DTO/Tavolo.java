@@ -1,7 +1,6 @@
 package Model.DTO;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Tavolo{
 

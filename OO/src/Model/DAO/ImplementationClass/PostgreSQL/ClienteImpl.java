@@ -205,37 +205,6 @@ public class ClienteImpl implements ClienteDAO {
         }
 
     @Override
-    public void updateCliente(Cliente cliente) {
-            try {
-                PreparedStatement st = connection.prepareStatement("UPDATE \"Cliente\" SET \"Nome\" = ?, \"Cognome\" = ?, \"Numero_Tel\" = ? WHERE \"Numero_ID_Card\" = ?");
-                st.setString(1, cliente.getNome());
-                st.setString(2, cliente.getCognome());
-                st.setString(3, cliente.getNumeroTelefono());
-                st.setString(4, cliente.getNumeroIdCard());
-                st.executeUpdate();
-
-                TavolataImpl tavolataImpl = new TavolataImpl(connection);
-                ArrayList<Tavolata> tavolateCliente = tavolataImpl.getAllTavolateByCliente(cliente.getNumeroIdCard());
-
-                if(!tavolateCliente.isEmpty()) {
-                    st = connection.prepareStatement("DELETE FROM \"Prenotazione\" WHERE \"Numero_ID\" = ?");
-                    st.setString(1, cliente.getNumeroIdCard());
-                    st.executeUpdate();
-                    for (Tavolata t : tavolateCliente) {
-                        st = connection.prepareStatement("INSERT INTO \"Prenotazione\" (\"Numero_ID\", \"Codice_Prenotazione\") VALUES (?, ?)");
-                        st.setString(1, cliente.getNumeroIdCard());
-                        st.setInt(2, t.getCodicePrenotazione());
-                        st.executeUpdate();
-                    }
-                }
-
-                st.close();
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-    @Override
     public void updateCliente(Cliente cliente, String oldIdCard) {
             try {
                 TavolataImpl tavolataImpl = new TavolataImpl(connection);
