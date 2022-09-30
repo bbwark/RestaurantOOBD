@@ -1,6 +1,7 @@
 package GUI.addFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class addFrame extends JFrame{
 
@@ -12,6 +13,7 @@ public class addFrame extends JFrame{
         addFrameContentPane = new addFrameContentPane();
         setContentPane(addFrameContentPane);
 
+        setPreferredSize(new Dimension(500,300));
         pack();
         setLocationByPlatform(true);
         setVisible(true);
