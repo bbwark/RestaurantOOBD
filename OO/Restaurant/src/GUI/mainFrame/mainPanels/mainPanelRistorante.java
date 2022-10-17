@@ -93,7 +93,7 @@ public class mainPanelRistorante extends JPanel{
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 10, 0, 0);
+        gbc.insets = new Insets(10, 10, 0, 0);
         add(labelCapienza, gbc);
 
         //Label Numero Camerieri
@@ -103,7 +103,7 @@ public class mainPanelRistorante extends JPanel{
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 0, 0, 10);
+        gbc.insets = new Insets(10, 0, 0, 10);
         add(labelNumeroCamerieri, gbc);
 
         //Label Lista Selezione
